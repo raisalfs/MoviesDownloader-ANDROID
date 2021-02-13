@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+    <Transition
+        android:id="@+id/resolution_selection_scene"
+        motion:constraintSetEnd="@+id/end"
+        motion:constraintSetStart="@id/start"
+        motion:duration="500">
+       <KeyFrameSet>
+       </KeyFrameSet>
+        <OnClick motion:clickAction="toggle" motion:targetId="@id/resolution_selected"/>
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:id="@+id/resolution_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintStart_toStartOf="parent" />
+        <Constraint
+            android:layout_height="0dp"
+            motion:layout_constraintTop_toTopOf="@id/resolution_selected"
+            motion:layout_constraintBottom_toBottomOf="@id/resolution_selected"
+            android:layout_width="wrap_content"
+            android:id="@+id/drop_down"
+            motion:layout_constraintStart_toEndOf="@+id/resolution_selected" >
+            <CustomAttribute
+                motion:attributeName="crossfade"
+                motion:customFloatValue="0" />
+        </Constraint>
+        <Constraint
+            android:layout_marginStart="6dp"
+            android:visibility="gone"
+            android:id="@+id/resolution_list"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            motion:layout_constraintTop_toBottomOf="@+id/resolution_selected"
+            motion:layout_constraintStart_toStartOf="parent" />
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:id="@+id/resolution_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintStart_toStartOf="parent" />
+        <Constraint
+            android:layout_marginStart="6dp"
+            android:visibility="visible"
+            android:id="@+id/resolution_list"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            motion:layout_constraintTop_toBottomOf="@+id/resolution_selected"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent" />
+        <Constraint
+            android:layout_height="0dp"
+            motion:layout_constraintTop_toTopOf="@id/resolution_selected"
+            motion:layout_constraintBottom_toBottomOf="@id/resolution_selected"
+            android:layout_width="wrap_content"
+            android:id="@+id/drop_down"
+            motion:layout_constraintStart_toEndOf="@+id/resolution_selected"
+            >
+            <CustomAttribute
+                motion:attributeName="crossfade"
+                motion:customFloatValue="1" />
+        </Constraint>
+    </ConstraintSet>
+</MotionScene>

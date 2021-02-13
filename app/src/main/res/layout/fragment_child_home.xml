@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipe_to_refresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollable"
+        android:fillViewport="true"
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <View
+                android:id="@+id/counter"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/counter_background_gradient"
+                app:layout_constraintBottom_toBottomOf="@+id/child_slider" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="?backgroundColor"
+                app:layout_constraintTop_toBottomOf="@id/counter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+            <com.smarteist.autoimageslider.SliderView
+                app:layout_constraintTop_toTopOf="parent"
+                android:id="@+id/child_slider"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                app:sliderAnimationDuration="600"
+                app:sliderIndicatorAnimationDuration="600"
+                app:sliderIndicatorGravity="center|bottom"
+                app:sliderIndicatorMargin="15dp"
+                app:sliderIndicatorOrientation="horizontal"
+                app:sliderIndicatorPadding="3dp"
+                app:sliderIndicatorRadius="2dp"
+                app:sliderIndicatorSelectedColor="#5A5A5A"
+                app:sliderIndicatorUnselectedColor="#FFF"
+                />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/child_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/child_slider" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

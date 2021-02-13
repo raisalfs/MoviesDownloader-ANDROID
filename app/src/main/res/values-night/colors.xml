@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#161b22</color>
+    <color name="colorPrimaryHalf">#50161b22</color>
+    <color name="colorPrimaryDark">#161b22</color>
+    <color name="colorAccent">#3ca6e4</color>
+    <color name="backgroundColorAccent">#15202f</color>
+    <color name="backgroundSearchBar">#090c12</color>
+    <color name="white">@android:color/white</color>
+    <color name="colorControlNormal">@color/white</color>
+    <color name="textColor">#fff</color>
+    <color name="textColorSearch">#171718</color>
+    <color name="textColor2nd">#fff</color>
+    <color name="textSummaryColor">#80ffffff</color>
+    <color name="textActionBarColor">#fff</color>
+    <color name="cardBackgroundColor">#0d1117</color>
+    <color name="cardBackgroundColorHalf">#500d1117</color>
+    <color name="chipBackgroundColor">#50202022</color>
+    <color name="colorAccentHalf">#503ca6e4</color>
+    <color name="rippleColor">#60ffffff</color>
+    <color name="background">#06090f</color>
+    <color name="filter_seek_bar_color">#50161b22</color>
+    <color name="filter_seek_bar_selected_color">#503ca6e4</color>
+    <color name="filter_pill_color">#3ca6e4</color>
+    <color name="filter_pill_selected_color">#3ca6e4</color>
+    <color name="searchSuggestionBackground">#70161b22</color>
+    <color name="dialogBackground">#161b22</color>
+    <color name="dialogTextHint">#80ffffff</color>
+    <color name="dialogBoxColor">#fff</color>
+</resources>

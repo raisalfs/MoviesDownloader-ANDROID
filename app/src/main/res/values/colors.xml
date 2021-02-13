@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#39597c</color>
+    <color name="colorPrimaryHalf">#5039597c</color>
+    <color name="colorPrimaryDark">#39597c</color>
+    <color name="colorAccent">#189ad3</color>
+    <color name="backgroundColorAccent">#15202f</color>
+    <color name="backgroundSearchBar">#090c12</color>
+    <color name="white">@android:color/white</color>
+    <color name="colorControlNormal">@color/white</color>
+    <color name="textColor">#171718</color>
+    <color name="textColorSearch">#171718</color>
+    <color name="textColor2nd">#171718</color>
+    <color name="textSummaryColor">#80171718</color>
+    <color name="textActionBarColor">#fff</color>
+    <color name="cardBackgroundColor">#D3D3D3</color>
+    <color name="cardBackgroundColorHalf">#50D3D3D3</color>
+    <color name="chipBackgroundColor">#B6B6B6</color>
+    <color name="colorAccentHalf">#50189ad3</color>
+    <color name="transparent">#00000000</color>
+    <color name="transparent_black_30">#30000000</color>
+    <color name="transparent_black_50">#50000000</color>
+    <color name="black">#000</color>
+    <color name="rippleColor">#60000000</color>
+    <color name="background">#eff0f5</color>
+    <color name="bottom_drawer_outside_background">#80000000</color>
+    <color name="bottom_drawer_background">#FFFFFF</color>
+    <color name="bottom_drawer_handle_view_color">#E0E0E0</color>
+    <color name="filter_seek_bar_color">#5039597c</color>
+    <color name="filter_seek_bar_selected_color">#50189ad3</color>
+    <color name="filter_pill_color">#189ad3</color>
+    <color name="filter_pill_selected_color">#189ad3</color>
+    <color name="searchSuggestionBackground">#70161b22</color>
+    <color name="dialogBackground">#B6B6B6</color>
+    <color name="dialogTextHint">#171718</color>
+    <color name="dialogBoxColor">#171718</color>
+</resources>

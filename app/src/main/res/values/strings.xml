@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">RAFSLAB</string>
+    <string name="night_mode">Night Mode</string>
+    <string name="day_mode">Day Mode</string>
+    <string name="setting">Setting</string>
+    <string name="home">Home</string>
+    <string name="_10">/ 10</string>
+    <string name="added_bookmark"> Added to Bookmark</string>
+    <string name="bookmark">Bookmark</string>
+    <string name="about">About</string>
+    <string name="search_hint_home">Search movies, genre or cast</string>
+    <string name="filter">Filter</string>
+    <string name="on_going">On going</string>
+    <string name="complete">Complete</string>
+    <string name="status">Status</string>
+    <string name="rating">Rating</string>
+    <string name="categories">Categories</string>
+    <string name="exit_dialog">Exit Dialog</string>
+    <string name="apply">Apply</string>
+    <string name="add">Add</string>
+    <string name="name">Name</string>
+    <string name="ascending">Ascending</string>
+    <string name="descending">Descending</string>
+    <string name="done">Done</string>
+    <string name="filmography">Filmography</string>
+    <string name="day_night">Day Night</string>
+    <string name="synopsis">Sinopsis</string>
+    <string name="order">Order</string>
+    <string name="cancel">Cancel</string>
+    <string name="title_movie">Title Movie</string>
+    <string name="image_transition">ImageTransition</string>
+    <string name="download">Download</string>
+    <string name="tag">Tags</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="all_cast">All Cast</string>
+    <string-array name="theme_entry">
+        <item>Light</item>
+        <item>Dark</item>
+        <item>Follow system</item>
+    </string-array>
+    <string-array name="theme_entry_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+</resources>

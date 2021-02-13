@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:title="@string/add"
+        android:id="@+id/add_more"
+        android:icon="@drawable/ic_baseline_add"
+        app:showAsAction="ifRoom"
+        />
+    <item
+        android:title="View"
+        android:id="@+id/change_view"
+        android:icon="@drawable/ic_baseline_remove_red_eye"
+        >
+        <menu>
+            <item
+                app:actionViewClass="com.google.android.material.radiobutton.MaterialRadioButton"
+                android:title="Grid"
+                android:id="@+id/grid_view"
+                android:checked="true"
+                android:enabled="true"
+                />
+            <item
+                app:actionViewClass="com.google.android.material.radiobutton.MaterialRadioButton"
+                android:checked="false"
+                android:id="@+id/list_view"
+                android:title="List"
+                />
+        </menu>
+    </item>
+</menu>

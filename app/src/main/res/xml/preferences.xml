@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:layout="@layout/preference_category"
+        app:title="General"
+        tools:ignore="PrivateResource">
+        <ListPreference
+            android:layout="@layout/preference_start"
+            app:key="day_night"
+            app:title="Theme"
+            app:summary="%s"
+            android:defaultValue="2"
+            android:entries="@array/theme_entry"
+            android:entryValues="@array/theme_entry_values"
+            />
+        <Preference
+            android:layout="@layout/preference_end"
+            app:key="clear_search_history"
+            app:title="Search History"
+            app:summary="Clear search history"
+            />
+        <SwitchPreference
+            app:isPreferenceVisible="false"
+            app:title="Allow save history"
+            app:key="history" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:layout="@layout/preference_category"
+        app:title="About"
+        tools:ignore="PrivateResource">
+        <Preference
+            android:layout="@layout/preference_start"
+            app:key="find_bug"
+            app:title="Contact us"
+            app:summary="Questions? Need help?"
+            />
+        <Preference
+            android:layout="@layout/preference_start"
+            app:key="open_source_license"
+            app:title="Open source license"
+            app:summary="View license"
+            />
+        <Preference
+            android:layout="@layout/preference_end"
+            app:key="check_updates"
+            app:title="App Version"
+            />
+    </PreferenceCategory>
+</PreferenceScreen>

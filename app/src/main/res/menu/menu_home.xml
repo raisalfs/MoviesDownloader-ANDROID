@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/day_night_item"
+        app:actionViewClass="com.airbnb.lottie.LottieAnimationView"
+        app:showAsAction="ifRoom"
+        android:visible="false"
+        android:title="@string/day_night"
+        />
+    <item
+        android:id="@+id/search"
+        android:icon="@drawable/ic_baseline_search"
+        app:showAsAction="ifRoom"
+        android:title="@string/search_hint"
+        />
+    <item
+        android:id="@+id/filter"
+        app:showAsAction="ifRoom"
+        android:visible="false"
+        android:icon="@drawable/ic_baseline_filter_list"
+        android:title="@string/filter"
+        />
+</menu>

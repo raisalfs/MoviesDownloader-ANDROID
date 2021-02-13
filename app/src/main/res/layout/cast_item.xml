@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:layout_gravity="center_horizontal"
+    android:background="?selectableItemBackground"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <com.vickykdv.circlerectimageview.CircleRectImage
+        android:id="@+id/cast_profile"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:scaleType="fitXY"
+        android:transitionName="@string/image_transition"
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintEnd_toEndOf="@id/cast_name_movie"
+        app:layout_constraintStart_toStartOf="@+id/cast_name_movie"
+        app:layout_constraintTop_toTopOf="parent"
+        app:roundAll="500"
+        />
+
+    <TextView
+        android:id="@+id/cast_real_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="2dp"
+        android:text="@string/app_name"
+        android:textAlignment="center"
+        android:textColor="@color/textColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cast_profile" />
+
+    <TextView
+        android:id="@+id/cast_name_movie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="2dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="@string/app_name"
+        android:textAlignment="center"
+        android:textColor="@color/textColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cast_real_name" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

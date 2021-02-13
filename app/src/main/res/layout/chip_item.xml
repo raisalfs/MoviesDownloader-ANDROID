@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.chip.ChipGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/chip_group"
+    android:padding="4dp">
+    <com.google.android.material.chip.Chip
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/chips"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/chips_text_state_colors"
+        android:textAlignment="center"
+        app:chipBackgroundColor="@color/chips_state_colors"
+        app:chipIcon="@null"
+        app:chipIconVisible="true"
+        app:checkedIcon="@drawable/ic_baseline_check"
+        app:closeIcon="@drawable/ic_baseline_clear"
+        app:checkedIconVisible="true"
+        app:closeIconVisible="false"
+        style="@style/Widget.MaterialComponents.Chip.Choice"
+        />
+</com.google.android.material.chip.ChipGroup>

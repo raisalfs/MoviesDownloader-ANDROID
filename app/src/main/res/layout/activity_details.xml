@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    >
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/scrollable"
+            android:fillViewport="true"
+            >
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/background"
+                >
+                <com.smarteist.autoimageslider.SliderView
+                    android:id="@+id/cover"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    app:sliderAnimationDuration="600"
+                    app:sliderIndicatorAnimationDuration="600"
+                    app:sliderIndicatorGravity="center_vertical|end"
+                    app:sliderIndicatorMargin="15dp"
+                    app:sliderIndicatorOrientation="vertical"
+                    app:sliderIndicatorPadding="3dp"
+                    app:sliderIndicatorRadius="2dp"
+                    app:sliderIndicatorSelectedColor="#5A5A5A"
+                    app:sliderIndicatorUnselectedColor="#FFF"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:sliderStartAutoCycle="true"
+                    app:sliderAutoCycleEnabled="true"
+                    app:sliderScrollTimeInSec="2"
+                    />
+
+                <View
+                    android:background="@color/transparent"
+                    android:id="@+id/counter"
+                    android:layout_width="match_parent"
+                    android:layout_height="254dp"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <com.github.mmin18.widget.RealtimeBlurView
+                    android:id="@+id/blur"
+                    android:layout_width="0dp"
+                    android:layout_height="46dp"
+                    app:layout_constraintTop_toBottomOf="@id/counter"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/poster_container"
+                    />
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/poster_container"
+                    android:layout_marginStart="16dp"
+                    android:layout_width="140dp"
+                    android:layout_height="190dp"
+                    app:cardCornerRadius="8dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/information_movies"
+                    app:layout_constraintStart_toStartOf="parent"
+                    >
+                    <ImageView
+                        android:id="@+id/poster"
+                        android:layout_width="140dp"
+                        android:layout_height="190dp"
+                        android:elevation="3dp"
+                        android:scaleType="centerCrop"
+                        android:src="@color/black"
+                        android:transitionName="@string/image_transition"
+                        android:contentDescription="@null" />
+                </androidx.cardview.widget.CardView>
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="30dp"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="@string/app_name"
+                    android:textColor="@color/textActionBarColor"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/blur"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/poster_container"
+                    app:layout_constraintTop_toTopOf="@+id/blur" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/information_movies"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/poster_container"
+                    app:layout_constraintTop_toBottomOf="@+id/blur">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/categories"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/season"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:text="Season: 1"
+                        android:textColor="@color/textColor"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/categories" />
+
+                    <TextView
+                        android:id="@+id/episode"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:text="Episode: 16"
+                        android:textColor="@color/textColor"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/season" />
+
+                    <LinearLayout
+                        android:id="@+id/viewRating"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toBottomOf="@id/episode"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent">
+
+                        <androidx.appcompat.widget.AppCompatRatingBar
+                            android:id="@+id/rating_details"
+                            style="?android:ratingBarStyleSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:isIndicator="true"
+                            android:max="10"
+                            android:numStars="5"
+                            android:progressBackgroundTint="#606060"
+                            android:progressTint="@android:color/holo_orange_light"
+                            android:rating="8.6"
+                            android:stepSize="0.5" />
+
+                        <TextView
+                            android:id="@+id/rating_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:layout_marginStart="6dp"
+                            android:textColor="@android:color/holo_orange_light"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:text="@string/_10"
+                            android:textColor="@color/textSummaryColor"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <include
+                    android:layout_marginStart="16dp"
+                    android:id="@+id/include2"
+                    layout="@layout/details_vert"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/poster_container"
+                    tools:layout_editor_absoluteX="16dp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+        <View
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:id="@+id/stat_bar"
+            />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/action_bar_container"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            app:layout_constraintTop_toBottomOf="@+id/stat_bar">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:background="@color/transparent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.github.mmin18.widget.RealtimeBlurView
+            android:id="@+id/realtimeBlurView"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:realtimeBlurRadius="20dp"
+            app:realtimeOverlayColor="#80000000" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/floating_download"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp"
+        app:elevation="0dp"
+        android:background="@color/transparent"
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+        >
+        <include
+            android:layout_marginTop="8dp"
+            android:id="@+id/include"
+            layout="@layout/details_icon"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            />
+    </com.google.android.material.appbar.AppBarLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,74 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="backgroundColor">@color/background</item>
+        <item name="colorControlNormal">@color/colorControlNormal</item>
+        <item name="colorControlHighlight">@color/rippleColor</item>
+        <item name="statusBarBackground">@color/transparent</item>
+        <item name="android:statusBarColor">@color/transparent</item>
+    </style>
+    <style name="AppTheme.ChipTextAppearance" parent="AppTheme">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@drawable/resolution_text_state_colors</item>
+        <item name="android:background">@color/transparent</item>
+    </style>
+    <style name="MyAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/textActionBarColor</item>
+        <item name="colorControlActivated">@color/textActionBarColor</item>
+        <item name="android:colorControlActivated">@color/textActionBarColor</item>
+    </style>
+    <style name="AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/dialogBackground</item>
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textColorPrimary">@color/textSummaryColor</item>
+        <item name="textAllCaps">false</item>
+        <item name="dialogCornerRadius">@dimen/_14sdp</item>
+    </style>
+    <style name="ThumbnailPreviewerTheme" >
+        <item name="android:windowIsFloating">false</item>
+    </style>
+    <style name="SearchViewStyle">
+        <item name="searchBackground">@color/colorPrimary</item>
+        <item name="scrimBackground">@color/colorPrimary</item>
+        <item name="boxBackgroundColor">@color/colorPrimary</item>
+        <item name="searchVoiceIcon">@drawable/ic_action_voice_search</item>
+        <item name="searchCloseIcon">@drawable/ic_action_navigation_close</item>
+        <item name="searchBackIcon">@drawable/ic_action_navigation_arrow_back</item>
+        <item name="searchSuggestionBackground">@color/searchSuggestionBackground</item>
+        <item name="historyIcon">@drawable/ic_history_white</item>
+        <item name="suggestionIcon">@drawable/ic_action_search_white</item>
+        <item name="listTextColor">@color/textActionBarColor</item>
+        <item name="searchBarHeight">?attr/actionBarSize</item>
+        <item name="voiceHintPrompt">@string/hint_prompt</item>
+        <item name="android:textColor">@color/textColorSearch</item>
+        <item name="android:textColorHint">@color/gray_50</item>
+        <item name="android:hint">@string/search_hint_home</item>
+        <item name="android:inputType">textCapWords</item>
+    </style>
+    <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/textSummaryColor</item>
+    </style>
+    <style name="BottomDialogTheme">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+    <style name="ShapeAppearance.BottomDrawer.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">0dp</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.BottomDrawer" parent="ShapeAppearanceOverlay.TopLeftCut">
+        <item name="cornerSizeTopLeft">@dimen/minimized_sheet_top_left_radius</item>
+    </style>
+
+</resources>

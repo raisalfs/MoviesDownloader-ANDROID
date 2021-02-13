@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="bottom_sheet_handle_width">30dp</dimen>
+    <dimen name="bottom_sheet_handle_height">5dp</dimen>
+    <dimen name="bottom_sheet_handle_top_margin">8dp</dimen>
+    <dimen name="bottom_sheet_handle_thickness">6dp</dimen>
+    <dimen name="bottom_sheet_corner_radius">10dp</dimen>
+    <dimen name="bottom_sheet_extra_padding">4dp</dimen>
+    <dimen name="minimized_sheet_top_left_radius">20dp</dimen>
+    <dimen name="thumb_size">20dp</dimen>
+</resources>

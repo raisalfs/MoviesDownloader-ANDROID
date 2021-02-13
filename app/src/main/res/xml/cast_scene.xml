@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+    <Transition
+        android:id="@+id/scene_start"
+        motion:constraintSetEnd="@+id/scene_3"
+        motion:constraintSetStart="@id/scene_1"
+        motion:motionInterpolator="easeInOut"
+        motion:duration="1000">
+       <KeyFrameSet>
+           <KeyPosition
+               motion:motionTarget="@+id/coverAnimated"
+               motion:framePosition="50"
+               motion:percentX="0.85"
+               motion:percentY="0.15" />
+           <KeyAttribute
+               motion:motionTarget="@+id/coverAnimated"
+               motion:framePosition="50" >
+               <CustomAttribute
+                   motion:attributeName="radius"
+                   motion:customDimension="0dp" />
+           </KeyAttribute>
+           <KeyAttribute
+               motion:motionTarget="@+id/coverAnimated"
+               motion:framePosition="70" >
+               <CustomAttribute
+                   motion:attributeName="radius"
+                   motion:customDimension="40dp" />
+           </KeyAttribute>
+           <KeyAttribute
+               motion:motionTarget="@+id/coverAnimated"
+               motion:framePosition="25"
+               android:scaleY="2"
+               android:scaleX="2"
+               />
+           <KeyPosition />
+           <KeyAttribute
+               motion:motionTarget="@+id/back_container"
+               motion:framePosition="00" >
+               <CustomAttribute
+                   motion:attributeName="radius"
+                   motion:customDimension="24dp" />
+           </KeyAttribute>
+           <KeyPosition
+               motion:motionTarget="@+id/name"
+               motion:keyPositionType="deltaRelative"
+               motion:percentX="0.15"
+               motion:percentY="0.85"
+               motion:framePosition="50" />
+       </KeyFrameSet>
+        <OnSwipe motion:dragDirection="dragUp" motion:touchAnchorId="@id/viewBackground" motion:touchAnchorSide="top"/>
+    </Transition>
+    <ConstraintSet android:id="@+id/scene_1">
+        <Constraint
+            android:id="@+id/counter"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            motion:layout_constraintTop_toTopOf="parent">
+            <CustomAttribute
+                motion:attributeName="backgroundColor"
+                motion:customColorValue="@color/transparent" />
+        </Constraint>
+        <Constraint
+            android:id="@+id/customActionBar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            motion:layout_constraintTop_toBottomOf="@id/counter">
+            <CustomAttribute
+                motion:attributeName="backgroundColor"
+                motion:customColorValue="@color/transparent" />
+        </Constraint>
+        <Constraint
+            android:id="@+id/coverAnimated"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_350sdp"
+            motion:layout_constraintTop_toTopOf="parent">
+            <CustomAttribute
+                motion:attributeName="radius"
+                motion:customDimension="0dp" />
+        </Constraint>
+        <Constraint
+            android:id="@+id/viewBackground"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintTop_toBottomOf="@id/name" />
+        <Constraint
+            android:id="@+id/scrollable"
+            motion:layout_constraintEnd_toEndOf="@id/viewBackground"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            motion:layout_constraintBottom_toBottomOf="@id/viewBackground"
+            motion:layout_constraintTop_toTopOf="@id/viewBackground"
+            motion:layout_constraintStart_toStartOf="@id/viewBackground" />
+        <Constraint
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintTop_toBottomOf="@id/coverAnimated"
+            motion:layout_constraintStart_toStartOf="parent">
+            <CustomAttribute
+                motion:attributeName="textColor"
+                motion:customColorValue="@color/textColor" />
+        </Constraint>
+        <Constraint
+            android:id="@+id/backgroundCover"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_350sdp"
+            motion:layout_constraintTop_toTopOf="parent" >
+
+        </Constraint>
+    </ConstraintSet>
+    <ConstraintSet android:id="@+id/scene_3">
+        <Constraint
+            android:id="@+id/counter"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            motion:layout_constraintTop_toTopOf="parent">
+            <CustomAttribute
+                motion:attributeName="backgroundColor"
+                motion:customColorValue="@color/colorPrimaryDark" />
+        </Constraint>
+        <Constraint
+            android:id="@+id/customActionBar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            motion:layout_constraintTop_toBottomOf="@id/counter">
+            <CustomAttribute
+                motion:attributeName="backgroundColor"
+                motion:customColorValue="@color/colorPrimary" />
+        </Constraint>
+        <Constraint
+            android:id="@+id/coverAnimated"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            motion:layout_constraintTop_toTopOf="@id/customActionBar"
+            motion:layout_constraintStart_toEndOf="@id/back_container"
+            motion:layout_constraintBottom_toBottomOf="@id/customActionBar"
+            android:layout_marginStart="16dp">
+            <CustomAttribute
+                motion:attributeName="radius"
+                motion:customDimension="40dp" />
+        </Constraint>
+        <Constraint
+            android:id="@+id/viewBackground"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintTop_toBottomOf="@id/customActionBar" />
+        <Constraint
+            android:id="@+id/scrollable"
+            motion:layout_constraintEnd_toEndOf="@id/viewBackground"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            motion:layout_constraintBottom_toBottomOf="@id/viewBackground"
+            motion:layout_constraintTop_toTopOf="@id/viewBackground"
+            motion:layout_constraintStart_toStartOf="@id/viewBackground" />
+        <Constraint
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintTop_toTopOf="@id/customActionBar"
+            motion:layout_constraintBottom_toBottomOf="@id/customActionBar"
+            motion:layout_constraintStart_toEndOf="@id/coverAnimated" >
+            <CustomAttribute
+                motion:attributeName="textColor"
+                motion:customColorValue="@color/textActionBarColor" />
+        </Constraint>
+        <Constraint
+            android:id="@+id/backgroundCover"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_350sdp"
+            motion:layout_constraintTop_toTopOf="parent">
+        </Constraint>
+    </ConstraintSet>
+    <ConstraintSet android:id="@+id/scene_2">
+        <Constraint
+            android:id="@+id/counter"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            motion:layout_constraintTop_toTopOf="parent">
+            <CustomAttribute
+                motion:attributeName="backgroundColor"
+                motion:customColorValue="@color/colorPrimaryDark" />
+        </Constraint>
+        <Constraint
+            android:id="@+id/customActionBar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            motion:layout_constraintTop_toBottomOf="@id/counter">
+            <CustomAttribute
+                motion:attributeName="backgroundColor"
+                motion:customColorValue="@color/colorPrimary" />
+        </Constraint>
+        <Constraint
+            android:id="@+id/viewBackground"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintTop_toBottomOf="@id/name" />
+        <Constraint
+            android:id="@+id/scrollable"
+            motion:layout_constraintEnd_toEndOf="@id/viewBackground"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            motion:layout_constraintBottom_toBottomOf="@id/viewBackground"
+            motion:layout_constraintTop_toTopOf="@id/viewBackground"
+            motion:layout_constraintStart_toStartOf="@id/viewBackground" />
+        <Constraint
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toBottomOf="@id/backgroundCover">
+            <CustomAttribute
+                motion:attributeName="textColor"
+                motion:customColorValue="@color/textActionBarColor" />
+        </Constraint>
+        <Constraint
+            android:id="@+id/back_container"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="16dp"
+            motion:layout_constraintBottom_toBottomOf="@+id/customActionBar"
+            motion:layout_constraintTop_toTopOf="@id/customActionBar"
+            motion:layout_constraintStart_toStartOf="parent">
+            <CustomAttribute
+                motion:attributeName="cardBackgroundColor"
+                motion:customColorValue="@color/colorPrimary" />
+        </Constraint>
+        <Constraint
+            android:layout_height="72dp"
+            motion:layout_constraintBottom_toBottomOf="@+id/backgroundCover"
+            android:layout_width="72dp"
+            android:id="@+id/coverAnimated"
+            motion:layout_constraintStart_toStartOf="@id/backgroundCover"
+            android:layout_marginStart="16dp"
+            motion:layout_constraintTop_toBottomOf="@+id/customActionBar">
+            <CustomAttribute
+                motion:attributeName="cardElevation"
+                motion:customDimension="0dp" />
+            <CustomAttribute
+                motion:attributeName="radius"
+                motion:customDimension="72dp" />
+        </Constraint>
+        <Constraint
+            android:id="@+id/backgroundCover"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_350sdp"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="@id/customActionBar" >
+        </Constraint>
+    </ConstraintSet>
+
+</MotionScene>
