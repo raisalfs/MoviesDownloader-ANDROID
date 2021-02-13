@@ -34,6 +34,9 @@
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="all_cast">All Cast</string>
+    <string name="grid">Grid</string>
+    <string name="list">List</string>
+    <string name="view">View</string>
     <string-array name="theme_entry">
         <item>Light</item>
         <item>Dark</item>

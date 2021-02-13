@@ -8,24 +8,24 @@
         app:showAsAction="ifRoom"
         />
     <item
-        android:title="View"
+        android:title="@string/view"
         android:id="@+id/change_view"
         android:icon="@drawable/ic_baseline_remove_red_eye"
         >
         <menu>
-            <item
-                app:actionViewClass="com.google.android.material.radiobutton.MaterialRadioButton"
-                android:title="Grid"
-                android:id="@+id/grid_view"
-                android:checked="true"
-                android:enabled="true"
-                />
-            <item
-                app:actionViewClass="com.google.android.material.radiobutton.MaterialRadioButton"
-                android:checked="false"
-                android:id="@+id/list_view"
-                android:title="List"
-                />
+           <group android:id="@+id/group_view" android:checkableBehavior="single"
+               >
+               <item
+                   app:actionViewClass="com.google.android.material.radiobutton.MaterialRadioButton"
+                   android:title="@string/grid"
+                   android:id="@+id/grid_view"
+                   />
+               <item
+                   app:actionViewClass="com.google.android.material.radiobutton.MaterialRadioButton"
+                   android:id="@+id/list_view"
+                   android:title="@string/list"
+                   />
+           </group>
         </menu>
     </item>
 </menu>

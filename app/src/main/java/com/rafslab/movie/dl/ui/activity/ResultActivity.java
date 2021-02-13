@@ -260,32 +260,31 @@ public class ResultActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.add_more) {
             onBackPressed();
         }
-//        if (item.getItemId() == R.id.change_view) {
-//            if (isSingleView) {
-//                setContentView(R.layout.activity_result);
-//                initViews();
-//                firstView();
-//                setSupportActionBar(toolbar);
-//                toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back);
-//                toolbar.setNavigationOnClickListener(v-> onBackPressed());
-//                ChildAdapter adapter = new ChildAdapter(this, dataMovies);
-//                recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-//                recyclerView.swapAdapter(adapter, false);
-//                adapter.notifyDataSetChanged();
-//                isSingleView = false;
-//            } else {
-//                setContentView(R.layout.activity_result_2);
-//                initViews();
-//                setSupportActionBar(toolbar);
-//                toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back);
-//                toolbar.setNavigationOnClickListener(v-> onBackPressed());
-//                ResultTestAdapter adapter = new ResultTestAdapter(this, receiveCategories);
-//                recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//                recyclerView.swapAdapter(adapter, false);
-//                adapter.notifyDataSetChanged();
-//                isSingleView = true;
-//            }
-//        }
+        if (item.getGroupId() == R.id.group_view) {
+            item.setChecked(false);
+            if (item.getItemId() == R.id.grid_view) {
+                setContentView(R.layout.activity_result);
+                initViews();
+                firstView();
+                setSupportActionBar(toolbar);
+                toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back);
+                toolbar.setNavigationOnClickListener(v-> onBackPressed());
+                ChildAdapter adapter = new ChildAdapter(this, dataMovies);
+                recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+                recyclerView.swapAdapter(adapter, false);
+                adapter.notifyDataSetChanged();
+            } else if (item.getItemId() == R.id.list_view) {
+                setContentView(R.layout.activity_result_2);
+                initViews();
+                setSupportActionBar(toolbar);
+                toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back);
+                toolbar.setNavigationOnClickListener(v-> onBackPressed());
+                ResultTestAdapter adapter2 = new ResultTestAdapter(this, receiveCategories);
+                recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                recyclerView.swapAdapter(adapter2, false);
+                adapter2.notifyDataSetChanged();
+            }
+        }
         return true;
     }
     public static void refreshItems(Context context, String sort, String order, List<ChildData> dataList){
