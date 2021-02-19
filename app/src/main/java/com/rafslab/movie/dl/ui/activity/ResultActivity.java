@@ -78,13 +78,11 @@ public class ResultActivity extends AppCompatActivity {
     private String sort, order, identity;
     private double max;
     private double min;
-    private Menu menu;
     private FloatingActionButton fabSorting;
     private LottieAnimationView noResultAnim;
     private ConstraintLayout noResultParent;
     int chipSize;
     int status;
-    private boolean isSingleView = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,12 +117,12 @@ public class ResultActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back);
         toolbar.setNavigationOnClickListener(v-> onBackPressed());
-        boolean ratingCategories = receiveCategories != null && getIntent().hasExtra("min_rating") && getIntent().hasExtra("max_rating");
-        boolean onlyCategories = receiveCategories != null && !(getIntent().hasExtra("min_rating") && !(getIntent().hasExtra("max_rating")));
-        boolean onlyRating = receiveCategories == null;
-        boolean onlyComplete = getIntent().hasExtra("status") && status == 1;
-        boolean onlyOnGoing = getIntent().hasExtra("status") && status == 0;
-        boolean isAll = getIntent().hasCategory("status") && ratingCategories;
+//        boolean ratingCategories = receiveCategories != null && getIntent().hasExtra("min_rating") && getIntent().hasExtra("max_rating");
+//        boolean onlyCategories = receiveCategories != null && !(getIntent().hasExtra("min_rating") && !(getIntent().hasExtra("max_rating")));
+//        boolean onlyRating = receiveCategories == null;
+//        boolean onlyComplete = getIntent().hasExtra("status") && status == 1;
+//        boolean onlyOnGoing = getIntent().hasExtra("status") && status == 0;
+//        boolean isAll = getIntent().hasCategory("status") && ratingCategories;
 //        if (isAll){
 //            String titleToolbar = "Rating: " + BaseUtils.formatSeekBar((float) min) + " ";
 //            if (onlyComplete) {
@@ -169,7 +167,6 @@ public class ResultActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_result, menu);
-        this.menu = menu;
         if (identity != null) {
             if (identity.equals("fromDetail")) {
                 menu.findItem(R.id.add_more).setVisible(false);
@@ -435,7 +432,9 @@ public class ResultActivity extends AppCompatActivity {
                                 data.setMovieDetails(object.getString("movieDetails"));
                                 dataMovies.add(data);
                                 boolean ratingCategories = receiveCategories != null && getIntent().hasExtra("min_rating") && getIntent().hasExtra("max_rating");
-                                boolean onlyCategories = receiveCategories != null && !(getIntent().hasExtra("min_rating") && !(getIntent().hasExtra("max_rating")));
+                                boolean onlyCategories = receiveCategories != null
+                                        && !(getIntent().hasExtra("min_rating")
+                                        && !(getIntent().hasExtra("max_rating")));
                                 boolean onlyStatus = getIntent().hasExtra("status");
                                 boolean onlyTags = getIntent().hasExtra("queryTags");
                                 boolean onlyRating = receiveCategories == null;

@@ -134,14 +134,13 @@ public class HomeActivity extends AppCompatActivity {
         backgroundGradient.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
         String path = "response";
 //        getLatestVersion(path);
+        showDialogBug();
         setSupportActionBar(toolbar);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new HomeFragment()).commit();
         setBottomNavigation(bottomNavigation);
-
         final Intent intent = getIntent();
         checkIntent(intent);
         rootLayout = findViewById(R.id.rootView);
-
         if (savedInstanceState == null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && intent.hasExtra(EXTRA_CIRCULAR_REVEAL_X) && intent.hasExtra(EXTRA_CIRCULAR_REVEAL_Y)) {
             rootLayout.setVisibility(View.INVISIBLE);
             revealX = getIntent().getIntExtra(EXTRA_CIRCULAR_REVEAL_X, 0);
@@ -160,6 +159,14 @@ public class HomeActivity extends AppCompatActivity {
         } else {
             rootLayout.setVisibility(View.VISIBLE);
         }
+    }
+    private void showDialogBug(){
+        SweetAlertDialog dialog = new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE);
+        dialog.setTitle("Bug");
+        dialog.setContentText("Filter Rating & Categories");
+        dialog.setConfirmButton("OK", SweetAlertDialog::dismissWithAnimation);
+        dialog.showCancelButton(false);
+        dialog.show();
     }
     protected void revealActivity(int x, int y) {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {

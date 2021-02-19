@@ -129,6 +129,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
+                    android:layout_marginTop="16dp"
                     android:textColor="@color/textColor"
                     android:layout_marginStart="8dp"
                     android:layout_width="match_parent"
@@ -150,7 +151,7 @@
                     app:layout_constraintTop_toTopOf="@+id/categories_group"
                     />
                 <com.google.android.material.chip.ChipGroup
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="4dp"
                     app:layout_constraintTop_toBottomOf="@id/categories_text"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -182,7 +183,7 @@
                     app:layout_constraintTop_toTopOf="@+id/tag_group"
                     />
                 <com.google.android.material.chip.ChipGroup
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="4dp"
                     app:layout_constraintTop_toBottomOf="@id/tags_text"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
