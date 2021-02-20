@@ -18,11 +18,16 @@
                <item
                    app:actionViewClass="com.google.android.material.radiobutton.MaterialRadioButton"
                    android:title="@string/grid"
+                   android:checked="true"
+                   android:orderInCategory="1"
+                   app:showAsAction="never"
                    android:id="@+id/grid_view"
                    />
                <item
+                   android:orderInCategory="2"
                    app:actionViewClass="com.google.android.material.radiobutton.MaterialRadioButton"
                    android:id="@+id/list_view"
+                   app:showAsAction="never"
                    android:title="@string/list"
                    />
            </group>

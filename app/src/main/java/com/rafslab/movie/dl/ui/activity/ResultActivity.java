@@ -212,45 +212,13 @@ public class ResultActivity extends AppCompatActivity {
             viewSorting.show(getSupportFragmentManager(), viewSorting.getTag());
         });
     }
-    private void secondView(){
-        if (receiveCategories != null) {
-            newValue = receiveCategories.toString().toLowerCase()
-                    .replace("[", "")
-                    .replace("]", "");
-            setReceivedCategoriesData(receiveList, receiveCategories, receivedCategoriesList);
-        }
-        if (receiveTags != null) {
-            receivedTagList.setVisibility(View.VISIBLE);
-            tagValue = receiveTags.toString().toLowerCase()
-                    .replace("[", "")
-                    .replace("]", "");
-            setTagListData(receivedTagList, receiveTags);
-        } else {
-            receivedTagList.setVisibility(View.GONE);
-        }
-        setMovieDataList();
-        fabSorting.setOnClickListener(v->{
-            ViewSorting viewSorting = new ViewSorting();
-            Bundle args = new Bundle();
-            if (receiveCategories == null) {
-                args.putSerializable("data", (Serializable) filterOnlyRating);
-            } else {
-                if (getIntent().hasExtra("min_rating") && getIntent().hasExtra("max_rating")) {
-                    args.putSerializable("data", (Serializable) filterRatingANDCategories);
-                } else {
-                    args.putSerializable("data", (Serializable) filterOnlyCategories);
-                }
-            }
-            if (getIntent().hasExtra("status")) {
-                args.putSerializable("data", (Serializable) filterOnlyStatus);
-            }
-            args.putString("context", "ResultActivity");
-            viewSorting.setArguments(args);
-            viewSorting.show(getSupportFragmentManager(), viewSorting.getTag());
-        });
-    }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        SharedPreferences viewPrefs = getSharedPreferences("keyViewPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor viewEditor = viewPrefs.edit();
+        String viewKey = "keyView";
+//        MenuItem subMenuList = item.getSubMenu().getItem(0);
+//        MenuItem subMenuGrid = item.getSubMenu().getItem(1);
         if (item.isChecked()) {
             return false;
         }
@@ -263,7 +231,9 @@ public class ResultActivity extends AppCompatActivity {
                 setContentView(R.layout.activity_result);
                 initViews();
                 firstView();
+                viewEditor.putString(viewKey, "Grid");
                 setSupportActionBar(toolbar);
+                fabSorting.setVisibility(View.VISIBLE);
                 toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back);
                 toolbar.setNavigationOnClickListener(v-> onBackPressed());
                 ChildAdapter adapter = new ChildAdapter(this, dataMovies);
@@ -274,6 +244,8 @@ public class ResultActivity extends AppCompatActivity {
                 setContentView(R.layout.activity_result_2);
                 initViews();
                 setSupportActionBar(toolbar);
+                viewEditor.putString(viewKey, "List");
+                fabSorting.setVisibility(View.GONE);
                 toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back);
                 toolbar.setNavigationOnClickListener(v-> onBackPressed());
                 ResultTestAdapter adapter2 = new ResultTestAdapter(this, receiveCategories);
@@ -282,6 +254,9 @@ public class ResultActivity extends AppCompatActivity {
                 adapter2.notifyDataSetChanged();
             }
         }
+//        subMenuList.setChecked(viewPrefs.getString(viewKey, "List").contains("List"));
+//        subMenuGrid.setChecked(viewPrefs.getString(viewKey, "List").contains("Grid"));
+        viewEditor.apply();
         return true;
     }
     public static void refreshItems(Context context, String sort, String order, List<ChildData> dataList){
