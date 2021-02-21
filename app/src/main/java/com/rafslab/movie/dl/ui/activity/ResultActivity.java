@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,6 +56,7 @@ import static com.rafslab.movie.dl.controller.AppController.NIGHT_MODE;
 import static com.rafslab.movie.dl.ui.fragment.sheet.ViewSorting.ORDER_KEY;
 import static com.rafslab.movie.dl.ui.fragment.sheet.ViewSorting.SHARED_KEY;
 import static com.rafslab.movie.dl.ui.fragment.sheet.ViewSorting.SORT_KEY;
+import static com.rafslab.movie.dl.utils.BaseUtils.setUniversalLog;
 
 
 public class ResultActivity extends AppCompatActivity {
@@ -406,14 +408,13 @@ public class ResultActivity extends AppCompatActivity {
                                 data.setCastDetails(object.getString("castDetails"));
                                 data.setMovieDetails(object.getString("movieDetails"));
                                 dataMovies.add(data);
-                                boolean ratingCategories = receiveCategories != null && getIntent().hasExtra("min_rating") && getIntent().hasExtra("max_rating");
-                                boolean onlyCategories = receiveCategories != null
-                                        && !(getIntent().hasExtra("min_rating")
-                                        && !(getIntent().hasExtra("max_rating")));
+                                boolean onlyCategories = receiveCategories != null && min == 0.0 && max == 10.0;
                                 boolean onlyStatus = getIntent().hasExtra("status");
-                                boolean onlyTags = getIntent().hasExtra("queryTags");
-                                boolean onlyRating = receiveCategories == null;
+                                boolean onlyTags = !(receiveTags.toString().contains("[]")) && !(onlyCategories && onlyStatus);
+                                boolean onlyRating = receiveCategories.toString().contains("[]");
+                                boolean ratingCategories = receiveCategories != null && min >= 0.0 && max <= 10.0;
                                 boolean isAll = ratingCategories && getIntent().hasExtra("status");
+                                boolean isCategoriesTags = !(receiveTags.toString().contains("[]")) && onlyCategories;
                                 if (isAll)
                                 {
                                     setAll(recyclerView);
@@ -421,21 +422,17 @@ public class ResultActivity extends AppCompatActivity {
                                 else {
                                     if (ratingCategories) {
                                         setRatingANDCategories(recyclerView);
-                                    }
-                                    if (onlyCategories) {
+                                    } else if (onlyCategories) {
                                         setOnlyCategories(recyclerView);
-                                    }
-                                    if (onlyRating) {
-                                        setOnlyRating(recyclerView);
-                                    }
-                                    if (onlyStatus) {
+                                    } else if (onlyRating) {
+                                        setOnlyRating(recyclerView, min, max);
+                                    } else if (onlyStatus) {
                                         setOnlyStatus(recyclerView);
-                                    }
-                                    if (onlyTags) {
+                                    } else if (onlyTags) {
                                         setOnlyTag(recyclerView);
+                                    } else if (isCategoriesTags) {
+                                        setTagsAndCategories(recyclerView);
                                     }
-                                    // 80%
-//                                    setTagsAndCategories(recyclerView);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -485,7 +482,7 @@ public class ResultActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
         showAnimationNoResult(filterOnlyTags);
     }
-    private void setOnlyRating(RecyclerView list){
+    private void setOnlyRating(RecyclerView list, double min, double max){
         ChildAdapter adapter = new ChildAdapter(this, true);
         list.setLayoutManager(new GridLayoutManager(this,3));
         filterOnlyRating = BaseUtils.filterOnlyRating(dataMovies, min, max);
