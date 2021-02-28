@@ -1,6 +1,5 @@
 package com.rafslab.movie.dl.ui.activity;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -14,6 +13,11 @@ import com.rafslab.movie.dl.R;
 import com.rafslab.movie.dl.ui.fragment.SettingsFragment;
 
 import static com.rafslab.movie.dl.controller.AppController.NIGHT_MODE;
+
+/**
+ * Created by: Rais AlFani Lubis
+ * Date: October 18, 2020
+ */
 
 public class SettingsActivity extends AppCompatActivity {
     @Override
@@ -41,9 +45,6 @@ public class SettingsActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(v-> onBackPressed());
         SettingsFragment fragment = new SettingsFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.settings_fragment, fragment).commit();
-    }
-    public static void popBackToStack(Context context){
-        ((SettingsActivity)context).getSupportFragmentManager().popBackStack();
     }
 
     @Override

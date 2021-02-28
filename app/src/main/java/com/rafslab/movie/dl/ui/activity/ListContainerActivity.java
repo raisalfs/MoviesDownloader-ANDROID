@@ -48,6 +48,11 @@ import static com.rafslab.movie.dl.ui.fragment.sheet.ViewCastSorting.ORDER_CAST_
 import static com.rafslab.movie.dl.ui.fragment.sheet.ViewCastSorting.SHARED_CAST_KEY;
 import static com.rafslab.movie.dl.ui.fragment.sheet.ViewCastSorting.SORT_CAST_KEY;
 
+/**
+ * Created by: Rais AlFani Lubis
+ * Date: October 18, 2020
+ */
+
 public class ListContainerActivity extends AppCompatActivity {
     private RecyclerView itemList;
     private Toolbar toolbar;
@@ -95,7 +100,6 @@ public class ListContainerActivity extends AppCompatActivity {
             if (path != null) {
                 if (path.contains("Cast")){
                     sortOrder.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_baseline_filter_list));
-//                    sortOrder.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_baseline_search));
                     toolbar.setTitle(path);
                     getCastData(path);
                     sortCastFunction();
@@ -395,7 +399,6 @@ public class ListContainerActivity extends AppCompatActivity {
         }
         String URL = CipherClient.BASE_URL()
                 + CipherClient.API_DIR()
-                + "latest-updated"
                 + CipherClient.END();
         AndroidNetworking.get(URL)
                 .setPriority(Priority.MEDIUM)

@@ -78,6 +78,7 @@ class ViewDownload : SuperBottomSheetFragment(){
         return view
     }
 
+    @SuppressLint("CommitPrefEdits")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         saveDataResolution = context?.getSharedPreferences(mSharedKey, Context.MODE_PRIVATE)!!

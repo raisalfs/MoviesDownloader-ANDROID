@@ -3,7 +3,6 @@ package com.rafslab.movie.dl.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -258,7 +257,6 @@ public class RootAdapter extends RecyclerView.Adapter<RootAdapter.RootViewHolder
     private void getChildCategoriesData(RecyclerView recyclerView, ProgressBar progressBar, String categories){
         String URL = CipherClient.BASE_URL()
                 + CipherClient.API_DIR()
-                + "latest-updated"
                 + CipherClient.END();
         AndroidNetworking.get(URL)
                 .setPriority(Priority.MEDIUM)

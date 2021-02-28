@@ -26,7 +26,7 @@
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <androidx.recyclerview.widget.RecyclerView
+        <com.rafslab.movie.dl.sticky.StickyRecyclerView
             android:id="@+id/result_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

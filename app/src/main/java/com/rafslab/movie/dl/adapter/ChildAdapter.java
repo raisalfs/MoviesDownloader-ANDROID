@@ -185,11 +185,6 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ChildViewHol
             intent.putExtra("position_db", data.getId());
             intent.putExtra("position", position);
             intent.putExtra("downloadable", identifyDownloadable);
-
-//            ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, holder.thumbnail, mContext.getResources().getString(R.string.image_transition));
-//            mContext.startActivity(intent, compat.toBundle());
-//            Pair<View, String> pair = Pair.create(holder.thumbnail, mContext.getResources().getString(R.string.image_transition));
-//            ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, pair);
             mContext.startActivity(intent);
         });
         holder.thumbnail.setOnClickListener(v -> {
@@ -198,8 +193,6 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ChildViewHol
             intent.putExtra("position_db", data.getId());
             intent.putExtra("position", position);
             intent.putExtra("downloadable", identifyDownloadable);
-//            ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, holder.thumbnail, mContext.getResources().getString(R.string.image_transition));
-//            mContext.startActivity(intent, compat.toBundle());
             mContext.startActivity(intent);
         });
         String information = data.getRelease() + " | " + data.getContentRating() + "+" + " | " + data.getSeasonCount() + " Season";

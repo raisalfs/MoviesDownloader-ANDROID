@@ -32,10 +32,10 @@ import java.util.List;
  */
 
 public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderViewHolder> {
-    private Context mContext;
+    private final Context mContext;
     private List<ChildData> rootList;
     private List<CoverArray> coverList;
-    private LayoutInflater inflater;
+    private final LayoutInflater inflater;
     private Callback callback;
     private boolean isCoverOnDetails;
 
@@ -107,9 +107,12 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderViewHol
     }
 
     static class SliderViewHolder extends SliderViewAdapter.ViewHolder {
-        private ImageView cover;
-        private TextView release, type, episode, title;
-        private ProgressBar progressBar;
+        private final ImageView cover;
+        private final TextView release;
+        private final TextView type;
+        private final TextView episode;
+        private final TextView title;
+        private final ProgressBar progressBar;
         public SliderViewHolder(View itemView) {
             super(itemView);
             cover = itemView.findViewById(R.id.cover);

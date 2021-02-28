@@ -2,26 +2,17 @@ package com.rafslab.movie.dl.ui.activity;
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.motion.widget.MotionLayout;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
-import androidx.core.widget.NestedScrollView;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,7 +44,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static com.rafslab.movie.dl.controller.AppController.NIGHT_MODE;
 
 /**
@@ -64,11 +54,7 @@ import static com.rafslab.movie.dl.controller.AppController.NIGHT_MODE;
 public class CastActivity extends AppCompatActivity implements MotionLayout.TransitionListener {
     private TextView name, born;
     private RecyclerView filmography, socialMediaList;
-    private CardView containerCover, containerBack;
-    private MotionLayout rootView;
-    private NestedScrollView scrollable;
     private ImageView castCover;
-    private Cast cast;
     private ImageButton back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +79,7 @@ public class CastActivity extends AppCompatActivity implements MotionLayout.Tran
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cast);
         initViews();
-        cast = (Cast) getIntent().getSerializableExtra("data");
+        Cast cast = (Cast) getIntent().getSerializableExtra("data");
         if (cast != null) {
             getSocialMedia(socialMediaList, cast);
             Glide.with(this).load(cast.getCover()).diskCacheStrategy(DiskCacheStrategy.ALL).fitCenter().into(castCover);
@@ -124,16 +110,12 @@ public class CastActivity extends AppCompatActivity implements MotionLayout.Tran
         back.setOnClickListener(v-> onBackPressed());
     }
     private void initViews() {
-        rootView = findViewById(R.id.rootView);
         name = findViewById(R.id.name);
         born = findViewById(R.id.born);
         socialMediaList = findViewById(R.id.social_media);
         filmography = findViewById(R.id.filmography);
         castCover = findViewById(R.id.castCover);
-        containerCover = findViewById(R.id.coverAnimated);
-        scrollable = findViewById(R.id.scrollable);
         back = findViewById(R.id.back);
-        containerBack = findViewById(R.id.back_container);
     }
     private void getSocialMedia(RecyclerView recyclerView, Cast cast){
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -270,9 +252,7 @@ public class CastActivity extends AppCompatActivity implements MotionLayout.Tran
 
     @Override
     public void onTransitionStarted(MotionLayout motionLayout, int i, int i1) {
-//        ConstraintLayout.LayoutParams cardParams = (ConstraintLayout.LayoutParams)containerCover.getLayoutParams();
-//        cardParams.width = MATCH_PARENT;
-//        motionLayout.getConstraintSet(R.id.scene_start).applyToLayoutParams(R.id.coverAnimated, cardParams);
+
     }
 
     @Override

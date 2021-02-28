@@ -1,13 +1,9 @@
 package com.rafslab.movie.dl.ui.activity;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
@@ -21,6 +17,11 @@ import androidx.preference.PreferenceManager;
 import com.rafslab.movie.dl.R;
 
 import static com.rafslab.movie.dl.controller.AppController.NIGHT_MODE;
+
+/**
+ * Created by: Rais AlFani Lubis
+ * Date: October 18, 2020
+ */
 
 public class OpenSourceLibraries extends AppCompatActivity {
     Toolbar toolbar;

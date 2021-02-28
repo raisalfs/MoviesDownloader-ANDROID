@@ -25,7 +25,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.rafslab.movie.dl.R;
 import com.rafslab.movie.dl.model.child.Cast;
-import com.rafslab.movie.dl.model.child.ChildData;
 import com.rafslab.movie.dl.ui.activity.CastActivity;
 
 import java.io.Serializable;
@@ -161,8 +160,6 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
                 intent.putExtra("position", holder.getAdapterPosition());
                 intent.putExtra("actor_list", (Serializable) castList);
                 intent.putExtra("type", "fromHome");
-//                Pair<View, String> pair = Pair.create(holder.imageActor, mContext.getResources().getString(R.string.image_transition));
-//                ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, pair);
                 mContext.startActivity(intent);
             });
         } else {

@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
@@ -31,7 +30,6 @@ import com.rafslab.movie.dl.BuildConfig;
 import com.rafslab.movie.dl.R;
 import com.rafslab.movie.dl.ui.activity.HomeActivity;
 import com.rafslab.movie.dl.ui.activity.OpenSourceLibraries;
-import com.rafslab.movie.dl.ui.activity.SettingsActivity;
 import com.rafslab.movie.dl.utils.BaseUtils;
 
 import org.json.JSONException;
@@ -43,10 +41,15 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 import static android.content.Context.DOWNLOAD_SERVICE;
 import static com.rafslab.movie.dl.controller.AppController.NIGHT_MODE;
 
+/**
+ * Created by: Rais AlFani Lubis
+ * Date: October 18, 2020
+ */
+
 public class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final int PERMISSION_STORAGE_CODE = 1000;
     private String title, description, versionValue, downloadValue;
-    private String currentVersion = BuildConfig.VERSION_NAME;
+    private final String currentVersion = BuildConfig.VERSION_NAME;
     private int status;
     private boolean isUpdate;
     private boolean isSwitch = true;
@@ -56,7 +59,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         addPreferencesFromResource(R.xml.preferences);
         searchView = new MaterialSearchView(requireContext());
-        Toolbar toolbar = requireActivity().findViewById(R.id.toolbar);
         Preference appVersion = findPreference("check_updates");
         ListPreference changeTheme = findPreference(NIGHT_MODE);
         Preference findBug = findPreference("find_bug");

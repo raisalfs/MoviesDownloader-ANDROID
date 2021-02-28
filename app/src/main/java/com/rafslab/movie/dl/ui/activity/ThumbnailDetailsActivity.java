@@ -15,13 +15,15 @@ import androidx.preference.PreferenceManager;
 
 import com.rafslab.movie.dl.R;
 import com.rafslab.movie.dl.model.child.Cast;
-import com.smarteist.autoimageslider.SliderView;
 
 import static com.rafslab.movie.dl.controller.AppController.NIGHT_MODE;
 
+/**
+ * Created by: Rais AlFani Lubis
+ * Date: October 18, 2020
+ */
 
 public class ThumbnailDetailsActivity extends AppCompatActivity {
-    private SliderView thumbnail;
     private Toolbar toolbar;
 
     @Override
@@ -61,7 +63,6 @@ public class ThumbnailDetailsActivity extends AppCompatActivity {
     }
 
     private void initViews(){
-        thumbnail = findViewById(R.id.cover_cast);
         toolbar = findViewById(R.id.toolbar);
     }
 }

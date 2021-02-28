@@ -7,14 +7,19 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
+/**
+ * Created by: Rais AlFani Lubis
+ * Date: October 18, 2020
+ */
+
 public class MySingleton {
     @SuppressLint("StaticFieldLeak")
     private  static MySingleton instance;
     private RequestQueue requestQueue;
-    private Context ctx;
+    private final Context context;
 
     private MySingleton(Context context) {
-        ctx = context;
+        this.context = context;
         requestQueue = getRequestQueue();
     }
 
@@ -27,9 +32,7 @@ public class MySingleton {
 
     public RequestQueue getRequestQueue() {
         if (requestQueue == null) {
-            // getApplicationContext() is key, it keeps you from leaking the
-            // Activity or BroadcastReceiver if someone passes one in.
-            requestQueue = Volley.newRequestQueue(ctx.getApplicationContext());
+            requestQueue = Volley.newRequestQueue(context.getApplicationContext());
         }
         return requestQueue;
     }

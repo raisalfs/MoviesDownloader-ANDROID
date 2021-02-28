@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import androidx.annotation.Nullable;
@@ -32,9 +31,9 @@ import java.util.List;
  */
 
 public class CastImageAdapter extends SliderViewAdapter<CastImageAdapter.CastImageViewHolder> {
-    private Context mContext;
-    private List<Cover> coverList;
-    private LayoutInflater inflater;
+    private final Context mContext;
+    private final List<Cover> coverList;
+    private final LayoutInflater inflater;
     private boolean isDetails;
     private Cast cast;
 
@@ -104,9 +103,9 @@ public class CastImageAdapter extends SliderViewAdapter<CastImageAdapter.CastIma
 
     static class CastImageViewHolder extends SliderViewAdapter.ViewHolder {
         private boolean isDetails;
-        private KenBurnsView cover;
+        private final KenBurnsView cover;
         private ZoomageView coverZoomAble;
-        private ProgressBar progressBar;
+        private final ProgressBar progressBar;
         public CastImageViewHolder(View itemView) {
             super(itemView);
             cover = itemView.findViewById(R.id.cover);

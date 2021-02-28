@@ -31,7 +31,6 @@ public class ChipsAdapter extends RecyclerView.Adapter<ChipsAdapter.ChipViewHold
     private final Context mContext;
     ArrayList<String> selectedCategories;
     ArrayList<String> selectedTags;
-    ArrayList<String> selectedRegion;
     private List<Categories> chips;
     private List<Tag> tagsList;
     private final LayoutInflater inflater;

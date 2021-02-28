@@ -19,21 +19,8 @@ andResGuard {
             "*.gif"
     ]
     whiteList = [
-            // your icon
             "R.mipmap.ic_launcher",
             "R.id.*",
-            // for fabric
-//            "R.string.com.crashlytics.*",
-//            // for umeng update
-//            "R.string.tb_*",
-//            "R.layout.tb_*",
-//            "R.drawable.tb_*",
-//            "R.drawable.u1*",
-//            "R.drawable.u2*",
-//            "R.color.tb_*",
-//            // umeng share for sina
-//            "R.drawable.sina*",
-//            // for google-services.json
             "R.string.google_app_id",
             "R.string.gcm_defaultSenderId",
             "R.string.default_web_client_id",
@@ -41,9 +28,7 @@ andResGuard {
             "R.string.firebase_database_url",
             "R.string.google_api_key",
             "R.string.google_crash_reporting_api_key"
-//
     ]
-
     finalApkBackupPath = "${project.rootDir}/final.apk"
     digestalg = "SHA-256"
 }
@@ -51,15 +36,7 @@ andResGuard {
 android {
     signingConfigs {
         release {
-            try {
-                storeFile file("../keystore/dl.movie-keystore.jks")
-                storePassword "Alfani24154"
-                keyAlias "Movies Downloader"
-                keyPassword "Alfani24154"
-                v2SigningEnabled true
-            } catch (ex) {
-                throw new InvalidUserDataException(ex.toString())
-            }
+
         }
         debug {
             storeFile file("../keystore/debug.keystore")
@@ -77,6 +54,7 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
     compileSdkVersion 30
+    ndkVersion "21.2.6472646"
     buildToolsVersion "29.0.3"
 
     defaultConfig {
@@ -133,25 +111,25 @@ project.afterEvaluate {
 cipher.so {
     keys {
         BASE_URL {
-            value = "https://raw.githubusercontent.com/rafslab/dl-drakor-test/master/"
+            value = "YOUR API URL"
         }
         MAINTENANCE {
-            value = "https://raw.githubusercontent.com/rafslab/maintenance/master/"
+            value = "YOUR API URL"
         }
         NOTIFICATION {
-            value = "Notification/"
+            value = "YOUR API URL"
         }
         API_DIR {
-            value = "Series/Korean/"
+            value = "YOUR API URL"
         }
         ROOT_DIR {
-            value = "Root/"
+            value = "YOUR API URL/"
         }
         END {
             value = ".json"
         }
         DEV {
-            value = "EB55AD205D950C19B12E7A5EF1A75903"
+            value = "YOUR API URL"
         }
         MD5 {
             value = ""
@@ -170,12 +148,15 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'com.google.firebase:firebase-database:19.6.0'
     implementation 'com.google.firebase:firebase-messaging:21.0.1'
-//    implementation 'androidx.navigation:navigation-ui:2.3.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     /* Added Others Library */
     implementation "com.google.guava:guava:30.1-android"
+    implementation 'com.github.florent37:materialviewpager:1.2.3'
+    implementation 'com.jpardogo.materialtabstrip:library:1.1.0'
+    implementation 'com.codewaves.stickyheadergrid:stickyheadergrid:0.9.7'
+    implementation 'com.github.florent37:fiftyshadesof:1.0.0'
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
     implementation 'com.intuit.ssp:ssp-android:1.0.6'
     implementation 'jp.wasabeef:blurry:4.0.0'
@@ -186,7 +167,6 @@ dependencies {
     implementation 'com.github.ivbaranov:materialfavoritebutton:0.1.5'
     implementation 'com.facebook.rebound:rebound:0.3.8'
     implementation 'com.jsibbold:zoomage:1.3.1'
-//    implementation 'com.balysv:material-ripple:1.0.2'
     implementation 'com.android.volley:volley:1.1.1'
     implementation 'com.github.f0ris.sweetalert:library:1.6.2'
     implementation 'com.flaviofaria:kenburnsview:1.0.7'
@@ -194,10 +174,7 @@ dependencies {
     implementation 'com.github.mmin18:realtimeblurview:1.2.1'
     implementation 'com.balysv.materialmenu:material-menu:2.0.0'
     implementation 'nl.joery.animatedbottombar:library:1.0.8'
-//    implementation 'com.github.HeyAlex:BottomDrawer:v1.0.0'
-//    implementation 'com.github.michael-rapp:android-material-preferences:5.3.2'
     implementation 'com.google.android.material:material:1.3.0'
-//    implementation 'com.github.ybq:Android-SpinKit:1.4.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.github.vickykdv:CircleRectImageView:1.0'
@@ -206,7 +183,6 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v13:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.amitshekhar.android:android-networking:1.0.2'
-//    implementation 'boxresin.android:materialsearchview:2.0.0'
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
 }

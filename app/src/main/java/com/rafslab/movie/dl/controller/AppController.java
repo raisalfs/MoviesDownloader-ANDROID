@@ -9,6 +9,10 @@ import com.google.firebase.FirebaseApp;
 import com.rafslab.movie.dl.utils.AntiReverseUtils;
 import com.rafslab.movie.dl.utils.BaseUtils;
 
+/**
+ * Created by: Rais AlFani Lubis
+ * Date: October 18, 2020
+ */
 public class AppController extends Application {
     public static final String NIGHT_MODE = "day_night";
     private boolean isNightModeEnabled = false;

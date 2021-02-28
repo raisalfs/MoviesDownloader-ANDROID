@@ -190,7 +190,6 @@ public class DetailsActivity extends AppCompatActivity {
 
                 @Override
                 public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-//                    holder.progressBar.setVisibility(View.GONE);
                     return false;
                 }
             }).into(poster);
@@ -324,7 +323,6 @@ public class DetailsActivity extends AppCompatActivity {
         bookValues.put(DatabaseContract.FavoritesEntry.COLUMN_DESCRIPTION, data.getDescription());
         bookValues.put(DatabaseContract.FavoritesEntry.COLUMN_CATEGORIES, data.getCategories());
         bookValues.put(DatabaseContract.FavoritesEntry.COLUMN_POSTER, data.getPoster());
-//        bookValues.put(DatabaseContract.FavoritesEntry.COLUMN_COVER, data.getCover());
         bookValues.put(DatabaseContract.FavoritesEntry.COLUMN_SUBTITLE, data.getSubtitle());
         bookValues.put(DatabaseContract.FavoritesEntry.COLUMN_SUBTITLE_REGION, data.getSubtitleRegion());
 
@@ -367,7 +365,7 @@ public class DetailsActivity extends AppCompatActivity {
                     mPrefsEditor = getSharedPreferences("favorite", MODE_PRIVATE).edit();
                     mPrefsEditor.putBoolean(key, false);
                     mPrefsEditor.apply();
-                    messageRemoved(favoriteButton, childData.getTitle() + " removed from Bookmark ", Snackbar.LENGTH_SHORT);
+                    messageRemoved(favoriteButton, childData.getTitle() + " removed from Bookmark ");
                 }
             });
 
@@ -395,14 +393,14 @@ public class DetailsActivity extends AppCompatActivity {
                     mPrefsEditor = getSharedPreferences("favorite", MODE_PRIVATE).edit();
                     mPrefsEditor.putBoolean(key, false);
                     mPrefsEditor.apply();
-                    messageRemoved(favoriteButton, childData.getTitle() + " removed from Bookmark ", Snackbar.LENGTH_SHORT);
+                    messageRemoved(favoriteButton, childData.getTitle() + " removed from Bookmark ");
                 }
             });
         }
     }
 
-    private void messageRemoved(View view, String body, int duration){
-       Snackbar snackbar = Snackbar.make(view, body, duration);
+    private void messageRemoved(View view, String body){
+       Snackbar snackbar = Snackbar.make(view, body, com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_SHORT);
        snackbar.setAnchorView(floatingDownload);
        snackbar.show();
     }
@@ -412,19 +410,18 @@ public class DetailsActivity extends AppCompatActivity {
         Snackbar snackbar = Snackbar.make(view,"", Snackbar.LENGTH_LONG);
         Snackbar.SnackbarLayout layout = (Snackbar.SnackbarLayout) snackbar.getView();
         layout.findViewById(com.google.android.material.R.id.snackbar_text).setVisibility(View.INVISIBLE);
-        View snackView = inflater.inflate(R.layout.message_added_bookmark,null);
+        @SuppressLint("InflateParams") View snackView = inflater.inflate(R.layout.message_added_bookmark,null);
         ((TextView)snackView.findViewById(R.id.movie_added)).setText(childData.getTitle());
         String message = " "+ getString(R.string.added_bookmark);
         ((TextView)snackView.findViewById(R.id.snackbar_text)).setText(message);
         snackView.findViewById(R.id.snackbar_action).setOnClickListener(v->{
             dbHelper = new FavoritesDbHelper(DetailsActivity.this);
             dbHelper.deleteFavorites(position);
-            messageRemoved(snackView, childData.getTitle() + " removed from Bookmark ", Snackbar.LENGTH_SHORT);
+            messageRemoved(snackView, childData.getTitle() + " removed from Bookmark ");
             favoriteButton.setFavorite(false);
         });
         final CircleRectImage poster = snackView.findViewById(R.id.snackbar_image);
         Glide.with(this).load(childData.getPoster()).into(poster);
-//        snackView.setLayoutParams(params);
         snackbar.setAnchorView(floatingDownload);
         layout.addView(snackView,0);
         snackbar.show();
@@ -454,7 +451,6 @@ public class DetailsActivity extends AppCompatActivity {
 
         data.setCategories(childData.getCategories());
         data.setPoster(childData.getPoster());
-//        data.setCover(childData.getCover());
         data.setSubtitle(childData.getSubtitle());
         data.setSubtitleRegion(childData.getSubtitleRegion());
         data.setTrailer(childData.getTrailer());
@@ -700,77 +696,6 @@ public class DetailsActivity extends AppCompatActivity {
                 BaseUtils.showMessage(this, "Please Allow Permission Storage", Toast.LENGTH_LONG);
             }
         }
-    }
-//    private void setReboundFacebook(){
-//        setTranslate(cover, DELAY*2);
-////        setTranslate(viewBottom, DELAY*3);
-////        setTranslate(scrollable, DELAY*3);
-//        setTranslate(title, DELAY*7);
-//        setTranslate(ratingBar,DELAY*8);
-//        setTranslate(genre,DELAY*3);
-//        setTranslate(runtime,DELAY*9);
-//        setTranslate(release,DELAY*9);
-//        setScale(cover, DELAY*3);
-//        setScale(castList, DELAY*6);
-//        setScale(detailsIcon, DELAY*7);
-//        setScale(description, DELAY*7);
-//        setScale(recommendList, DELAY*8);
-//        setScale(include4, DELAY*6);
-//        title.setOnClickListener(v-> animateView(title));
-//        genre.setOnClickListener(v-> {
-//            animateView(genre);
-//            String categories = data.getCategories();
-//            String withoutComma = categories.replace(" ", "");
-//            ArrayList<String> categoriesList = new ArrayList<>(Arrays.asList(withoutComma.split(",")));
-//            Intent intent = new Intent(DetailsActivity.this, ResultActivity.class);
-//            intent.putStringArrayListExtra("query", categoriesList);
-//            intent.putExtra("type_data", "categories");
-//            startActivity(intent);
-//        });
-//        quality.setOnClickListener(v-> animateView(quality));
-//        runtime.setOnClickListener(v-> animateView(runtime));
-//        release.setOnClickListener(v-> animateView(release));
-//        country.setOnClickListener(v-> {
-//            animateView(country);
-//            String country = data.getCountry();
-//            String withoutComma = country.replace(" ", "");
-//            ArrayList<String> countryList = new ArrayList<>(Arrays.asList(withoutComma.split(",")));
-//            Intent intent = new Intent(DetailsActivity.this, ResultActivity.class);
-//            intent.putStringArrayListExtra("query", countryList);
-//            intent.putExtra("type_data", "country");
-//            startActivity(intent);
-//        });
-//        ratingBar.setOnClickListener(v-> animateView(ratingBar));
-//        include4.setOnClickListener(v-> animateView(include4));
-//    }
-//    private void setTranslate(View view, int delay){
-//        switch (view.getId()){
-//            case R.id.title:
-//            case R.id.rating_details:
-//                SpringyAnimator s2 = new SpringyAnimator(SpringAnimationType.TRANSLATEY, TRANS_TENSION, TRANS_FRACTION,getResources().getDisplayMetrics().heightPixels/8,0);
-//                s2.setDelay(delay);
-//                s2.startSpring(view);
-//                break;
-//            case R.id.scrollable:
-//            case R.id.viewBottom:
-//                SpringyAnimator s3 = new SpringyAnimator(SpringAnimationType.TRANSLATEY, 40, 10,getResources().getDisplayMetrics().heightPixels,0);
-//                s3.setDelay(delay);
-//                s3.startSpring(view);
-//                break;
-//            case R.id.thumbnail:
-//
-//            case R.id.genre:
-//                SpringyAnimator s5 = new SpringyAnimator(SpringAnimationType.TRANSLATEX, 8, 3,getResources().getDisplayMetrics().heightPixels,0);
-//                s5.setDelay(delay);
-//                s5.startSpring(view);
-//                break;
-//        }
-//    }
-    private void setScale(View view, int delay){
-        SpringyAnimator helper = new SpringyAnimator(SpringAnimationType.SCALEXY, 15,4,0,1);
-        helper.setDelay(delay);
-        helper.startSpring(view);
-
     }
     private void animateView(View view){
         SpringyAnimator springHelper = new SpringyAnimator(SpringAnimationType.SCALEXY,100,4,0,1);

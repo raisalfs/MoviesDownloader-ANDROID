@@ -130,7 +130,7 @@ class ViewCategories : SuperBottomSheetFragment(){
         })
     }
     private fun prepareCategoriesData() {
-        val url = CipherClient.BASE_URL() + CipherClient.API_DIR() + "korean-categories" + CipherClient.END()
+        val url = CipherClient.BASE_URL() + CipherClient.API_DIR() + CipherClient.END()
         AndroidNetworking.get(url).setPriority(Priority.MEDIUM)
             .build()
             .getAsJSONArray(object : JSONArrayRequestListener {
@@ -166,7 +166,7 @@ class ViewCategories : SuperBottomSheetFragment(){
             })
     }
     private fun prepareTags() {
-        val url = CipherClient.BASE_URL() + CipherClient.API_DIR() + "korean-tags" + CipherClient.END()
+        val url = CipherClient.BASE_URL() + CipherClient.API_DIR() + CipherClient.END()
         AndroidNetworking.get(url).setPriority(Priority.MEDIUM).build()
             .getAsJSONArray(object : JSONArrayRequestListener {
                 override fun onResponse(response: JSONArray?) {
@@ -213,6 +213,7 @@ class ViewCategories : SuperBottomSheetFragment(){
             intent.putExtra("size", categories.size)
             intent.putExtra("min_rating", min)
             intent.putExtra("max_rating", max)
+            intent.putExtra("identity", "fromSheet")
             if (complete){
                 intent.putExtra("status", 1)
             } else if (onGoing){

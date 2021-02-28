@@ -20,14 +20,17 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.rafslab.movie.dl.R;
 import com.rafslab.movie.dl.ui.activity.HomeActivity;
-import com.rafslab.movie.dl.utils.NotificationActionHelper;
 
 import java.util.Map;
-import java.util.Objects;
 import java.util.Random;
 
+/**
+ * Created by: Rais AlFani Lubis
+ * Date: October 18, 2020
+ */
+
 public class MyMessagingServices extends FirebaseMessagingService {
-    String ADMIN_CHANNEL_ID = "353723805024";
+    String ADMIN_CHANNEL_ID = "ADMIN_CHANNEL";
 
 
     @Override

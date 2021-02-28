@@ -5,15 +5,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.gson.Gson;
 import com.rafslab.movie.dl.R;
 import com.rafslab.movie.dl.database.DownloadedHistoryHelper;
@@ -24,11 +21,11 @@ import java.util.List;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder> {
 
-    private Context mContext;
-    private List<ChildData> childDataList;
-    private LayoutInflater inflater;
+    private final Context mContext;
+    private final List<ChildData> childDataList;
+    private final LayoutInflater inflater;
     private DownloadedHistoryHelper helper;
-    private Callback callback;
+    private final Callback callback;
 
     public HistoryAdapter(Context mContext, List<ChildData> childDataList, Callback callback) {
         this.mContext = mContext;
@@ -66,8 +63,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
     }
 
     static class HistoryViewHolder extends RecyclerView.ViewHolder {
-        private TextView title, size;
-        private CircleRectImage thumbnail;
+        private final TextView title;
+        private final TextView size;
+        private final CircleRectImage thumbnail;
         public HistoryViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.title);

@@ -1,9 +1,7 @@
 package com.rafslab.movie.dl.ui.fragment;
 
-import android.animation.Animator;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +11,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -32,9 +29,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.rafslab.movie.dl.R;
 import com.rafslab.movie.dl.adapter.ChildAdapter;
 import com.rafslab.movie.dl.model.child.Cast;
-import com.rafslab.movie.dl.model.child.Categories;
 import com.rafslab.movie.dl.model.child.ChildData;
-import com.rafslab.movie.dl.model.child.Cover;
 import com.rafslab.movie.dl.model.child.CoverArray;
 import com.rafslab.movie.dl.model.child.Download;
 import com.rafslab.movie.dl.model.child.Resolution;
@@ -66,16 +61,7 @@ public class MoviesFragment extends Fragment {
     private MaterialButton tryAgain;
     private ImageView backgroundGradient;
     private AppBarLayout contextAppBar;
-    private Toolbar toolbar;
-    private List<ChildData> childDataList = new ArrayList<>();
-
-    public MoviesFragment newInstance(String path){
-        MoviesFragment fragment = new MoviesFragment();
-        Bundle args = new Bundle();
-        args.putString("path", path);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private final List<ChildData> childDataList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -88,7 +74,6 @@ public class MoviesFragment extends Fragment {
         tryAgain = rootView.findViewById(R.id.try_again);
         backgroundGradient = requireActivity().findViewById(R.id.background_gradient);
         contextAppBar = requireActivity().findViewById(R.id.app_bar);
-        toolbar = requireActivity().findViewById(R.id.toolbar);
         return rootView;
     }
 
@@ -101,7 +86,6 @@ public class MoviesFragment extends Fragment {
         BaseUtils.getActionBar(requireContext()).show();
         String URL = CipherClient.BASE_URL()
                 + CipherClient.API_DIR()
-                + "latest-updated"
                 + CipherClient.END();
         boolean isConnected = Connectivity.isConnected(requireContext());
         boolean isConnectionFast = Connectivity.isConnectedFast(requireContext());

@@ -4,7 +4,6 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
@@ -14,21 +13,16 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.rafslab.movie.dl.R;
 import com.rafslab.movie.dl.model.child.ChildData;
 import com.rafslab.movie.dl.model.child.Download;
-import com.rafslab.movie.dl.model.child.Resolution;
 import com.rafslab.movie.dl.model.child.ResolutionValue;
 import com.rafslab.movie.dl.model.child.ValueDownload;
 import com.rafslab.movie.dl.model.user.Report;
@@ -65,9 +59,8 @@ public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.EpisodeV
     ChildData childData;
     private String reasonDownload;
     final private String FCM_API = "https://fcm.googleapis.com/fcm/send";
-    final private String serverKey = "key=" + "AAAAUluU7WA:APA91bGbkNWr19S0eTCQrjppxNdV2iCWzhRCfRLz71A-9B8_olNLqlS4BCbwIr91VSLYxlif2fR2yvtGi3JPCrgwH58l1bqa2wxezCzXoncEs6yaNHGZq1ZrOldFsINcr5iQQhqbqld4";
+    final private String serverKey = "key=" + "your key";
     final private String contentType = "application/json";
-    private String TOPIC;
     String NOTIFICATION_TITLE;
     String NOTIFICATION_MESSAGE;
     private final EpisodeListener listener;
@@ -157,13 +150,13 @@ public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.EpisodeV
             FirebaseApp.initializeApp(mContext);
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference getReference = database.getReference();
-            new Handler().postDelayed(()-> getReference.child("Report").child(dateFormat.format(date).replace("/", "-")).push().setValue(new Report(title, episode1, season, resolution, reason)).addOnSuccessListener(aVoid -> sendNotification("Broken Link!", title)), 1000);
+            new Handler().postDelayed(()-> getReference.child("Report").child(dateFormat.format(date).replace("/", "-")).push().setValue(new Report(title, episode1, season, resolution, reason)).addOnSuccessListener(aVoid -> sendNotification(title)), 1000);
             showDialog();
         }
     }
-    private void sendNotification(String title, String message){
-        TOPIC = "/topics/superUSER";
-        NOTIFICATION_TITLE = title;
+    private void sendNotification(String message){
+        String TOPIC = "/topics/superUSER";
+        NOTIFICATION_TITLE = "Broken Link!";
         NOTIFICATION_MESSAGE = message;
         JSONObject notification = new JSONObject();
         JSONObject notificationBody = new JSONObject();

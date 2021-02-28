@@ -3,12 +3,11 @@ package com.rafslab.movie.dl.ui.activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.Html;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,7 +29,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.rafslab.movie.dl.R;
 import com.rafslab.movie.dl.adapter.ChildAdapter;
 import com.rafslab.movie.dl.adapter.ChipsAdapter;
-import com.rafslab.movie.dl.adapter.ResultTestAdapter;
 import com.rafslab.movie.dl.model.child.Cast;
 import com.rafslab.movie.dl.model.child.ChildData;
 import com.rafslab.movie.dl.model.child.ChipsReceived;
@@ -49,15 +47,17 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static com.rafslab.movie.dl.controller.AppController.NIGHT_MODE;
 import static com.rafslab.movie.dl.ui.fragment.sheet.ViewSorting.ORDER_KEY;
 import static com.rafslab.movie.dl.ui.fragment.sheet.ViewSorting.SHARED_KEY;
 import static com.rafslab.movie.dl.ui.fragment.sheet.ViewSorting.SORT_KEY;
-import static com.rafslab.movie.dl.utils.BaseUtils.setUniversalLog;
 
+/**
+ * Created by: Rais AlFani Lubis
+ * Date: October 18, 2020
+ */
 
 public class ResultActivity extends AppCompatActivity {
 
@@ -69,9 +69,6 @@ public class ResultActivity extends AppCompatActivity {
     private List<ChildData> filterOnlyCategories = new ArrayList<>();
     private List<ChildData> filterOnlyRating = new ArrayList<>();
     private List<ChildData> filterOnlyStatus = new ArrayList<>();
-    private List<ChildData> filterOnlyTags = new ArrayList<>();
-    private List<ChildData> filterTagsAndCategories = new ArrayList<>();
-    private List<ChildData> filterAll = new ArrayList<>();
 
     private RecyclerView recyclerView, receivedCategoriesList, receivedTagList;
     private Toolbar toolbar;
@@ -119,50 +116,6 @@ public class ResultActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back);
         toolbar.setNavigationOnClickListener(v-> onBackPressed());
-//        boolean ratingCategories = receiveCategories != null && getIntent().hasExtra("min_rating") && getIntent().hasExtra("max_rating");
-//        boolean onlyCategories = receiveCategories != null && !(getIntent().hasExtra("min_rating") && !(getIntent().hasExtra("max_rating")));
-//        boolean onlyRating = receiveCategories == null;
-//        boolean onlyComplete = getIntent().hasExtra("status") && status == 1;
-//        boolean onlyOnGoing = getIntent().hasExtra("status") && status == 0;
-//        boolean isAll = getIntent().hasCategory("status") && ratingCategories;
-//        if (isAll){
-//            String titleToolbar = "Rating: " + BaseUtils.formatSeekBar((float) min) + " ";
-//            if (onlyComplete) {
-//                toolbar.setTitle(titleToolbar + Html.fromHtml("&#10142") + " " + BaseUtils.formatSeekBar((float) max) + ", Complete");
-//            } else {
-//                toolbar.setTitle(titleToolbar + Html.fromHtml("&#10142") + " " + BaseUtils.formatSeekBar((float) max) + ", On Going");
-//            }
-//        } else {
-//            if (onlyCategories) {
-//                String titleToolbar = "Sort Only Categories";
-//                toolbar.setTitle(titleToolbar);
-//            }
-//            if (onlyComplete){
-//                String titleToolbar = "Status: Complete";
-//                toolbar.setTitle(titleToolbar);
-//            }
-//            if (onlyOnGoing) {
-//                String titleToolbar = "Status: On Going";
-//                toolbar.setTitle(titleToolbar);
-//            }
-//            if (onlyRating) {
-//                String titleToolbar = "Rating: " + BaseUtils.formatSeekBar((float) min) + " ";
-//                toolbar.setTitle(titleToolbar + Html.fromHtml("&#10142") + " " + BaseUtils.formatSeekBar((float) max));
-//            }
-//            if (min == 0.0 && max == 10.0){
-//                String titleToolbar;
-//                if (onlyComplete){
-//                    titleToolbar = "Status: Complete";
-//                } else {
-//                    if (onlyOnGoing) {
-//                        titleToolbar = "Status: On Going";
-//                    } else {
-//                        titleToolbar = "Sort Only Categories";
-//                    }
-//                }
-//                toolbar.setTitle(titleToolbar);
-//            }
-//        }
         firstView();
 
     }
@@ -184,14 +137,16 @@ public class ResultActivity extends AppCompatActivity {
                     .replace("]", "");
             setReceivedCategoriesData(receiveList, receiveCategories, receivedCategoriesList);
         }
-        if (receiveTags != null) {
-            receivedTagList.setVisibility(View.VISIBLE);
-            tagValue = receiveTags.toString().toLowerCase()
-                    .replace("[", "")
-                    .replace("]", "");
-            setTagListData(receivedTagList, receiveTags);
-        } else {
-            receivedTagList.setVisibility(View.GONE);
+        if (receiveTags != null && identity == null) {
+            if (receiveTags.toString().contains("[]")) {
+                receivedTagList.setVisibility(View.VISIBLE);
+                tagValue = receiveTags.toString().toLowerCase()
+                        .replace("[", "")
+                        .replace("]", "");
+                setTagListData(receivedTagList, receiveTags);
+            } else {
+                receivedTagList.setVisibility(View.GONE);
+            }
         }
         setMovieDataList();
         fabSorting.setOnClickListener(v->{
@@ -219,8 +174,6 @@ public class ResultActivity extends AppCompatActivity {
         SharedPreferences viewPrefs = getSharedPreferences("keyViewPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor viewEditor = viewPrefs.edit();
         String viewKey = "keyView";
-//        MenuItem subMenuList = item.getSubMenu().getItem(0);
-//        MenuItem subMenuGrid = item.getSubMenu().getItem(1);
         if (item.isChecked()) {
             return false;
         }
@@ -243,21 +196,9 @@ public class ResultActivity extends AppCompatActivity {
                 recyclerView.swapAdapter(adapter, false);
                 adapter.notifyDataSetChanged();
             } else if (item.getItemId() == R.id.list_view) {
-                setContentView(R.layout.activity_result_2);
-                initViews();
-                setSupportActionBar(toolbar);
-                viewEditor.putString(viewKey, "List");
-                fabSorting.setVisibility(View.GONE);
-                toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back);
-                toolbar.setNavigationOnClickListener(v-> onBackPressed());
-                ResultTestAdapter adapter2 = new ResultTestAdapter(this, receiveCategories);
-                recyclerView.setLayoutManager(new LinearLayoutManager(this));
-                recyclerView.swapAdapter(adapter2, false);
-                adapter2.notifyDataSetChanged();
+                BaseUtils.showMessage(this, "Under development", Toast.LENGTH_SHORT);
             }
         }
-//        subMenuList.setChecked(viewPrefs.getString(viewKey, "List").contains("List"));
-//        subMenuGrid.setChecked(viewPrefs.getString(viewKey, "List").contains("Grid"));
         viewEditor.apply();
         return true;
     }
@@ -308,7 +249,6 @@ public class ResultActivity extends AppCompatActivity {
     private void setMovieDataList(){
         String URL = CipherClient.BASE_URL()
                 + CipherClient.API_DIR()
-                + "latest-updated"
                 + CipherClient.END();
         AndroidNetworking.get(URL)
                 .setPriority(Priority.MEDIUM)
@@ -408,31 +348,33 @@ public class ResultActivity extends AppCompatActivity {
                                 data.setCastDetails(object.getString("castDetails"));
                                 data.setMovieDetails(object.getString("movieDetails"));
                                 dataMovies.add(data);
-                                boolean onlyCategories = receiveCategories != null && min == 0.0 && max == 10.0;
-                                boolean onlyStatus = getIntent().hasExtra("status");
-                                boolean onlyTags = !(receiveTags.toString().contains("[]")) && !(onlyCategories && onlyStatus);
-                                boolean onlyRating = receiveCategories.toString().contains("[]");
-                                boolean ratingCategories = receiveCategories != null && min >= 0.0 && max <= 10.0;
-                                boolean isAll = ratingCategories && getIntent().hasExtra("status");
-                                boolean isCategoriesTags = !(receiveTags.toString().contains("[]")) && onlyCategories;
-                                if (isAll)
-                                {
-                                    setAll(recyclerView);
-                                }
-                                else {
-                                    if (ratingCategories) {
-                                        setRatingANDCategories(recyclerView);
-                                    } else if (onlyCategories) {
-                                        setOnlyCategories(recyclerView);
-                                    } else if (onlyRating) {
-                                        setOnlyRating(recyclerView, min, max);
-                                    } else if (onlyStatus) {
-                                        setOnlyStatus(recyclerView);
-                                    } else if (onlyTags) {
-                                        setOnlyTag(recyclerView);
-                                    } else if (isCategoriesTags) {
-                                        setTagsAndCategories(recyclerView);
+                                if (identity.equals("fromSheet")) {
+                                    boolean onlyCategories = receiveCategories != null && min == 0.0 && max == 10.0;
+                                    boolean onlyStatus = getIntent().hasExtra("status");
+                                    boolean onlyTags = !(receiveTags.toString().contains("[]")) && !(onlyCategories && onlyStatus) && !identity.equals("fromDetail") && receiveTags != null;
+                                    boolean onlyRating = receiveCategories.toString().contains("[]");
+                                    boolean ratingCategories = receiveCategories != null && min >= 0.0 && max <= 10.0;
+                                    boolean isAll = ratingCategories && getIntent().hasExtra("status");
+                                    boolean isCategoriesTags = !(receiveTags.toString().contains("[]")) && onlyCategories;
+                                    if (isAll) {
+                                        setAll(recyclerView);
+                                    } else {
+                                        if (ratingCategories) {
+                                            setRatingANDCategories(recyclerView);
+                                        } else if (onlyCategories) {
+                                            setOnlyCategories(recyclerView);
+                                        } else if (onlyRating) {
+                                            setOnlyRating(recyclerView, min, max);
+                                        } else if (onlyStatus) {
+                                            setOnlyStatus(recyclerView);
+                                        } else if (onlyTags) {
+                                            setOnlyTag(recyclerView);
+                                        } else if (isCategoriesTags) {
+                                            setTagsAndCategories(recyclerView);
+                                        }
                                     }
+                                } else {
+                                    setOnlyCategories(recyclerView);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -462,7 +404,7 @@ public class ResultActivity extends AppCompatActivity {
         ChildAdapter adapter = new ChildAdapter(this, true);
         list.setLayoutManager(new GridLayoutManager(this,3));
         list.setAdapter(adapter);
-        filterAll = BaseUtils.filterAll(dataMovies, newValue, min, max, String.valueOf(status));
+        List<ChildData> filterAll = BaseUtils.filterAll(dataMovies, newValue, min, max, String.valueOf(status));
         adapter.sort(sort);
         adapter.order(order);
         list.setAdapter(adapter);
@@ -473,7 +415,7 @@ public class ResultActivity extends AppCompatActivity {
     private void setOnlyTag(RecyclerView list){
         ChildAdapter adapter = new ChildAdapter(this, true);
         list.setLayoutManager(new GridLayoutManager(this,3));
-        filterOnlyTags = BaseUtils.filterOnlyTags(dataMovies, tagValue);
+        List<ChildData> filterOnlyTags = BaseUtils.filterOnlyTags(dataMovies, tagValue);
         adapter.sort(sort);
         adapter.order(order);
         list.setAdapter(adapter);
@@ -521,7 +463,7 @@ public class ResultActivity extends AppCompatActivity {
     private void setTagsAndCategories(RecyclerView list){
         ChildAdapter adapter = new ChildAdapter(this, true);
         list.setLayoutManager(new GridLayoutManager(this,3));
-        filterTagsAndCategories = BaseUtils.filterTagsANDCategories(dataMovies, tagValue, newValue);
+        List<ChildData> filterTagsAndCategories = BaseUtils.filterTagsANDCategories(dataMovies, tagValue, newValue);
         adapter.sort(sort);
         adapter.order(order);
         list.setAdapter(adapter);

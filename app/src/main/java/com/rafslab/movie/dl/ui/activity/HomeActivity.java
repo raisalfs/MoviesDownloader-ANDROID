@@ -2,7 +2,6 @@ package com.rafslab.movie.dl.ui.activity;
 
 import android.Manifest;
 import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.DownloadManager;
@@ -10,14 +9,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,8 +23,6 @@ import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -48,7 +43,6 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
-import com.google.firebase.FirebaseApp;
 import com.rafslab.movie.dl.BuildConfig;
 import com.rafslab.movie.dl.R;
 import com.rafslab.movie.dl.model.child.Cast;
@@ -91,9 +85,9 @@ public class HomeActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private AnimatedBottomBar bottomNavigation;
     private static final String currentVersion = BuildConfig.VERSION_NAME;
-    private String title, description, changeLog, cover, versionValue, downloadValue, header;
-    private int status, versionCode, countDownValue;
-    private boolean isUpdate, isCountDown, isSearched;
+    private String title, description, versionValue, downloadValue;
+    private int status;
+    private boolean isUpdate;
     private MaterialSearchView searchBar;
     private Menu globalItem;
     private ImageView backgroundGradient;
@@ -133,8 +127,7 @@ public class HomeActivity extends AppCompatActivity {
         initViews();
         backgroundGradient.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
         String path = "response";
-//        getLatestVersion(path);
-        showDialogBug();
+        getLatestVersion(path);
         setSupportActionBar(toolbar);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new HomeFragment()).commit();
         setBottomNavigation(bottomNavigation);
@@ -160,63 +153,17 @@ public class HomeActivity extends AppCompatActivity {
             rootLayout.setVisibility(View.VISIBLE);
         }
     }
-    private void showDialogBug(){
-        SweetAlertDialog dialog = new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE);
-        dialog.setTitle("Bug");
-        dialog.setContentText("Filter Rating & Categories");
-        dialog.setConfirmButton("OK", SweetAlertDialog::dismissWithAnimation);
-        dialog.showCancelButton(false);
-        dialog.show();
-    }
     protected void revealActivity(int x, int y) {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             float finalRadius = (float) (Math.max(rootLayout.getWidth(), rootLayout.getHeight()) * 1.1);
-            // create the animator for this view (the start radius is zero)
             Animator circularReveal = ViewAnimationUtils.createCircularReveal(rootLayout, x, y, 0, finalRadius);
             circularReveal.setDuration(400);
             circularReveal.setInterpolator(new AccelerateInterpolator());
-            // make the view visible and start the animation
             rootLayout.setVisibility(View.VISIBLE);
             circularReveal.start();
         } else {
             finish();
         }
-    }
-
-    protected void unRevealActivity() {
-        float finalRadius = (float) (Math.max(rootLayout.getWidth(), rootLayout.getHeight()) * 1.1);
-        Animator circularReveal = ViewAnimationUtils.createCircularReveal(
-                rootLayout, revealX, revealY, finalRadius, 0);
-
-        circularReveal.setDuration(400);
-        circularReveal.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                rootLayout.setVisibility(View.INVISIBLE);
-                finish();
-            }
-        });
-        circularReveal.start();
-    }
-    public static void BackgroundGradientAnimatedChange(Context c, final ImageView v, final Bitmap new_image) {
-        final Animation anim_out = AnimationUtils.loadAnimation(c, android.R.anim.fade_out);
-        final Animation anim_in  = AnimationUtils.loadAnimation(c, android.R.anim.fade_in);
-        anim_out.setAnimationListener(new Animation.AnimationListener()
-        {
-            @Override public void onAnimationStart(Animation animation) {}
-            @Override public void onAnimationRepeat(Animation animation) {}
-            @Override public void onAnimationEnd(Animation animation)
-            {
-                v.setImageBitmap(new_image);
-                anim_in.setAnimationListener(new Animation.AnimationListener() {
-                    @Override public void onAnimationStart(Animation animation) {}
-                    @Override public void onAnimationRepeat(Animation animation) {}
-                    @Override public void onAnimationEnd(Animation animation) {}
-                });
-                v.startAnimation(anim_in);
-            }
-        });
-        v.startAnimation(anim_out);
     }
     private void showDialogUpdate(){
         boolean versionShame = currentVersion.equals(versionValue);
@@ -293,7 +240,6 @@ public class HomeActivity extends AppCompatActivity {
                     case 0:
                         if (i >= 3){
                             bottomNavigation.removeTabById(R.id.search);
-                            isSearched = true;
                         }
                         toolbar.setTitle(R.string.app_name);
                         toolbar.setNavigationIcon(null);
@@ -302,7 +248,6 @@ public class HomeActivity extends AppCompatActivity {
                     case 1:
                         if (i >= 3){
                             bottomNavigation.removeTabById(R.id.search);
-                            isSearched = true;
                         }
                         toolbar.setTitle(R.string.app_name);
                         toolbar.setNavigationIcon(null);
@@ -311,7 +256,6 @@ public class HomeActivity extends AppCompatActivity {
                     case 2:
                         if (i >= 3){
                             bottomNavigation.removeTabById(R.id.search);
-                            isSearched = true;
                         }
                         toolbar.setNavigationIcon(null);
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new AccountFragment()).addToBackStack(null).commit();
@@ -395,9 +339,6 @@ public class HomeActivity extends AppCompatActivity {
                 ViewCategories filter = new ViewCategories();
                 filter.show(getSupportFragmentManager(), filter.getTag());
                 return true;
-//            case android.R.id.home:
-//                supportFinishAfterTransition();
-//                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -432,30 +373,19 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            //get status
                             status = response.optInt("status");
                             JSONObject message = response.getJSONObject("message");
-                            //get message body
                             JSONObject messageBody = message.getJSONObject("body");
                             title = messageBody.getString("title");
-                            changeLog = messageBody.getString("changeLog");
                             description = messageBody.getString("description");
-                            cover = messageBody.getString("cover");
-                            //message header
-                            header = message.getString("header");
-                            //get update
                             isUpdate = response.getBoolean("update");
-                            //get function
                             JSONObject functionObject = response.getJSONObject("function");
                             JSONObject versionObject = functionObject.getJSONObject("version");
                             versionValue = versionObject.getString("value");
-                            versionCode = versionObject.getInt("code");
 
                             JSONObject downloadObject = functionObject.getJSONObject("download");
                             downloadValue = downloadObject.getString("value");
 
-                            isCountDown = functionObject.getBoolean("countDown");
-                            countDownValue = functionObject.getInt("value");
                             if (status == 1) {
                                 showDialogUpdate();
                             } else if (status == 2) {

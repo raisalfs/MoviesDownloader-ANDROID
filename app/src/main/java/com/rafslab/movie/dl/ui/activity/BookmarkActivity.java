@@ -7,9 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.Window;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,7 +25,6 @@ import com.rafslab.movie.dl.R;
 import com.rafslab.movie.dl.adapter.ChildAdapter;
 import com.rafslab.movie.dl.database.FavoritesDbHelper;
 import com.rafslab.movie.dl.model.child.ChildData;
-import com.rafslab.movie.dl.utils.BaseUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,13 +41,11 @@ public class BookmarkActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private SwipeRefreshLayout refreshLayout;
     FavoritesDbHelper dbHelper;
-    private List<ChildData> childDataList = new ArrayList<>();
+    private final List<ChildData> childDataList = new ArrayList<>();
     private ChildAdapter adapter2;
     private ProgressBar progressBar;
     private LottieAnimationView isEmptyItem;
     private ConstraintLayout emptyContainer;
-    private static int num = 0;
-    private ImageButton changeAnim;
     Toolbar toolbar;
 
     @Override
@@ -102,17 +97,6 @@ public class BookmarkActivity extends AppCompatActivity {
             isEmptyItem.setAnimation(R.raw.shark_170);
             isEmptyItem.playAnimation();
         }
-//        changeAnim.setOnClickListener(v->{
-//            if (num == 0) {
-//                isEmptyItem.setAnimation(R.raw.write_contacts_fab_icon_reverse);
-//                isEmptyItem.playAnimation();
-//                num = 1;
-//            } else if (num == 1) {
-//                isEmptyItem.setAnimation(R.raw.shark_170);
-//                isEmptyItem.playAnimation();
-//                num = 0;
-//            }
-//        });
     }
     @Override
     public void onBackPressed() {
@@ -126,7 +110,6 @@ public class BookmarkActivity extends AppCompatActivity {
         isEmptyItem = findViewById(R.id.empty);
         toolbar = findViewById(R.id.toolbar);
         emptyContainer = findViewById(R.id.no_bookmark);
-        changeAnim = findViewById(R.id.change_anim);
     }
 
     @Override

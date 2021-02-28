@@ -14,8 +14,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.andrefrsousa.superbottomsheet.SuperBottomSheetFragment;
-import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
-import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.radiobutton.MaterialRadioButton;
 import com.rafslab.movie.dl.R;
@@ -28,6 +26,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+
+/**
+ * Created by: Rais AlFani Lubis
+ * Date: October 18, 2020
+ */
 
 public class ViewCastSorting extends SuperBottomSheetFragment {
     private Toolbar toolbar;

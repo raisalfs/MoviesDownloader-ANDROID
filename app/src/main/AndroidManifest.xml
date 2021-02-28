@@ -25,7 +25,6 @@
         android:requestLegacyExternalStorage="true"
         tools:targetApi="m"
         >
-        <!--        android:fullBackupContent="@xml/backup_descriptor"-->
         <activity android:name=".ui.activity.OpenSourceLibraries" />
         <activity android:name=".ui.activity.BookmarkActivity" />
         <activity android:name=".ui.activity.ListContainerActivity" />
@@ -43,12 +42,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!-- <service -->
-        <!-- android:name=".services.FirebaseInstanceIDService"> -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="com.google.firebase.INSTANCE_ID_EVENT" /> -->
-        <!-- </intent-filter> -->
-        <!-- </service> -->
         <service
             android:name=".services.MyMessagingServices"
             android:permission="com.google.android.c2dm.permission.SEND"

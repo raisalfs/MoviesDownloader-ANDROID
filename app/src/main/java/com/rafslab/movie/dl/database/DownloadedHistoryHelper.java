@@ -1,6 +1,5 @@
 package com.rafslab.movie.dl.database;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -79,49 +78,6 @@ public class DownloadedHistoryHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + DatabaseContract.HistoryEntry.TABLE_NAME);
         onCreate(db);
     }
-
-//    public void addHistoryDownloaded(ChildData data, Episode episode, Batch batch, String date, String hours, DownloadedDatabase downloaded, String downloadedServer, String downloadedResolution){
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        Gson gson = new Gson();
-//        ContentValues values = new ContentValues();
-//        values.put(DatabaseContract.HistoryEntry.COLUMN_ID, data.getId());
-//        values.put(DatabaseContract.HistoryEntry.COLUMN_NAME, data.getTitle());
-//        String bbb = gson.toJson(data.getCastList());
-//        values.put(DatabaseContract.HistoryEntry.COLUMN_CAST_LIST, bbb);
-//        values.put(DatabaseContract.HistoryEntry.COLUMN_DATE, date);
-//        values.put(DatabaseContract.HistoryEntry.COLUMN_HOURS, hours);
-//        values.put(DatabaseContract.HistoryEntry.COLUMN_SECOND_TITLE, data.getSecondTitle());
-//        values.put(DatabaseContract.HistoryEntry.COLUMN_DESCRIPTION, data.getDescription());
-//        values.put(DatabaseContract.HistoryEntry.COLUMN_CATEGORIES, data.getCategories());
-//        values.put(DatabaseContract.HistoryEntry.COLUMN_POSTER, data.getPoster());
-//        values.put(DatabaseContract.HistoryEntry.COLUMN_COVER, data.getCover());
-////        values.put(FavoritesContract.HistoryEntry.COLUMN_COVER_ARRAY_IMAGE, data.getCover()); /* Need POJO */
-//        values.put(DatabaseContract.HistoryEntry.COLUMN_SUBTITLE, data.getSubtitle());
-//        values.put(DatabaseContract.HistoryEntry.COLUMN_SUBTITLE_REGION, data.getSubtitleRegion());
-//
-////        values.put(DatabaseContract.HistoryEntry.COLUMN_EPISODE_COUNT, episode.getCount());
-////        String episodeValue = gson.toJson(episode.getDownloadEpisodeItems());
-////        String batchValue = gson.toJson(batch.getDownloadBatch());
-//
-////        values.put(DatabaseContract.HistoryEntry.COLUMN_DOWNLOAD_EPISODE, episodeValue);
-////        values.put(DatabaseContract.HistoryEntry.COLUMN_DOWNLOAD_BATCH, batchValue);
-//
-//        values.put(DatabaseContract.HistoryEntry.COLUMN_TRAILER, data.getTrailer());
-//        values.put(DatabaseContract.HistoryEntry.COLUMN_RATING, data.getRating());
-//        values.put(DatabaseContract.HistoryEntry.COLUMN_DURATION, data.getDuration());
-//        values.put(DatabaseContract.HistoryEntry.COLUMN_TYPE, data.getType());
-//        values.put(DatabaseContract.HistoryEntry.COLUMN_RELEASE, data.getRelease());
-//        values.put(DatabaseContract.HistoryEntry.COLUMN_IMBD, data.getImdb());
-//        values.put(DatabaseContract.HistoryEntry.COLUMN_PINNED, data.isPinned());
-//
-//        String downloaded2Json = gson.toJson(downloaded);
-//        values.put(DatabaseContract.HistoryEntry.COLUMN_DOWNLOADED, downloaded2Json);
-//        values.put(DatabaseContract.HistoryEntry.COLUMN_DOWNLOADED_SERVER, downloadedServer);
-//        values.put(DatabaseContract.HistoryEntry.COLUMN_DOWNLOADED_RESOLUTION, downloadedResolution);
-//
-//        db.insert(DatabaseContract.HistoryEntry.TABLE_NAME,null, values);
-//        db.close();
-//    }
     public String getTitle(){
         String[] columns = {
                 DatabaseContract.HistoryEntry._ID,

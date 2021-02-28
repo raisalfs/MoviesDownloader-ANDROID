@@ -25,9 +25,7 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.rafslab.movie.dl.R;
 import com.rafslab.movie.dl.adapter.ChildAdapter;
 import com.rafslab.movie.dl.model.child.Cast;
-import com.rafslab.movie.dl.model.child.Categories;
 import com.rafslab.movie.dl.model.child.ChildData;
-import com.rafslab.movie.dl.model.child.Cover;
 import com.rafslab.movie.dl.model.child.CoverArray;
 import com.rafslab.movie.dl.model.child.Download;
 import com.rafslab.movie.dl.model.child.Resolution;
@@ -87,7 +85,6 @@ public class SearchFragment extends Fragment {
         }
         String URL = CipherClient.BASE_URL()
                 + CipherClient.API_DIR()
-                + "latest-updated"
                 + CipherClient.END();
         getSearchData(URL, searchList);
     }
