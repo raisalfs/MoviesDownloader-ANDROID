@@ -374,7 +374,11 @@ public class ResultActivity extends AppCompatActivity {
                                         }
                                     }
                                 } else {
-                                    setOnlyCategories(recyclerView);
+                                    if (identity.equals("fromSearchView")) {
+                                        setOnlyCategories(recyclerView);
+                                    } else {
+                                        setOnlyCategories(recyclerView);
+                                    }
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

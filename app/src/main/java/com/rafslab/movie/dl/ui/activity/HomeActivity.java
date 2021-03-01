@@ -323,10 +323,18 @@ public class HomeActivity extends AppCompatActivity {
                 searchBar.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextSubmit(@NonNull String query) {
-                        AnimatedBottomBar.Tab tabHistory = bottomNavigation.createTab(R.drawable.ic_baseline_search, "Search", R.id.search);
-                        bottomNavigation.addTab(tabHistory);
-                        bottomNavigation.selectTabAt(3, true);
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_home, new SearchFragment().newInstance(query)).commit();
+                        if (query.contains(";")) {
+                            String[] queryArray = query.split(";");
+                            List<String> queryList = new ArrayList<>(Arrays.asList(queryArray));
+                            Intent intent = new Intent(HomeActivity.this, ResultActivity.class);
+                            intent.putExtra("queryCategories", (Serializable) queryList);
+                            intent.putExtra("identity", "fromSearchView");
+                            startActivity(intent);
+                        } else {
+                            Intent i = new Intent(HomeActivity.this, SearchActivity.class);
+                            i.putExtra("query", query);
+                            startActivity(i);
+                        }
                         return false;
                     }
                     @Override

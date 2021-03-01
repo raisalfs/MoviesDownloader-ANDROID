@@ -1,18 +1,18 @@
-package com.rafslab.movie.dl.ui.fragment;
+package com.rafslab.movie.dl.ui.activity;
 
-import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.view.Window;
 import android.widget.ProgressBar;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,7 +21,6 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
-import com.google.android.material.appbar.AppBarLayout;
 import com.rafslab.movie.dl.R;
 import com.rafslab.movie.dl.adapter.ChildAdapter;
 import com.rafslab.movie.dl.model.child.Cast;
@@ -40,51 +39,54 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class SearchFragment extends Fragment {
+import static com.rafslab.movie.dl.controller.AppController.NIGHT_MODE;
+
+/**
+ * Created by: Rais AlFani Lubis
+ * Date: October 18, 2020
+ */
+
+public class SearchActivity extends AppCompatActivity {
     private RecyclerView searchList;
     private ProgressBar progressBar;
-    private ImageView backgroundGradient;
-    private AppBarLayout contextAppBar;
     private ConstraintLayout noResult;
     private LottieAnimationView noResultAnimation;
+    private Toolbar toolbar;
     private final List<ChildData> childDataList = new ArrayList<>();
-
-    public SearchFragment newInstance(String query){
-        SearchFragment fragment = new SearchFragment();
-        Bundle args = new Bundle();
-        args.putString("query", query);
-        fragment.setArguments(args);
-        return fragment;
-    }
-    @Nullable
+    private String query;
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_search, container, false);
-        searchList = rootView.findViewById(R.id.search_list);
-        progressBar = rootView.findViewById(R.id.progress_bar);
-        noResult = rootView.findViewById(R.id.no_result);
-        noResultAnimation = rootView.findViewById(R.id.no_result_animation);
-        backgroundGradient = requireActivity().findViewById(R.id.background_gradient);
-        contextAppBar = requireActivity().findViewById(R.id.app_bar);
-        return rootView;
-    }
-
-    @SuppressLint("RestrictedApi")
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        backgroundGradient.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.background));
-        contextAppBar.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorPrimary));
-        BaseUtils.getStatusBar(requireContext()).setStatusBarColor(ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark));
-        BaseUtils.getActionBar(requireContext()).show();
-        if (getArguments() != null) {
-            String query = getArguments().getString("query");
-            String customTitle = "[ " + query + " ]";
-            BaseUtils.getActionBar(requireContext()).setTitle(customTitle);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        Window window = getWindow();
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+        SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        int position = Integer.parseInt(Objects.requireNonNull(mPrefs.getString(NIGHT_MODE, "2")));
+        switch (position){
+            case 0:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+            case 1:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+            case 2:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                break;
         }
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_search);
+        initViews();
+        query = getIntent().getStringExtra("query");
+        setSupportActionBar(toolbar);
+        if (query != null) {
+            String title = "[" + query + "]";
+            toolbar.setTitle(title);
+        }
+        toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back);
+        toolbar.setNavigationOnClickListener(v-> onBackPressed());
         String URL = CipherClient.BASE_URL()
                 + CipherClient.API_DIR()
+                + CipherClient.DEFAULT()
                 + CipherClient.END();
         getSearchData(URL, searchList);
     }
@@ -202,26 +204,30 @@ public class SearchFragment extends Fragment {
                 });
     }
     private void setSearchDataList(RecyclerView recyclerView, List<ChildData> childData){
-        if (getArguments() != null) {
-            try {
-                String query = getArguments().getString("query");
-                recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3));
-                ChildAdapter adapter = new ChildAdapter(requireContext(), true);
-                adapter.sort("By Title");
-                List<ChildData> filter = BaseUtils.filterAll(childData, query);
-                adapter.addAll(filter);
-                if (filter.isEmpty()) {
-                    noResult.setVisibility(View.VISIBLE);
-                    noResultAnimation.setAnimation(R.raw.emoji_140);
-                    noResultAnimation.playAnimation();
-                } else {
-                    noResult.setVisibility(View.GONE);
-                    noResultAnimation.pauseAnimation();
-                }
-                recyclerView.setAdapter(adapter);
-            } catch (Exception e){
-                e.printStackTrace();
+        try {
+            recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+            ChildAdapter adapter = new ChildAdapter(this, true);
+            adapter.sort("By Title");
+            List<ChildData> filter = BaseUtils.filterAll(childData, query);
+            adapter.addAll(filter);
+            if (filter.isEmpty()) {
+                noResult.setVisibility(View.VISIBLE);
+                noResultAnimation.setAnimation(R.raw.emoji_140);
+                noResultAnimation.playAnimation();
+            } else {
+                noResult.setVisibility(View.GONE);
+                noResultAnimation.pauseAnimation();
             }
+            recyclerView.setAdapter(adapter);
+        } catch (Exception e){
+            e.printStackTrace();
         }
+    }
+    private void initViews(){
+        searchList = findViewById(R.id.search_list);
+        progressBar = findViewById(R.id.progress_bar);
+        noResult = findViewById(R.id.no_result);
+        noResultAnimation = findViewById(R.id.no_result_animation);
+        toolbar = findViewById(R.id.toolbar);
     }
 }
