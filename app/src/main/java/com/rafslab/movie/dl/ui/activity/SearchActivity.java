@@ -55,6 +55,7 @@ public class SearchActivity extends AppCompatActivity {
     private LottieAnimationView noResultAnimation;
     private Toolbar toolbar;
     private final List<ChildData> childDataList = new ArrayList<>();
+	private List<String> queryList = new ArrayList<>();
     private String query;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,6 +78,7 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
         initViews();
         query = getIntent().getStringExtra("query");
+        queryList = getIntent().getStringArrayListExtra("queryList");
         setSupportActionBar(toolbar);
         if (query != null) {
             String title = "[" + query + "]";
@@ -189,7 +191,11 @@ public class SearchActivity extends AppCompatActivity {
                                 data.setCastDetails(object.getString("castDetails"));
                                 data.setMovieDetails(object.getString("movieDetails"));
                                 childDataList.add(data);
-                                setSearchDataList(recyclerView, childDataList);
+                                if (getIntent().hasExtra("queryList")) {
+                                    setMultipleQuerySearchData(recyclerView, childDataList);
+                                } else {
+                                    setSearchDataList(recyclerView, childDataList);
+                                }
                                 progressBar.setVisibility(View.GONE);
                             } catch (JSONException e){
                                 e.printStackTrace();
@@ -208,7 +214,7 @@ public class SearchActivity extends AppCompatActivity {
             recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
             ChildAdapter adapter = new ChildAdapter(this, true);
             adapter.sort("By Title");
-            List<ChildData> filter = BaseUtils.filterAll(childData, query);
+            List<ChildData> filter = BaseUtils.setFilterSingleQuery(childData, query);
             adapter.addAll(filter);
             if (filter.isEmpty()) {
                 noResult.setVisibility(View.VISIBLE);
@@ -222,6 +228,22 @@ public class SearchActivity extends AppCompatActivity {
         } catch (Exception e){
             e.printStackTrace();
         }
+    }
+    private void setMultipleQuerySearchData(RecyclerView recyclerView, List<ChildData> childData){
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        ChildAdapter adapter = new ChildAdapter(this, true);
+        adapter.sort("By Title");
+        List<ChildData> filter = BaseUtils.setFilterMultipleQuery(childData, queryList);
+        adapter.addAll(filter);
+        if (filter.isEmpty()) {
+            noResult.setVisibility(View.VISIBLE);
+            noResultAnimation.setAnimation(R.raw.emoji_140);
+            noResultAnimation.playAnimation();
+        } else {
+            noResult.setVisibility(View.GONE);
+            noResultAnimation.pauseAnimation();
+        }
+        recyclerView.setAdapter(adapter);
     }
     private void initViews(){
         searchList = findViewById(R.id.search_list);

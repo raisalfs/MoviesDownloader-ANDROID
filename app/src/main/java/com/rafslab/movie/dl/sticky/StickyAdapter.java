@@ -215,7 +215,7 @@ public class StickyAdapter extends ListAdapter<Categories, RecyclerView.ViewHold
             resultList.setAdapter(adapter);
             adapter.sort("By Title");
             adapter.order("Ascending");
-            final List<ChildData> filteredItem = BaseUtils.filterAll(dataList, categories);
+            final List<ChildData> filteredItem = BaseUtils.setFilterSingleQuery(dataList, categories);
             adapter.addAll(filteredItem);
         }
     }

@@ -54,7 +54,6 @@ import com.rafslab.movie.dl.model.child.ResolutionValue;
 import com.rafslab.movie.dl.ui.fragment.AccountFragment;
 import com.rafslab.movie.dl.ui.fragment.HomeFragment;
 import com.rafslab.movie.dl.ui.fragment.MoviesFragment;
-import com.rafslab.movie.dl.ui.fragment.SearchFragment;
 import com.rafslab.movie.dl.ui.fragment.sheet.ViewCategories;
 import com.rafslab.movie.dl.utils.BaseUtils;
 
@@ -65,7 +64,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -323,12 +324,13 @@ public class HomeActivity extends AppCompatActivity {
                 searchBar.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextSubmit(@NonNull String query) {
-                        if (query.contains(";")) {
-                            String[] queryArray = query.split(";");
+                        if (query.contains(",")) {
+                            String[] queryArray = query.split(",");
                             List<String> queryList = new ArrayList<>(Arrays.asList(queryArray));
-                            Intent intent = new Intent(HomeActivity.this, ResultActivity.class);
-                            intent.putExtra("queryCategories", (Serializable) queryList);
+                            Intent intent = new Intent(HomeActivity.this, SearchActivity.class);
+                            intent.putExtra("queryList", (Serializable) queryList);
                             intent.putExtra("identity", "fromSearchView");
+                            intent.putExtra("query", query);
                             startActivity(intent);
                         } else {
                             Intent i = new Intent(HomeActivity.this, SearchActivity.class);

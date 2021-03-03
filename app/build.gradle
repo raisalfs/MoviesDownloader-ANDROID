@@ -134,6 +134,9 @@ cipher.so {
         MD5 {
             value = ""
         }
+        DEFAULT {
+            value = ""
+        }
         SHA1 {
             value = ""
         }

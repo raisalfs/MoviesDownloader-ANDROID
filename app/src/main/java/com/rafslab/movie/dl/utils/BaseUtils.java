@@ -43,7 +43,38 @@ public class BaseUtils {
     public static void showMessage(Context context, String body, int duration){
         Toast.makeText(context, body, duration).show();
     }
-    public static List<ChildData> filterAll(List<ChildData> models, String query){
+    public static List<ChildData> setFilterMultipleQuery(List<ChildData> models, List<String> queryList){
+        final List<ChildData> filteredList = new ArrayList<>();
+        for (int i = 0; i<queryList.size(); i++){
+            String query = queryList.get(i).toLowerCase();
+            for (ChildData data : models) {
+                List<Cast> casts = data.getCastList();
+                String getTag = data.getTags().toLowerCase();
+                String category  = data.getCategories().toLowerCase();
+                double rating = data.getRating();
+                String status = String.valueOf(data.getStatus());
+                if (query.matches("[0-9]+")) {
+                    double query2 = Double.parseDouble(query);
+                    if (rating >= query2) {
+                        filteredList.add(data);
+                    }
+                } else {
+                    if (getTag.contains(query) || category.contains(query) || status.contains(query)) {
+                        filteredList.add(data);
+                    }
+                    for (Cast cast : casts){
+                        final String casting = cast.getReal_name().toLowerCase();
+                        if (casting.contains(query)) {
+                            filteredList.add(data);
+                        }
+                    }
+                }
+            }
+        }
+        return filteredList;
+    }
+
+    public static List<ChildData> setFilterSingleQuery(List<ChildData> models, String query){
         query = query.toLowerCase();
         final List<ChildData> filteredList = new ArrayList<>();
         for (ChildData data : models){
@@ -51,7 +82,7 @@ public class BaseUtils {
             final String title = data.getTitle().toLowerCase();
             final String category  = data.getCategories().toLowerCase();
             final String status = data.getStatus();
-            final String tag = data.getTags();
+            final String tag = data.getTags().toLowerCase();
             for (Cast cast : casts){
                 final String casting = cast.getReal_name().toLowerCase();
                 if (casting.contains(query)) {
@@ -78,52 +109,12 @@ public class BaseUtils {
         }
         return filteredList;
     }
-//    public static List<ChildData> filterAllThings(List<ChildData> model, String categories, String tag, String status, double min, double max){
-//        categories = categories.toLowerCase();
-//        tag = tag.toLowerCase();
-//        status = status.toLowerCase();
-//        final List<ChildData> filteredList = new ArrayList<>();
-//        for (ChildData data : model){
-//            double rating = data.getRating();
-//            String queryStatus = data.getStatus();
-//            String queryTag = data.getTags();
-//            String[] tagArray = tag.split(",");
-//            String queryCategories = data.getCategories();
-//            String[] categoriesArray = categories.split(",");
-//            if (categories != null) {
-//                for (String category : categoriesArray){
-//                    if (queryCategories.contains(category)) {
-//                        filteredList.add(data);
-//                    }
-//                }
-//            }
-//            if (tag != null) {
-//                for (String tags : tagArray){
-//                    if (queryTag.contains(tags)) {
-//                        filteredList.add(data);
-//                    }
-//                }
-//            }
-//            if (status.contains(queryStatus)) {
-//                filteredList.add(data);
-//            }
-//            if (min >= rating && max <= rating) {
-//                filteredList.add(data);
-//            }
-//        }
-//        return filteredList;
-//    }
     public static double division(float value){
         return (double) value / 10;
     }
     @SuppressLint("DefaultLocale")
     public static String formatSeekBar(float value){
         return String.format("%.1f", value);
-    }
-
-    @SuppressLint("DefaultLocale")
-    public static int formatSeekBar2(float value){
-        return (int) value;
     }
 
     public static List<ChildData> filterCast(List<ChildData> models, String currentNameCast){
@@ -256,20 +247,4 @@ public class BaseUtils {
     public static Window getStatusBar(Context context) {
         return ((HomeActivity) context).getWindow();
     }
-    public static FragmentTransaction refreshHomeFragment(Context context, Fragment fragment){
-        return ((HomeActivity) context).getSupportFragmentManager().beginTransaction().detach(fragment).attach(fragment);
-    }
-    public static Date getYesterday(){
-        return new Date(System.currentTimeMillis()-24*60*60*1000);
-    }
-    public static Date getLastWeek(){
-        return new Date(System.currentTimeMillis()-7*24*60*60*1000);
-    }
-    public static void setThemeAtRuntime(Context context){
-
-    }
-    public static void setUniversalLog(String message){
-        Log.d("BaseUtils", message);
-    }
-
 }
