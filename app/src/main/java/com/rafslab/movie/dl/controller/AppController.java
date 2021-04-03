@@ -1,12 +1,8 @@
 package com.rafslab.movie.dl.controller;
 
 import android.app.Application;
-import android.content.SharedPreferences;
-
-import androidx.preference.PreferenceManager;
 
 import com.google.firebase.FirebaseApp;
-import com.rafslab.movie.dl.utils.AntiReverseUtils;
 import com.rafslab.movie.dl.utils.BaseUtils;
 
 /**

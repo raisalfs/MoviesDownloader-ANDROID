@@ -147,7 +147,7 @@ public class ListContainerActivity extends AppCompatActivity {
     private List<Cast> filteredCastByGender(List<Cast> model, String query){
         final List<Cast> filteredList = new ArrayList<>();
         for (Cast cast : model){
-            final String castGender = cast.getSex();
+            final String castGender = cast.getGender();
             if (query.contains(castGender)) {
                 filteredList.add(cast);
             } else if (query.contains("All")) {
@@ -248,7 +248,7 @@ public class ListContainerActivity extends AppCompatActivity {
                                     socialMedia.add(socialData);
                                 }
                                 cast.setSocialMedia(socialMedia);
-                                cast.setSex(object.getString("gender"));
+                                cast.setGender(object.getString("gender"));
                                 castList.add(cast);
                                 setCastData(castList, itemList);
                             } catch (JSONException e){
@@ -290,7 +290,7 @@ public class ListContainerActivity extends AppCompatActivity {
                                 data.setId(object.getInt("id"));
                                 data.setTitle(object.getString("title"));
                                 data.setSecondTitle(object.getString("2ndTitle"));
-                                data.setStatus(object.getString("status"));
+                                data.setStatus(object.getInt("status"));
                                 List<CoverArray> coverArrays = new ArrayList<>();
                                 JSONArray array = object.getJSONArray("cover");
                                 for (int coverPost = 0; coverPost<array.length(); coverPost++){
@@ -367,7 +367,7 @@ public class ListContainerActivity extends AppCompatActivity {
                                     }
                                     cast.setSocialMedia(socialMediaList);
                                     cast.setBorn(castObject.getString("born"));
-                                    cast.setSex(castObject.getString("gender"));
+                                    cast.setGender(castObject.getString("gender"));
                                     castList.add(cast);
                                     data.setCastData(cast);
                                 }
@@ -413,7 +413,7 @@ public class ListContainerActivity extends AppCompatActivity {
                                 data.setId(object.getInt("id"));
                                 data.setTitle(object.getString("title"));
                                 data.setSecondTitle(object.getString("2ndTitle"));
-                                data.setStatus(object.getString("status"));
+                                data.setStatus(object.getInt("status"));
                                 List<CoverArray> coverArrays = new ArrayList<>();
                                 JSONArray array = object.getJSONArray("cover");
                                 for (int coverPost = 0; coverPost<array.length(); coverPost++){
@@ -490,7 +490,7 @@ public class ListContainerActivity extends AppCompatActivity {
                                     }
                                     cast.setSocialMedia(socialMediaList);
                                     cast.setBorn(castObject.getString("born"));
-                                    cast.setSex(castObject.getString("gender"));
+                                    cast.setGender(castObject.getString("gender"));
                                     castList.add(cast);
                                     data.setCastData(cast);
                                 }

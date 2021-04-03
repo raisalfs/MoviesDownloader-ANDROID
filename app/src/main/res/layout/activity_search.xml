@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,7 +7,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.appbar.AppBarLayout
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
@@ -22,13 +21,13 @@
             app:title="@string/app_name"
             />
     </com.google.android.material.appbar.AppBarLayout>
-
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/search_list"
+        android:id="@+id/search_grid"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/app_bar" />
+        android:layout_height="match_parent"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/no_result"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -55,7 +54,7 @@
             android:layout_marginTop="32dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No results found!"
+            android:text="@string/no_results_found"
             android:textAlignment="center"
             android:textColor="@color/textColor"
             android:textSize="24sp"
@@ -65,12 +64,13 @@
             app:layout_constraintTop_toBottomOf="@+id/no_result_animation" />
     </androidx.constraintlayout.widget.ConstraintLayout>
     <include
+        android:layout_gravity="center"
         layout="@layout/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/search_list"
-        app:layout_constraintEnd_toEndOf="@+id/search_list"
-        app:layout_constraintStart_toStartOf="@+id/search_list"
-        app:layout_constraintTop_toTopOf="@+id/search_list"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/app_bar"
         />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

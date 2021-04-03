@@ -14,6 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -23,13 +24,16 @@ import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.rafslab.movie.dl.R;
 import com.rafslab.movie.dl.adapter.ChildAdapter;
+import com.rafslab.movie.dl.adapter.ResultAdapter;
 import com.rafslab.movie.dl.model.child.Cast;
+import com.rafslab.movie.dl.model.child.Categories;
 import com.rafslab.movie.dl.model.child.ChildData;
 import com.rafslab.movie.dl.model.child.CoverArray;
 import com.rafslab.movie.dl.model.child.Download;
 import com.rafslab.movie.dl.model.child.Resolution;
 import com.rafslab.movie.dl.model.child.ResolutionValue;
 import com.rafslab.movie.dl.utils.BaseUtils;
+import com.rafslab.movie.dl.view.RecyclerItemDecoration;
 
 import net.idik.lib.cipher.so.CipherClient;
 
@@ -49,14 +53,14 @@ import static com.rafslab.movie.dl.controller.AppController.NIGHT_MODE;
  */
 
 public class SearchActivity extends AppCompatActivity {
-    private RecyclerView searchList;
+    private RecyclerView searchGrid;
     private ProgressBar progressBar;
     private ConstraintLayout noResult;
     private LottieAnimationView noResultAnimation;
     private Toolbar toolbar;
-    private final List<ChildData> childDataList = new ArrayList<>();
-	private List<String> queryList = new ArrayList<>();
-    private String query;
+    private final List<Categories> categoriesList = new ArrayList<>();
+    private String query, type;
+    private double min, max;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Window window = getWindow();
@@ -78,27 +82,42 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
         initViews();
         query = getIntent().getStringExtra("query");
-        queryList = getIntent().getStringArrayListExtra("queryList");
+        type = getIntent().getStringExtra("type");
+        min = getIntent().getDoubleExtra("min", 0);
+        max = getIntent().getDoubleExtra("max", 0);
+        List<String> queryList = getIntent().getStringArrayListExtra("queryList");
+        if (queryList != null) {
+            for (int i = 0; i< queryList.size(); i++){
+                Categories categories = new Categories();
+                categories.setGenre(queryList.get(i));
+                categoriesList.add(categories);
+            }
+        }
         setSupportActionBar(toolbar);
         if (query != null) {
-            String title = "[" + query + "]";
+            String title;
+            if (query.contains("-")) {
+                title = "Rating: " + BaseUtils.formatSeekBar2(min) + " - " + BaseUtils.formatSeekBar2(max);
+            } else {
+                title = "[" + query + "]";
+            }
             toolbar.setTitle(title);
         }
         toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back);
         toolbar.setNavigationOnClickListener(v-> onBackPressed());
         String URL = CipherClient.BASE_URL()
                 + CipherClient.API_DIR()
-                + CipherClient.DEFAULT()
                 + CipherClient.END();
-        getSearchData(URL, searchList);
+        getSearchData(URL);
     }
-    private void getSearchData(String path, RecyclerView recyclerView){
+    private void getSearchData(String path){
         AndroidNetworking.get(path)
                 .setPriority(Priority.MEDIUM)
                 .build()
                 .getAsJSONArray(new JSONArrayRequestListener() {
                     @Override
                     public void onResponse(JSONArray response) {
+                        List<ChildData> childDataList = new ArrayList<>();
                         for (int i = 0; i <response.length(); i++){
                             try {
                                 JSONObject object = response.getJSONObject(i);
@@ -106,7 +125,7 @@ public class SearchActivity extends AppCompatActivity {
                                 data.setId(object.getInt("id"));
                                 data.setTitle(object.getString("title"));
                                 data.setSecondTitle(object.getString("2ndTitle"));
-                                data.setStatus(object.getString("status"));
+                                data.setStatus(object.getInt("status"));
                                 List<CoverArray> coverArrays = new ArrayList<>();
                                 JSONArray array = object.getJSONArray("cover");
                                 for (int coverPost = 0; coverPost<array.length(); coverPost++){
@@ -183,7 +202,7 @@ public class SearchActivity extends AppCompatActivity {
                                     }
                                     cast.setSocialMedia(socialMediaList);
                                     cast.setBorn(castObject.getString("born"));
-                                    cast.setSex(castObject.getString("gender"));
+                                    cast.setGender(castObject.getString("gender"));
                                     castList.add(cast);
                                     data.setCastData(cast);
                                 }
@@ -192,9 +211,11 @@ public class SearchActivity extends AppCompatActivity {
                                 data.setMovieDetails(object.getString("movieDetails"));
                                 childDataList.add(data);
                                 if (getIntent().hasExtra("queryList")) {
-                                    setMultipleQuerySearchData(recyclerView, childDataList);
+                                    setMultipleQuerySearchData(searchGrid);
+                                } else if (type != null && type.equals("isRating")) {
+                                    setSearchOnlyRating(searchGrid, childDataList);
                                 } else {
-                                    setSearchDataList(recyclerView, childDataList);
+                                    setSearchDataList(searchGrid, childDataList);
                                 }
                                 progressBar.setVisibility(View.GONE);
                             } catch (JSONException e){
@@ -210,30 +231,10 @@ public class SearchActivity extends AppCompatActivity {
                 });
     }
     private void setSearchDataList(RecyclerView recyclerView, List<ChildData> childData){
-        try {
-            recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-            ChildAdapter adapter = new ChildAdapter(this, true);
-            adapter.sort("By Title");
-            List<ChildData> filter = BaseUtils.setFilterSingleQuery(childData, query);
-            adapter.addAll(filter);
-            if (filter.isEmpty()) {
-                noResult.setVisibility(View.VISIBLE);
-                noResultAnimation.setAnimation(R.raw.emoji_140);
-                noResultAnimation.playAnimation();
-            } else {
-                noResult.setVisibility(View.GONE);
-                noResultAnimation.pauseAnimation();
-            }
-            recyclerView.setAdapter(adapter);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-    private void setMultipleQuerySearchData(RecyclerView recyclerView, List<ChildData> childData){
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         ChildAdapter adapter = new ChildAdapter(this, true);
         adapter.sort("By Title");
-        List<ChildData> filter = BaseUtils.setFilterMultipleQuery(childData, queryList);
+        List<ChildData> filter = BaseUtils.setFilterSingleQuery(childData, query);
         adapter.addAll(filter);
         if (filter.isEmpty()) {
             noResult.setVisibility(View.VISIBLE);
@@ -245,8 +246,46 @@ public class SearchActivity extends AppCompatActivity {
         }
         recyclerView.setAdapter(adapter);
     }
+    private void setSearchOnlyRating(RecyclerView recyclerView, List<ChildData> childData){
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        ChildAdapter adapter = new ChildAdapter(this, true);
+        List<ChildData> filter = BaseUtils.filterOnlyRating(childData, min, max);
+        adapter.sort("By Rating");
+        adapter.order("Descending");
+        recyclerView.setAdapter(adapter);
+        adapter.addAll(filter);
+        adapter.notifyDataSetChanged();
+        if (filter.isEmpty()) {
+            noResult.setVisibility(View.VISIBLE);
+            noResultAnimation.setAnimation(R.raw.emoji_140);
+            noResultAnimation.playAnimation();
+        } else {
+            noResult.setVisibility(View.GONE);
+            noResultAnimation.pauseAnimation();
+        }
+    }
+    private void setMultipleQuerySearchData(RecyclerView searchGrid){
+        searchGrid.setLayoutManager(new LinearLayoutManager(this));
+        ResultAdapter adapterList = new ResultAdapter(this, categoriesList);
+        searchGrid.setAdapter(adapterList);
+        RecyclerItemDecoration decoration = new RecyclerItemDecoration(this, 2, true, getSectionCallback(categoriesList));
+        searchGrid.addItemDecoration(decoration);
+    }
+    private RecyclerItemDecoration.SectionCallback getSectionCallback(final List<Categories> categories) {
+        return new RecyclerItemDecoration.SectionCallback() {
+            @Override
+            public boolean isSection(int position) {
+                return position == 0 || categories.get(position) != categories.get(position -1);
+            }
+
+            @Override
+            public String getSectionHeaderName(int position) {
+                return categories.get(position).getGenre();
+            }
+        };
+    }
     private void initViews(){
-        searchList = findViewById(R.id.search_list);
+        searchGrid = findViewById(R.id.search_grid);
         progressBar = findViewById(R.id.progress_bar);
         noResult = findViewById(R.id.no_result);
         noResultAnimation = findViewById(R.id.no_result_animation);

@@ -278,7 +278,7 @@ public class FavoritesDbHelper extends SQLiteOpenHelper {
                 data.setTitle(cursor.getString(cursor.getColumnIndex(DatabaseContract.FavoritesEntry.COLUMN_TITLE)));
                 data.setSecondTitle(cursor.getString(cursor.getColumnIndex(DatabaseContract.FavoritesEntry.COLUMN_SECOND_TITLE)));
 
-                data.setStatus(cursor.getString(cursor.getColumnIndex(DatabaseContract.FavoritesEntry.COLUMN_STATUS)));
+                data.setStatus(cursor.getInt(cursor.getColumnIndex(DatabaseContract.FavoritesEntry.COLUMN_STATUS)));
                 String cover = cursor.getString(cursor.getColumnIndex(DatabaseContract.FavoritesEntry.COLUMN_COVER_LIST));
                 List<CoverArray> coverList = new Gson().fromJson(cover, new TypeToken<List<CoverArray>>() {}.getType());
                 data.setCoverArrays(coverList);

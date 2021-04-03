@@ -84,7 +84,7 @@ public class CastActivity extends AppCompatActivity implements MotionLayout.Tran
             getSocialMedia(socialMediaList, cast);
             Glide.with(this).load(cast.getCover()).diskCacheStrategy(DiskCacheStrategy.ALL).fitCenter().into(castCover);
             String nameText;
-            if (cast.getSex().equals("Male")) {
+            if (cast.getGender().equals("Male")) {
                 nameText = cast.getReal_name() + " (Actor)";
             } else {
                 nameText = cast.getReal_name() + " (Actress)";
@@ -144,7 +144,7 @@ public class CastActivity extends AppCompatActivity implements MotionLayout.Tran
                                 data.setId(object.getInt("id"));
                                 data.setTitle(object.getString("title"));
                                 data.setSecondTitle(object.getString("2ndTitle"));
-                                data.setStatus(object.getString("status"));
+                                data.setStatus(object.getInt("status"));
                                 List<CoverArray> coverArrays = new ArrayList<>();
                                 JSONArray array = object.getJSONArray("cover");
                                 for (int coverPost = 0; coverPost<array.length(); coverPost++){
@@ -221,7 +221,7 @@ public class CastActivity extends AppCompatActivity implements MotionLayout.Tran
                                     }
                                     cast.setSocialMedia(socialMediaList);
                                     cast.setBorn(castObject.getString("born"));
-                                    cast.setSex(castObject.getString("gender"));
+                                    cast.setGender(castObject.getString("gender"));
                                     castList.add(cast);
                                     data.setCastData(cast);
                                 }

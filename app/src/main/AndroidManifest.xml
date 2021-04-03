@@ -26,6 +26,7 @@
         tools:targetApi="m"
         >
         <activity android:name=".ui.activity.OpenSourceLibraries" />
+        <activity android:name=".ui.activity.SearchActivity" />
         <activity android:name=".ui.activity.BookmarkActivity" />
         <activity android:name=".ui.activity.ListContainerActivity" />
         <activity android:name=".ui.activity.SettingsActivity" />

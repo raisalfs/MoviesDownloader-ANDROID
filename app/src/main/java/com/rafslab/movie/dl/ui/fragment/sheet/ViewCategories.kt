@@ -51,11 +51,10 @@ class ViewCategories : SuperBottomSheetFragment(){
     private lateinit var tagItems: ChipGroup
     private lateinit var progressTags: ProgressBar
     private lateinit var progressCategories: ProgressBar
-    private lateinit var categories: MutableList<String>
-    private lateinit var tags: MutableList<String>
+    private lateinit var queryList: MutableList<String>
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        val view = inflater.inflate(R.layout.fragment_filter_categories,container,false)
+        val view = inflater.inflate(R.layout.fragment_filter_categories,container, false)
         cancel = view.findViewById(R.id.cancel)
         done = view.findViewById(R.id.done)
         appBar = view.findViewById(R.id.app_bar)
@@ -135,7 +134,7 @@ class ViewCategories : SuperBottomSheetFragment(){
             .build()
             .getAsJSONArray(object : JSONArrayRequestListener {
                 override fun onResponse(response: JSONArray?) {
-                    categories = ArrayList()
+                    queryList = ArrayList()
                     for (i in 0 until response!!.length()){
                         try {
                             val jsonObject = response.getJSONObject(i)
@@ -149,9 +148,9 @@ class ViewCategories : SuperBottomSheetFragment(){
                             categoriesItems.addView(chip)
                             chip.setOnCheckedChangeListener { buttonView, isChecked ->
                                 if(isChecked){
-                                    categories.add(buttonView?.text as String)
+                                    queryList.add(buttonView?.text as String)
                                 } else {
-                                    categories.remove(buttonView?.text as String)
+                                    queryList.remove(buttonView?.text as String)
                                 }
                             }
                             progressCategories.visibility = View.GONE
@@ -170,7 +169,7 @@ class ViewCategories : SuperBottomSheetFragment(){
         AndroidNetworking.get(url).setPriority(Priority.MEDIUM).build()
             .getAsJSONArray(object : JSONArrayRequestListener {
                 override fun onResponse(response: JSONArray?) {
-                    tags = ArrayList()
+                    queryList = ArrayList()
                     for (i in 0 until response!!.length()){
                         try {
                             val jsonObject = response.getJSONObject(i)
@@ -184,9 +183,9 @@ class ViewCategories : SuperBottomSheetFragment(){
                             tagItems.addView(chip)
                             chip.setOnCheckedChangeListener { buttonView, isChecked ->
                                 if(isChecked){
-                                    tags.add(buttonView?.text as String)
+                                    queryList.add(buttonView?.text as String)
                                 } else {
-                                    tags.remove(buttonView?.text as String)
+                                    queryList.remove(buttonView?.text as String)
                                 }
                             }
                             progressTags.visibility = View.GONE
@@ -203,27 +202,31 @@ class ViewCategories : SuperBottomSheetFragment(){
     }
     private fun setClickAction(){
         done.setOnClickListener {
-            val selectedCategories = categories.toString()
-            val selectedTags = tags.toString()
+            val selectedQuery = queryList.toString()
             val min = BaseUtils.division(ratingSeekBar.selectedMinValue as Float)
             val max = BaseUtils.division(ratingSeekBar.selectedMaxValue as Float)
             val complete = checkComplete.isChecked
             val onGoing = checkOnGoing.isChecked
             val intent = Intent(context, ResultActivity::class.java)
-            intent.putExtra("size", categories.size)
-            intent.putExtra("min_rating", min)
-            intent.putExtra("max_rating", max)
+            intent.putExtra("min", min)
+            intent.putExtra("max", max)
             intent.putExtra("identity", "fromSheet")
-            if (complete){
-                intent.putExtra("status", 1)
-            } else if (onGoing){
-                intent.putExtra("status", 0)
+            if (!(queryList.toString().contains("1")) && complete){
+                queryList.add("1")
+                queryList.remove("0")
+                intent.putExtra("all", true)
+            } else if (!(queryList.toString().contains("0")) && onGoing){
+                queryList.add("0")
+                queryList.remove("1")
+                intent.putExtra("all", true)
+            } else {
+                intent.putExtra("all", false)
             }
-            if (selectedCategories == "[]" && selectedTags == "[]" && min == 0.0 && max == 10.0 && !complete && !onGoing){
+            val isRating = !(min.toString() == "0.0" && max.toString() == "10.0")
+            if (selectedQuery == "[]" && !isRating && !complete && !onGoing){
                 BaseUtils.showMessage(context, "Nothing selected", Toast.LENGTH_SHORT)
             } else {
-                intent.putStringArrayListExtra("queryCategories", categories as java.util.ArrayList<String>?)
-                intent.putStringArrayListExtra("queryTags", tags as java.util.ArrayList<String>?)
+                intent.putStringArrayListExtra("queryList", queryList as java.util.ArrayList<String>?)
                 startActivity(intent)
             }
         }

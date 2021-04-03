@@ -16,7 +16,7 @@ public class Cast implements Serializable {
     private String born;
     private int age;
     private List<SocialMedia> socialMedia;
-    private String sex;
+    private String gender;
 
     public Cast(){
 
@@ -78,12 +78,12 @@ public class Cast implements Serializable {
         this.socialMedia = socialMedia;
     }
 
-    public String getSex() {
-        return sex;
+    public String getGender() {
+        return gender;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public static class SocialMedia implements Serializable {

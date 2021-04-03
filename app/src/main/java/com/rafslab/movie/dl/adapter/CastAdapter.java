@@ -135,7 +135,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
             holder.nameInMovieCasting.setTypeface(holder.nameInMovieCasting.getTypeface(), Typeface.NORMAL);
             holder.nameRealCasting.setText(cast.getReal_name());
             String nameText;
-            if (cast.getSex().equals("Male")) {
+            if (cast.getGender().equals("Male")) {
                 nameText = "Actor";
             } else {
                 nameText = "Actress";

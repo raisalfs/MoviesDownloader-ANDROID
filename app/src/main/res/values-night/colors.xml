@@ -2,6 +2,7 @@
 <resources>
     <color name="colorPrimary">#161b22</color>
     <color name="colorPrimaryHalf">#50161b22</color>
+    <color name="colorPrimaryHalf2">#25161b22</color>
     <color name="colorPrimaryDark">#161b22</color>
     <color name="colorAccent">#3ca6e4</color>
     <color name="backgroundColorAccent">#15202f</color>
@@ -27,4 +28,5 @@
     <color name="dialogBackground">#161b22</color>
     <color name="dialogTextHint">#80ffffff</color>
     <color name="dialogBoxColor">#fff</color>
+    <color name="placeholderTint">#090c12</color>
 </resources>

@@ -7,7 +7,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -54,35 +53,22 @@ import static com.rafslab.movie.dl.ui.fragment.sheet.ViewSorting.ORDER_KEY;
 import static com.rafslab.movie.dl.ui.fragment.sheet.ViewSorting.SHARED_KEY;
 import static com.rafslab.movie.dl.ui.fragment.sheet.ViewSorting.SORT_KEY;
 
-/**
- * Created by: Rais AlFani Lubis
- * Date: October 18, 2020
- */
 
 public class ResultActivity extends AppCompatActivity {
 
     private final List<ChildData> dataMovies = new ArrayList<>();
     private final List<ChipsReceived> receiveList = new ArrayList<>();
-    private List<String> receiveCategories;
-    private List<String> receiveTags;
-    private List<ChildData> filterRatingANDCategories = new ArrayList<>();
-    private List<ChildData> filterOnlyCategories = new ArrayList<>();
-    private List<ChildData> filterOnlyRating = new ArrayList<>();
-    private List<ChildData> filterOnlyStatus = new ArrayList<>();
+    private List<String> queryList = new ArrayList<>();
+    private List<ChildData> filtering = new ArrayList<>();
 
-    private RecyclerView recyclerView, receivedCategoriesList, receivedTagList;
+    private RecyclerView recyclerView, receivedQueryList;
     private Toolbar toolbar;
-    private String newValue;
-    private String tagValue;
     private String sort, order, identity;
-    private double max;
-    private double min;
     private FloatingActionButton fabSorting;
     private LottieAnimationView noResultAnim;
     private ConstraintLayout noResultParent;
-    int chipSize;
-    int status;
-
+    private double min, max;
+    private boolean isAll;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Window window = getWindow();
@@ -103,13 +89,11 @@ public class ResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
         initViews();
+        min = getIntent().getDoubleExtra("min", 0);
+        max = getIntent().getDoubleExtra("max", 0);
+        isAll = getIntent().getBooleanExtra("all", true);
         identity = getIntent().getStringExtra("identity");
-        min = getIntent().getDoubleExtra("min_rating", 0);
-        max = getIntent().getDoubleExtra("max_rating", 0);
-        status = getIntent().getIntExtra("status", 0);
-        receiveCategories = getIntent().getStringArrayListExtra("queryCategories");
-        receiveTags = getIntent().getStringArrayListExtra("queryTags");
-        chipSize = getIntent().getIntExtra("size", 0);
+        queryList = getIntent().getStringArrayListExtra("queryList");
         SharedPreferences preferences = getSharedPreferences(SHARED_KEY, MODE_PRIVATE);
         sort = preferences.getString(SORT_KEY, "Name");
         order = preferences.getString(ORDER_KEY, "Ascending");
@@ -131,39 +115,13 @@ public class ResultActivity extends AppCompatActivity {
         return true;
     }
     private void firstView(){
-        if (receiveCategories != null) {
-            newValue = receiveCategories.toString().toLowerCase()
-                    .replace("[", "")
-                    .replace("]", "");
-            setReceivedCategoriesData(receiveList, receiveCategories, receivedCategoriesList);
-        }
-        if (receiveTags != null && identity == null) {
-            if (receiveTags.toString().contains("[]")) {
-                receivedTagList.setVisibility(View.VISIBLE);
-                tagValue = receiveTags.toString().toLowerCase()
-                        .replace("[", "")
-                        .replace("]", "");
-                setTagListData(receivedTagList, receiveTags);
-            } else {
-                receivedTagList.setVisibility(View.GONE);
-            }
-        }
+        initViews();
+        setReceivedCategoriesData(receiveList, queryList, receivedQueryList);
         setMovieDataList();
         fabSorting.setOnClickListener(v->{
             ViewSorting viewSorting = new ViewSorting();
             Bundle args = new Bundle();
-            if (receiveCategories == null) {
-                args.putSerializable("data", (Serializable) filterOnlyRating);
-            } else {
-                if (getIntent().hasExtra("min_rating") && getIntent().hasExtra("max_rating")) {
-                    args.putSerializable("data", (Serializable) filterRatingANDCategories);
-                } else {
-                    args.putSerializable("data", (Serializable) filterOnlyCategories);
-                }
-            }
-            if (getIntent().hasExtra("status")) {
-                args.putSerializable("data", (Serializable) filterOnlyStatus);
-            }
+            args.putSerializable("data", (Serializable) filtering);
             args.putString("context", "ResultActivity");
             viewSorting.setArguments(args);
             viewSorting.show(getSupportFragmentManager(), viewSorting.getTag());
@@ -183,11 +141,7 @@ public class ResultActivity extends AppCompatActivity {
         if (item.getGroupId() == R.id.group_view) {
             item.setChecked(false);
             if (item.getItemId() == R.id.grid_view) {
-                setContentView(R.layout.activity_result);
-                initViews();
-                firstView();
                 viewEditor.putString(viewKey, "Grid");
-                setSupportActionBar(toolbar);
                 fabSorting.setVisibility(View.VISIBLE);
                 toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back);
                 toolbar.setNavigationOnClickListener(v-> onBackPressed());
@@ -196,7 +150,10 @@ public class ResultActivity extends AppCompatActivity {
                 recyclerView.swapAdapter(adapter, false);
                 adapter.notifyDataSetChanged();
             } else if (item.getItemId() == R.id.list_view) {
-                BaseUtils.showMessage(this, "Under development", Toast.LENGTH_SHORT);
+                /*
+                 * Under Development
+                 * Will be available soon!
+                 */
             }
         }
         viewEditor.apply();
@@ -239,9 +196,8 @@ public class ResultActivity extends AppCompatActivity {
     }
     private void initViews(){
         recyclerView = findViewById(R.id.result_list);
-        receivedTagList = findViewById(R.id.received_tags_list);
         toolbar = findViewById(R.id.toolbar);
-        receivedCategoriesList = findViewById(R.id.received_categories_list);
+        receivedQueryList = findViewById(R.id.received_categories_list);
         fabSorting = findViewById(R.id.sorting);
         noResultAnim = findViewById(R.id.no_result_animation);
         noResultParent = findViewById(R.id.no_result);
@@ -263,7 +219,7 @@ public class ResultActivity extends AppCompatActivity {
                                 data.setId(object.getInt("id"));
                                 data.setTitle(object.getString("title"));
                                 data.setSecondTitle(object.getString("2ndTitle"));
-                                data.setStatus(object.getString("status"));
+                                data.setStatus(object.getInt("status"));
                                 List<CoverArray> coverArrays = new ArrayList<>();
                                 JSONArray array = object.getJSONArray("cover");
                                 for (int coverPost = 0; coverPost<array.length(); coverPost++){
@@ -340,7 +296,7 @@ public class ResultActivity extends AppCompatActivity {
                                     }
                                     cast.setSocialMedia(socialMediaList);
                                     cast.setBorn(castObject.getString("born"));
-                                    cast.setSex(castObject.getString("gender"));
+                                    cast.setGender(castObject.getString("gender"));
                                     castList.add(cast);
                                     data.setCastData(cast);
                                 }
@@ -348,37 +304,10 @@ public class ResultActivity extends AppCompatActivity {
                                 data.setCastDetails(object.getString("castDetails"));
                                 data.setMovieDetails(object.getString("movieDetails"));
                                 dataMovies.add(data);
-                                if (identity.equals("fromSheet")) {
-                                    boolean onlyCategories = receiveCategories != null && min == 0.0 && max == 10.0;
-                                    boolean onlyStatus = getIntent().hasExtra("status");
-                                    boolean onlyTags = !(receiveTags.toString().contains("[]")) && !(onlyCategories && onlyStatus) && !identity.equals("fromDetail") && receiveTags != null;
-                                    boolean onlyRating = receiveCategories.toString().contains("[]");
-                                    boolean ratingCategories = receiveCategories != null && min >= 0.0 && max <= 10.0;
-                                    boolean isAll = ratingCategories && getIntent().hasExtra("status");
-                                    boolean isCategoriesTags = !(receiveTags.toString().contains("[]")) && onlyCategories;
-                                    if (isAll) {
-                                        setAll(recyclerView);
-                                    } else {
-                                        if (ratingCategories) {
-                                            setRatingANDCategories(recyclerView);
-                                        } else if (onlyCategories) {
-                                            setOnlyCategories(recyclerView);
-                                        } else if (onlyRating) {
-                                            setOnlyRating(recyclerView, min, max);
-                                        } else if (onlyStatus) {
-                                            setOnlyStatus(recyclerView);
-                                        } else if (onlyTags) {
-                                            setOnlyTag(recyclerView);
-                                        } else if (isCategoriesTags) {
-                                            setTagsAndCategories(recyclerView);
-                                        }
-                                    }
+                                if (identity.equals("fromDetail")) {
+                                    filterFromDetail(recyclerView);
                                 } else {
-                                    if (identity.equals("fromSearchView")) {
-                                        setOnlyCategories(recyclerView);
-                                    } else {
-                                        setOnlyCategories(recyclerView);
-                                    }
+                                    filterAll(recyclerView);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -392,114 +321,47 @@ public class ResultActivity extends AppCompatActivity {
                     }
                 });
     }
-    private void setRatingANDCategories(RecyclerView list){
+    private void filterAll(RecyclerView list){
         ChildAdapter adapter = new ChildAdapter(this, true);
         list.setLayoutManager(new GridLayoutManager(this,3));
         list.setAdapter(adapter);
-        filterRatingANDCategories = BaseUtils.filterRatingANDCategories(dataMovies, newValue, min, max);
+        filtering = BaseUtils.setFilterMultipleQuery(dataMovies, queryList, min, max, isAll);
         adapter.sort(sort);
         adapter.order(order);
         list.setAdapter(adapter);
-        sort(sort, order, filterRatingANDCategories);
-        adapter.addAll(filterRatingANDCategories);
-        showAnimationNoResult(filterRatingANDCategories);
+        sort(sort, order, filtering);
+        adapter.addAll(filtering);
+        showAnimationNoResult(filtering);
     }
-    private void setAll(RecyclerView list){
+    private void filterFromDetail(RecyclerView list){
         ChildAdapter adapter = new ChildAdapter(this, true);
         list.setLayoutManager(new GridLayoutManager(this,3));
         list.setAdapter(adapter);
-        List<ChildData> filterAll = BaseUtils.filterAll(dataMovies, newValue, min, max, String.valueOf(status));
+        String query = queryList.toString().replace("[", "").replace("]", "").toLowerCase();
+        filtering = BaseUtils.filterOnlyCategories(dataMovies, query);
         adapter.sort(sort);
         adapter.order(order);
         list.setAdapter(adapter);
-        sort(sort, order, filterAll);
-        adapter.addAll(filterAll);
-        showAnimationNoResult(filterAll);
-    }
-    private void setOnlyTag(RecyclerView list){
-        ChildAdapter adapter = new ChildAdapter(this, true);
-        list.setLayoutManager(new GridLayoutManager(this,3));
-        List<ChildData> filterOnlyTags = BaseUtils.filterOnlyTags(dataMovies, tagValue);
-        adapter.sort(sort);
-        adapter.order(order);
-        list.setAdapter(adapter);
-        sort(sort, order, filterOnlyTags);
-        adapter.addAll(filterOnlyTags);
-        adapter.notifyDataSetChanged();
-        showAnimationNoResult(filterOnlyTags);
-    }
-    private void setOnlyRating(RecyclerView list, double min, double max){
-        ChildAdapter adapter = new ChildAdapter(this, true);
-        list.setLayoutManager(new GridLayoutManager(this,3));
-        filterOnlyRating = BaseUtils.filterOnlyRating(dataMovies, min, max);
-        adapter.sort(sort);
-        adapter.order(order);
-        list.setAdapter(adapter);
-        sort(sort, order, filterOnlyRating);
-        adapter.addAll(filterOnlyRating);
-        adapter.notifyDataSetChanged();
-        showAnimationNoResult(filterOnlyRating);
-    }
-    private void setOnlyCategories(RecyclerView list){
-        ChildAdapter adapter = new ChildAdapter(this, true);
-        list.setLayoutManager(new GridLayoutManager(this,3));
-        filterOnlyCategories = BaseUtils.filterOnlyCategories(dataMovies, newValue);
-        adapter.sort(sort);
-        adapter.order(order);
-        list.setAdapter(adapter);
-        sort(sort, order, filterOnlyCategories);
-        adapter.addAll(filterOnlyCategories);
-        adapter.notifyDataSetChanged();
-        showAnimationNoResult(filterOnlyCategories);
-    }
-    private void setOnlyStatus(RecyclerView list){
-        ChildAdapter adapter = new ChildAdapter(this, true);
-        list.setLayoutManager(new GridLayoutManager(this,3));
-        filterOnlyStatus = BaseUtils.filterOnlyStatus(dataMovies, String.valueOf(status));
-        adapter.sort(sort);
-        adapter.order(order);
-        list.setAdapter(adapter);
-        sort(sort, order, filterOnlyStatus);
-        adapter.addAll(filterOnlyStatus);
-        adapter.notifyDataSetChanged();
-        showAnimationNoResult(filterOnlyStatus);
-    }
-    private void setTagsAndCategories(RecyclerView list){
-        ChildAdapter adapter = new ChildAdapter(this, true);
-        list.setLayoutManager(new GridLayoutManager(this,3));
-        List<ChildData> filterTagsAndCategories = BaseUtils.filterTagsANDCategories(dataMovies, tagValue, newValue);
-        adapter.sort(sort);
-        adapter.order(order);
-        list.setAdapter(adapter);
-        sort(sort, order, filterTagsAndCategories);
-        adapter.addAll(filterTagsAndCategories);
-        adapter.notifyDataSetChanged();
+        sort(sort, order, filtering);
+        adapter.addAll(filtering);
+        showAnimationNoResult(filtering);
     }
     private void setReceivedCategoriesData(List<ChipsReceived> chips, List<String> receivedChips, RecyclerView receivedCategoriesList){
-        for (int i = 0; i< receivedChips.size(); i++){
+        for (int i = 0; i<receivedChips.size(); i++){
             ChipsReceived data = new ChipsReceived();
-            data.setCategories(receivedChips.get(i));
+            if (receivedChips.get(i).equals("1")) {
+                data.setCategories("Status: Complete");
+            } else if (receivedChips.get(i).equals("0")) {
+                data.setCategories("Status: On going");
+            } else {
+                data.setCategories(receivedChips.get(i));
+            }
             data.setPosition(i);
             chips.add(data);
         }
         setReceivedCategoriesList(chips, receivedCategoriesList);
     }
     private void setReceivedCategoriesList(List<ChipsReceived> receivedChips, RecyclerView receivedCategoriesList){
-        ChipsAdapter adapter = new ChipsAdapter(this, receivedChips, true, false);
-        receivedCategoriesList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        receivedCategoriesList.setAdapter(adapter);
-    }
-    private void setTagListData(RecyclerView tagList, List<String> receivedChips){
-        List<ChipsReceived> chips = new ArrayList<>();
-        for (int i = 0; i< receivedChips.size(); i++){
-            ChipsReceived data = new ChipsReceived();
-            data.setCategories(receivedChips.get(i));
-            data.setPosition(i);
-            chips.add(data);
-        }
-        setReceivedTagList(chips, tagList);
-    }
-    private void setReceivedTagList(List<ChipsReceived> receivedChips, RecyclerView receivedCategoriesList){
         ChipsAdapter adapter = new ChipsAdapter(this, receivedChips, true, false);
         receivedCategoriesList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         receivedCategoriesList.setAdapter(adapter);

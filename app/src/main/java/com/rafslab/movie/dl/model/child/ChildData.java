@@ -12,7 +12,7 @@ public class ChildData implements Serializable {
     private int id;
     private String title;
     private String secondTitle;
-    private String status;
+    private int status;
     private List<CoverArray> coverArrays;
     private String description;
     private String categories;
@@ -72,11 +72,11 @@ public class ChildData implements Serializable {
         this.secondTitle = secondTitle;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 

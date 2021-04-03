@@ -31,6 +31,10 @@ import java.util.List;
 public class BaseUtils {
     private BaseUtils() {
     }
+    @SuppressLint("DefaultLocale")
+    public static int formatSeekBar2(double value){
+        return (int) value;
+    }
     public static String getURLMaintenance(String body){
         return CipherClient.MAINTENANCE() + body + CipherClient.END();
     }
@@ -44,27 +48,74 @@ public class BaseUtils {
         Toast.makeText(context, body, duration).show();
     }
     public static List<ChildData> setFilterMultipleQuery(List<ChildData> models, List<String> queryList){
+        String query = queryList.toString()
+                .toLowerCase()
+                .replace("[", "")
+                .replace("]", "")
+                .replace(" ", "");
         final List<ChildData> filteredList = new ArrayList<>();
-        for (int i = 0; i<queryList.size(); i++){
-            String query = queryList.get(i).toLowerCase();
-            for (ChildData data : models) {
-                List<Cast> casts = data.getCastList();
-                String getTag = data.getTags().toLowerCase();
-                String category  = data.getCategories().toLowerCase();
-                double rating = data.getRating();
-                String status = String.valueOf(data.getStatus());
-                if (query.matches("[0-9]+")) {
-                    double query2 = Double.parseDouble(query);
-                    if (rating >= query2) {
+        for (ChildData data : models) {
+            List<Cast> castList = data.getCastList();
+            String getTag = data.getTags().toLowerCase();
+            String category  = data.getCategories().toLowerCase();
+            double rating = data.getRating();
+            String status = String.valueOf(data.getStatus()).toLowerCase();
+            String[] array = query.split(",");
+            for (String result : array){
+                if (result.matches("[0-9]+")) {
+                    double query2 = Double.parseDouble(result);
+                    if (rating > query2) {
                         filteredList.add(data);
                     }
-                } else {
-                    if (getTag.contains(query) || category.contains(query) || status.contains(query)) {
+                }
+                if (status.contains(result)) {
+                    filteredList.add(data);
+                }
+                for(String both : array){
+                    if (getTag.contains(both)) {
+                        filteredList.add(data);
+                    } else if (category.contains(both)) {
                         filteredList.add(data);
                     }
-                    for (Cast cast : casts){
-                        final String casting = cast.getReal_name().toLowerCase();
-                        if (casting.contains(query)) {
+                }
+                for (Cast cast : castList){
+                    final String casting = cast.getReal_name().toLowerCase();
+                    if (casting.contains(result)) {
+                        filteredList.add(data);
+                    }
+                }
+            }
+        }
+
+        return filteredList;
+    }
+    public static List<ChildData> setFilterMultipleQuery(List<ChildData> models, List<String> queryList, double min, double max, boolean isAll){
+        String query = queryList.toString()
+                .toLowerCase()
+                .replace("[", "")
+                .replace("]", "")
+                .replace(" ", "");
+        final List<ChildData> filteredList = new ArrayList<>();
+        for (ChildData data : models) {
+            String getTag = data.getTags().toLowerCase();
+            String category  = data.getCategories().toLowerCase();
+            double rating = data.getRating();
+            String status = String.valueOf(data.getStatus()).toLowerCase();
+            String[] array = query.split(",");
+            if (isAll) {
+                if (rating >= min && rating <= max) {
+                    if (status.contains(query)) {
+                        for (String result : array){
+                            if (getTag.contains(result) || category.contains(result)) {
+                                filteredList.add(data);
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (rating >= min && rating <= max) {
+                    for (String result : array){
+                        if (getTag.contains(result) || category.contains(result)) {
                             filteredList.add(data);
                         }
                     }
@@ -81,7 +132,7 @@ public class BaseUtils {
             List<Cast> casts = data.getCastList();
             final String title = data.getTitle().toLowerCase();
             final String category  = data.getCategories().toLowerCase();
-            final String status = data.getStatus();
+            final String status = String.valueOf(data.getStatus());
             final String tag = data.getTags().toLowerCase();
             for (Cast cast : casts){
                 final String casting = cast.getReal_name().toLowerCase();
@@ -150,93 +201,6 @@ public class BaseUtils {
             double rating = eps.getRating();
             if (rating >= min && rating <= max) {
                 filteredList.add(eps);
-            }
-        }
-        return filteredList;
-    }
-    public static List<ChildData> filterOnlyTags(List<ChildData> models, String tag){
-        tag = tag.toLowerCase();
-        final List<ChildData> filteredList = new ArrayList<>();
-        for (ChildData eps : models) {
-            String getTag = eps.getTags().toLowerCase();
-            String[] tagArray = tag.split(",");
-            for (String tags : tagArray){
-                if (getTag.contains(tags)) {
-                    filteredList.add(eps);
-                }
-            }
-        }
-        return filteredList;
-    }
-    public static List<ChildData> filterTagsANDCategories(List<ChildData> models, String tag, String filterText){
-        filterText = filterText.toLowerCase();
-        tag = tag.toLowerCase();
-        final List<ChildData> filteredList = new ArrayList<>();
-        for (ChildData eps : models) {
-            String getTag = eps.getTags().toLowerCase();
-            String[] tagArray = tag.split(",");
-            String category  = eps.getCategories().toLowerCase();
-            String[] catArray = filterText.split(",");
-            List<String> catList = new ArrayList<>(Arrays.asList(catArray));
-            List<String> tagList = new ArrayList<>(Arrays.asList(tagArray));
-            for(String both : Iterables.concat(tagList, catList)){
-                if (getTag.contains(both)) {
-                    filteredList.add(eps);
-                }
-                if (category.contains(both)) {
-                    filteredList.add(eps);
-                }
-                if (category.contains(both) && getTag.contains(both)) {
-                    filteredList.add(eps);
-                }
-            }
-        }
-        return filteredList;
-    }
-    public static List<ChildData> filterOnlyStatus(List<ChildData> models, String status){
-        final List<ChildData> filteredList = new ArrayList<>();
-        for (ChildData eps : models) {
-            final String getStatus = eps.getStatus().toLowerCase();
-            if (getStatus.contains(status)) {
-                filteredList.add(eps);
-            }
-        }
-        return filteredList;
-    }
-
-    public static List<ChildData> filterAll(List<ChildData> models, String filterText, double min, double max, String status){
-        filterText = filterText.toLowerCase();
-        final List<ChildData> filteredList = new ArrayList<>();
-        for (ChildData eps : models) {
-            double rating = eps.getRating();
-            String getStatus = eps.getStatus();
-            if (rating >= min && rating <= max) {
-                String category  = eps.getCategories().toLowerCase();
-                String[] array = filterText.split(",");
-                if (getStatus.equals(status)) {
-                    for (String categories : array){
-                        if (category.contains(categories)) {
-                            filteredList.add(eps);
-                        }
-                    }
-                }
-            }
-        }
-        return filteredList;
-    }
-    public static List<ChildData> filterRatingANDCategories(List<ChildData> models, String filterText, double min, double max){
-        filterText = filterText.toLowerCase();
-        final List<ChildData> filteredList = new ArrayList<>();
-        for (ChildData eps : models) {
-            double rating = eps.getRating();
-            if (rating >= min && rating <= max) {
-                String category  = eps.getCategories().toLowerCase();
-                String[] array = filterText.split(",");
-                for (String categories : array){
-                    if (category.contains(categories)) {
-                        filteredList.add(eps);
-                    }
-                }
             }
         }
         return filteredList;
