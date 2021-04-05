@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -51,7 +50,7 @@ import static com.rafslab.movie.dl.controller.AppController.NIGHT_MODE;
  * Date: October 18, 2020
  */
 
-public class CastActivity extends AppCompatActivity implements MotionLayout.TransitionListener {
+public class CastActivity extends AppCompatActivity {
     private TextView name, born;
     private RecyclerView filmography, socialMediaList;
     private ImageView castCover;
@@ -248,24 +247,5 @@ public class CastActivity extends AppCompatActivity implements MotionLayout.Tran
         recyclerView.setAdapter(adapter);
         List<ChildData> filteredItems = BaseUtils.filterCast(childData, casting);
         adapter.setFilter(filteredItems);
-    }
-
-    @Override
-    public void onTransitionStarted(MotionLayout motionLayout, int i, int i1) {
-
-    }
-
-    @Override
-    public void onTransitionChange(MotionLayout motionLayout, int i, int i1, float v) {
-
-    }
-
-    @Override
-    public void onTransitionCompleted(MotionLayout motionLayout, int i) {
-    }
-
-    @Override
-    public void onTransitionTrigger(MotionLayout motionLayout, int i, boolean b, float v) {
-
     }
 }
