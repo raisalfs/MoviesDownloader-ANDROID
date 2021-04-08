@@ -1,16 +1,20 @@
 package com.rafslab.movie.dl.ui.fragment.sheet;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.andrefrsousa.superbottomsheet.SuperBottomSheetFragment;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -23,18 +27,16 @@ import com.rafslab.movie.dl.ui.activity.ResultActivity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.Serializable;
 import java.util.List;
-
-/**
- * Created by: Rais AlFani Lubis
- * Date: October 18, 2020
- */
+import java.util.Objects;
 
 public class ViewSorting extends SuperBottomSheetFragment {
     private Toolbar toolbar;
     private MaterialRadioButton sortName, sortRating, orderAsc, orderDesc;
     private ConstraintLayout cancel, done;
     private BottomSheetBehavior behavior;
+    private RecyclerView parentList;
     private SharedPreferences.Editor sortPrefsEdit;
     public static final String SHARED_KEY = "sortPrefs";
     public static final String SORT_KEY = "sortKey";
@@ -51,6 +53,7 @@ public class ViewSorting extends SuperBottomSheetFragment {
         orderDesc = rootView.findViewById(R.id.order_desc);
         cancel = rootView.findViewById(R.id.cancel);
         done = rootView.findViewById(R.id.applyChanges);
+        parentList = requireActivity().findViewById(R.id.result_list);
         return rootView;
     }
     @Override

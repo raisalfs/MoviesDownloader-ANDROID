@@ -2,10 +2,6 @@ package com.rafslab.movie.dl.database;
 
 import android.provider.BaseColumns;
 
-/**
- * Created by: Rais AlFani Lubis
- * Date: October 18, 2020
- */
 public class DatabaseContract {
 
     public static final class FavoritesEntry implements BaseColumns {
@@ -26,6 +22,8 @@ public class DatabaseContract {
         public static final String COLUMN_DESCRIPTION = "description";
         public static final String COLUMN_CATEGORIES = "categories";
 
+        public static final String COLUMN_CATEGORIES_ARRAY_GENRE = "categories_array_genre";
+
         public static final String COLUMN_POSTER = "poster";
 
         public static final String COLUMN_SUBTITLE = "subtitle";
@@ -39,6 +37,8 @@ public class DatabaseContract {
         public static final String COLUMN_TYPE = "type";
         public static final String COLUMN_DOWNLOADABLE = "downloadable";
         public static final String COLUMN_RELEASE = "release";
+
+        public static final String COLUMN_CAST_COVER = "cast_cover";
 
         public static final String COLUMN_IMBD = "imdb";
         public static final String COLUMN_PINNED = "pinned";
@@ -73,6 +73,7 @@ public class DatabaseContract {
         public static final String COLUMN_DOWNLOADABLE = "history_downloadable";
         public static final String COLUMN_RELEASE = "history_release";
 
+        public static final String COLUMN_CAST_COVER = "history_cast_cover";
 
         public static final String COLUMN_IMBD = "history_imdb";
         public static final String COLUMN_PINNED = "history_pinned";

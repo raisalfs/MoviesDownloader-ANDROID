@@ -18,7 +18,7 @@
     <string name="exit_dialog">Exit Dialog</string>
     <string name="apply">Apply</string>
     <string name="add">Add</string>
-    <string name="name">Name</string>
+    <string name="name">Title</string>
     <string name="ascending">Ascending</string>
     <string name="descending">Descending</string>
     <string name="done">Done</string>
@@ -37,6 +37,7 @@
     <string name="grid">Grid</string>
     <string name="list">List</string>
     <string name="view">View</string>
+    <string name="no_results_found">No results found!</string>
     <string-array name="theme_entry">
         <item>Light</item>
         <item>Dark</item>

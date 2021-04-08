@@ -2,11 +2,6 @@ package com.rafslab.movie.dl.model;
 
 import java.io.Serializable;
 
-/**
- * Created by: Rais AlFani Lubis
- * Date: October 18, 2020
- */
-
 public class Account implements Serializable {
     private int icon;
     private String title;

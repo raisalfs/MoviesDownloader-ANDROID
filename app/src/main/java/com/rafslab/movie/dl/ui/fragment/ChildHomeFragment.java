@@ -54,11 +54,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by: Rais AlFani Lubis
- * Date: October 18, 2020
- */
-
 public class ChildHomeFragment extends Fragment {
     private SliderView sliderView;
     private RecyclerView recyclerView;
@@ -113,7 +108,7 @@ public class ChildHomeFragment extends Fragment {
                 String URL = CipherClient.BASE_URL()
                         + CipherClient.ROOT_DIR()
                         + data.getTitle().toLowerCase()
-                        + CipherClient.END();
+                        + CipherClient.Extension();
                 getDataSlider(URL);
                 setDataList(data.getRootChildren());
                 swipeRefreshLayout.setOnRefreshListener(() -> new Handler().postDelayed(()-> {
@@ -147,6 +142,27 @@ public class ChildHomeFragment extends Fragment {
                         parentFragmentAppBar.setBackgroundColor(Color.argb((int) (255 * scrollYPercent), r, g, b));
                     }
                 }
+//                if (sliderView != null) {
+//                    if (!(sliderView.getLocalVisibleRect(scrollBounds))) {
+//                        rootView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorPrimary));
+//                        rootFragment.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.background));
+//                        BaseUtils.getStatusBar(requireContext()).setStatusBarColor(ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark));
+//                        if (tab != null) {
+//                            tab.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorPrimary));
+//                        }
+//                        backgroundGradient.setVisibility(View.GONE);
+//                    } else {
+//                        if (sliderView.getLocalVisibleRect(scrollBounds) || scrollBounds.height() < sliderView.getHeight()) {
+//                            rootView.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.background));
+//                            rootFragment.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.transparent));
+//                            BaseUtils.getStatusBar(requireContext()).setStatusBarColor(ContextCompat.getColor(requireContext(), R.color.transparent));
+//                            if (tab != null) {
+//                                tab.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.transparent));
+//                            }
+//                            backgroundGradient.setVisibility(View.VISIBLE);
+//                        }
+//                    }
+//                }
             });
         }
     }
@@ -154,6 +170,8 @@ public class ChildHomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+//        scrollable.fullScroll(View.FOCUS_UP);
+//        scrollable.smoothScrollTo(0, 0);
         if (sliderView.getSliderAdapter() != null) {
             sliderView.dataSetChanged();
         }

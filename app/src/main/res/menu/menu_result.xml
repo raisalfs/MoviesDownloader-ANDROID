@@ -8,29 +8,8 @@
         app:showAsAction="ifRoom"
         />
     <item
-        android:title="@string/view"
-        android:id="@+id/change_view"
-        android:icon="@drawable/ic_baseline_remove_red_eye"
-        >
-        <menu>
-           <group android:id="@+id/group_view" android:checkableBehavior="single"
-               >
-               <item
-                   app:actionViewClass="com.google.android.material.radiobutton.MaterialRadioButton"
-                   android:title="@string/grid"
-                   android:checked="true"
-                   android:orderInCategory="1"
-                   app:showAsAction="never"
-                   android:id="@+id/grid_view"
-                   />
-               <item
-                   android:orderInCategory="2"
-                   app:actionViewClass="com.google.android.material.radiobutton.MaterialRadioButton"
-                   android:id="@+id/list_view"
-                   app:showAsAction="never"
-                   android:title="@string/list"
-                   />
-           </group>
-        </menu>
-    </item>
+        android:id="@+id/change"
+        app:actionViewClass="com.airbnb.lottie.LottieAnimationView"
+        app:showAsAction="ifRoom"
+        android:title="@string/view" />
 </menu>

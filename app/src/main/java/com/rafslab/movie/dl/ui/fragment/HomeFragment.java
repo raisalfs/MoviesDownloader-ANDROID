@@ -41,9 +41,17 @@ import java.util.List;
  */
 
 public class HomeFragment extends Fragment {
+    private final static String TAG = HomeFragment.class.getSimpleName();
     private ViewPager viewPager;
     private TabLayout tabLayout;
     public static AppBarLayout appBarLayout;
+
+    public HomeFragment newInstance(){
+        HomeFragment fragment = new HomeFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -60,7 +68,8 @@ public class HomeFragment extends Fragment {
         BaseUtils.getActionBar(requireContext()).setTitle(R.string.app_name);
         String URL
                 = CipherClient.BASE_URL()
-                + CipherClient.END();
+                + "ParentItems"
+                + CipherClient.Extension();
         setRootData(URL);
         if (HomeActivity.checkMenuItem(requireContext())) {
             return;

@@ -28,7 +28,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.rafslab.movie.dl.R;
 import com.rafslab.movie.dl.adapter.ChildAdapter;
 import com.rafslab.movie.dl.adapter.ChipsAdapter;
+import com.rafslab.movie.dl.adapter.ResultTestAdapter;
 import com.rafslab.movie.dl.model.child.Cast;
+import com.rafslab.movie.dl.model.child.Categories;
 import com.rafslab.movie.dl.model.child.ChildData;
 import com.rafslab.movie.dl.model.child.ChipsReceived;
 import com.rafslab.movie.dl.model.child.CoverArray;
@@ -37,6 +39,7 @@ import com.rafslab.movie.dl.model.child.Resolution;
 import com.rafslab.movie.dl.model.child.ResolutionValue;
 import com.rafslab.movie.dl.ui.fragment.sheet.ViewSorting;
 import com.rafslab.movie.dl.utils.BaseUtils;
+import com.rafslab.movie.dl.view.RecyclerItemDecoration;
 
 import net.idik.lib.cipher.so.CipherClient;
 
@@ -69,6 +72,8 @@ public class ResultActivity extends AppCompatActivity {
     private ConstraintLayout noResultParent;
     private double min, max;
     private boolean isAll;
+    private final String viewKey = "keyView";
+    boolean isGrid = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Window window = getWindow();
@@ -100,6 +105,91 @@ public class ResultActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back);
         toolbar.setNavigationOnClickListener(v-> onBackPressed());
+        LottieAnimationView userView = findViewById(R.id.change_view);
+        userView.setAnimation(R.raw.grid_list);
+        userView.setMinAndMaxFrame(80, 150);
+        userView.setFrame(150);
+        SharedPreferences viewPrefs = getSharedPreferences("keyViewPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor viewEditor = viewPrefs.edit();
+        userView.setOnClickListener(v->{
+            userView.setFrame(80);
+            if (isGrid){
+                userView.setSpeed(-1);
+                List<Categories> categories = new ArrayList<>();
+                for (int i = 0; i <queryList.size(); i++){
+                    Categories data = new Categories();
+                    data.setGenre(queryList.get(i));
+                    categories.add(data);
+                }
+                receivedQueryList.setVisibility(View.GONE);
+                viewEditor.putString(viewKey, "List");
+                fabSorting.setVisibility(View.GONE);
+                ResultTestAdapter adapter = new ResultTestAdapter(this, categories);
+                recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                recyclerView.setAdapter(adapter);
+                RecyclerItemDecoration decoration = new RecyclerItemDecoration(this, 1, true, getSectionCallback(categories));
+                recyclerView.addItemDecoration(decoration);
+                isGrid = false;
+            } else {
+                userView.setSpeed(1);
+                receivedQueryList.setVisibility(View.VISIBLE);
+                viewEditor.putString(viewKey, "Grid");
+                fabSorting.setVisibility(View.VISIBLE);
+                ChildAdapter adapter = new ChildAdapter(this, dataMovies);
+                recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+                recyclerView.setAdapter(adapter);
+                while (recyclerView.getItemDecorationCount() > 0){
+                    recyclerView.removeItemDecorationAt(0);
+                }
+                isGrid = true;
+            }
+            viewEditor.apply();
+            userView.playAnimation();
+        });
+//        boolean ratingCategories = receiveCategories != null && getIntent().hasExtra("min_rating") && getIntent().hasExtra("max_rating");
+//        boolean onlyCategories = receiveCategories != null && !(getIntent().hasExtra("min_rating") && !(getIntent().hasExtra("max_rating")));
+//        boolean onlyRating = receiveCategories == null;
+//        boolean onlyComplete = getIntent().hasExtra("status") && status == 1;
+//        boolean onlyOnGoing = getIntent().hasExtra("status") && status == 0;
+//        boolean isAll = getIntent().hasCategory("status") && ratingCategories;
+//        if (isAll){
+//            String titleToolbar = "Rating: " + BaseUtils.formatSeekBar((float) min) + " ";
+//            if (onlyComplete) {
+//                toolbar.setTitle(titleToolbar + Html.fromHtml("&#10142") + " " + BaseUtils.formatSeekBar((float) max) + ", Complete");
+//            } else {
+//                toolbar.setTitle(titleToolbar + Html.fromHtml("&#10142") + " " + BaseUtils.formatSeekBar((float) max) + ", On Going");
+//            }
+//        } else {
+//            if (onlyCategories) {
+//                String titleToolbar = "Sort Only Categories";
+//                toolbar.setTitle(titleToolbar);
+//            }
+//            if (onlyComplete){
+//                String titleToolbar = "Status: Complete";
+//                toolbar.setTitle(titleToolbar);
+//            }
+//            if (onlyOnGoing) {
+//                String titleToolbar = "Status: On Going";
+//                toolbar.setTitle(titleToolbar);
+//            }
+//            if (onlyRating) {
+//                String titleToolbar = "Rating: " + BaseUtils.formatSeekBar((float) min) + " ";
+//                toolbar.setTitle(titleToolbar + Html.fromHtml("&#10142") + " " + BaseUtils.formatSeekBar((float) max));
+//            }
+//            if (min == 0.0 && max == 10.0){
+//                String titleToolbar;
+//                if (onlyComplete){
+//                    titleToolbar = "Status: Complete";
+//                } else {
+//                    if (onlyOnGoing) {
+//                        titleToolbar = "Status: On Going";
+//                    } else {
+//                        titleToolbar = "Sort Only Categories";
+//                    }
+//                }
+//                toolbar.setTitle(titleToolbar);
+//            }
+//        }
         firstView();
 
     }
@@ -129,35 +219,26 @@ public class ResultActivity extends AppCompatActivity {
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        SharedPreferences viewPrefs = getSharedPreferences("keyViewPrefs", Context.MODE_PRIVATE);
-        SharedPreferences.Editor viewEditor = viewPrefs.edit();
-        String viewKey = "keyView";
         if (item.isChecked()) {
             return false;
         }
         if (item.getItemId() == R.id.add_more) {
             onBackPressed();
         }
-        if (item.getGroupId() == R.id.group_view) {
-            item.setChecked(false);
-            if (item.getItemId() == R.id.grid_view) {
-                viewEditor.putString(viewKey, "Grid");
-                fabSorting.setVisibility(View.VISIBLE);
-                toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back);
-                toolbar.setNavigationOnClickListener(v-> onBackPressed());
-                ChildAdapter adapter = new ChildAdapter(this, dataMovies);
-                recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-                recyclerView.swapAdapter(adapter, false);
-                adapter.notifyDataSetChanged();
-            } else if (item.getItemId() == R.id.list_view) {
-                /*
-                 * Under Development
-                 * Will be available soon!
-                 */
-            }
-        }
-        viewEditor.apply();
         return true;
+    }
+    private RecyclerItemDecoration.SectionCallback getSectionCallback(final List<Categories> categories) {
+        return new RecyclerItemDecoration.SectionCallback() {
+            @Override
+            public boolean isSection(int position) {
+                return position == 0 || categories.get(position) != categories.get(position -1);
+            }
+
+            @Override
+            public String getSectionHeaderName(int position) {
+                return categories.get(position).getGenre();
+            }
+        };
     }
     public static void refreshItems(Context context, String sort, String order, List<ChildData> dataList){
         ((ResultActivity)context).sort(sort, order, dataList);
@@ -205,7 +286,8 @@ public class ResultActivity extends AppCompatActivity {
     private void setMovieDataList(){
         String URL = CipherClient.BASE_URL()
                 + CipherClient.API_DIR()
-                + CipherClient.END();
+                + CipherClient.DEFAULT()
+                + CipherClient.Extension();
         AndroidNetworking.get(URL)
                 .setPriority(Priority.MEDIUM)
                 .build()

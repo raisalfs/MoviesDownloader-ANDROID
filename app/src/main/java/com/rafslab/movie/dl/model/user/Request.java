@@ -2,11 +2,6 @@ package com.rafslab.movie.dl.model.user;
 
 import java.io.Serializable;
 
-/**
- * Created by: Rais AlFani Lubis
- * Date: October 18, 2020
- */
-
 public class Request implements Serializable {
     public String key;
     public String title;

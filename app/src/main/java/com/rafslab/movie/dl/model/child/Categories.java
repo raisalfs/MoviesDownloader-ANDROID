@@ -10,23 +10,9 @@ import java.io.Serializable;
 public class Categories implements Serializable {
     private String genre;
     private String name;
-    private int type;
-    public Categories(){
-
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
-
     public String getGenre() {
         return genre;
     }
-
     public void setGenre(String genre) {
         this.genre = genre;
     }

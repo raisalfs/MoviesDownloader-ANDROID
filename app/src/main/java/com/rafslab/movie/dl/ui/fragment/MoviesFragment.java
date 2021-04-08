@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -61,7 +62,16 @@ public class MoviesFragment extends Fragment {
     private MaterialButton tryAgain;
     private ImageView backgroundGradient;
     private AppBarLayout contextAppBar;
-    private final List<ChildData> childDataList = new ArrayList<>();
+    private Toolbar toolbar;
+    private List<ChildData> childDataList = new ArrayList<>();
+
+    public MoviesFragment newInstance(String path){
+        MoviesFragment fragment = new MoviesFragment();
+        Bundle args = new Bundle();
+        args.putString("path", path);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Nullable
     @Override
@@ -74,6 +84,7 @@ public class MoviesFragment extends Fragment {
         tryAgain = rootView.findViewById(R.id.try_again);
         backgroundGradient = requireActivity().findViewById(R.id.background_gradient);
         contextAppBar = requireActivity().findViewById(R.id.app_bar);
+        toolbar = requireActivity().findViewById(R.id.toolbar);
         return rootView;
     }
 
@@ -86,7 +97,10 @@ public class MoviesFragment extends Fragment {
         BaseUtils.getActionBar(requireContext()).show();
         String URL = CipherClient.BASE_URL()
                 + CipherClient.API_DIR()
-                + CipherClient.END();
+                + CipherClient.DEFAULT()
+                + CipherClient.Extension();
+        BaseUtils.setUniversalLog(URL);
+
         boolean isConnected = Connectivity.isConnected(requireContext());
         boolean isConnectionFast = Connectivity.isConnectedFast(requireContext());
         if (isConnected) {

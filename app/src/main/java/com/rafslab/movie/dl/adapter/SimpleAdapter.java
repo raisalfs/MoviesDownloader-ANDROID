@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,17 +24,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.rafslab.movie.dl.R;
 import com.rafslab.movie.dl.model.Account;
 import com.rafslab.movie.dl.model.child.Cast;
+import com.rafslab.movie.dl.model.user.Report;
 import com.rafslab.movie.dl.model.user.Request;
 import com.rafslab.movie.dl.services.MySingleton;
-import com.rafslab.movie.dl.ui.activity.BookmarkActivity;
 import com.rafslab.movie.dl.ui.activity.HomeActivity;
 import com.rafslab.movie.dl.ui.activity.SettingsActivity;
+import com.rafslab.movie.dl.ui.activity.BookmarkActivity;
 import com.rafslab.movie.dl.utils.BaseUtils;
+
+import net.idik.lib.cipher.so.CipherClient;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,14 +53,18 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+import nl.joery.animatedbottombar.AnimatedBottomBar;
+
 public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleViewHolder> {
     private final Context mContext;
     private List<Account> accounts;
     private List<Cast.SocialMedia> socialMediaList;
     private final LayoutInflater inflater;
+    private AnimatedBottomBar contextBottomBar;
     private boolean isAccount;
     final private String FCM_API = "https://fcm.googleapis.com/fcm/send";
-    final private String serverKey = "key=" + "AAAAUluU7WA:APA91bGbkNWr19S0eTCQrjppxNdV2iCWzhRCfRLz71A-9B8_olNLqlS4BCbwIr91VSLYxlif2fR2yvtGi3JPCrgwH58l1bqa2wxezCzXoncEs6yaNHGZq1ZrOldFsINcr5iQQhqbqld4";
+    final private String serverKey = CipherClient.serverKey();
     final private String contentType = "application/json";
     String NOTIFICATION_TITLE;
     String NOTIFICATION_MESSAGE;
@@ -91,6 +101,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleView
             Account data = accounts.get(position);
             holder.icon.setImageResource(data.getIcon());
             holder.title.setText(data.getTitle());
+            contextBottomBar = ((HomeActivity)mContext).findViewById(R.id.bottom_navigation);
             switch (position){
                 case 0:
                     holder.root.setOnClickListener(v-> mContext.startActivity(new Intent(mContext, SettingsActivity.class)));
@@ -170,13 +181,13 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleView
                     DatabaseReference getReference = database.getReference();
                     BaseUtils.showMessage(mContext, "Request sent", Toast.LENGTH_SHORT);
                     getReference.child("Request").child(dateFormat.format(date).replace("/", "-")).push().setValue(new Request(title, devices))
-                            .addOnSuccessListener(aVoid -> new Handler().postDelayed(()-> sendNotification(title), 500));
+                            .addOnSuccessListener(aVoid -> new Handler().postDelayed(()-> sendNotification("Request Movies", title), 500));
                 }).setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
         builder.show().getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(mContext, R.color.colorAccent));
     }
-    private void sendNotification(String message){
+    private void sendNotification(String title, String message){
         String TOPIC = "/topics/superUSER";
-        NOTIFICATION_TITLE = "Request Movies";
+        NOTIFICATION_TITLE = title;
         NOTIFICATION_MESSAGE = message;
         JSONObject notification = new JSONObject();
         JSONObject notificationBody = new JSONObject();

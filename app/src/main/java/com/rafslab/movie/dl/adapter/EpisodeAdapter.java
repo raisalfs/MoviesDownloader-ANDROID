@@ -29,6 +29,8 @@ import com.rafslab.movie.dl.model.user.Report;
 import com.rafslab.movie.dl.services.MySingleton;
 import com.rafslab.movie.dl.utils.BaseUtils;
 
+import net.idik.lib.cipher.so.CipherClient;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -59,8 +61,9 @@ public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.EpisodeV
     ChildData childData;
     private String reasonDownload;
     final private String FCM_API = "https://fcm.googleapis.com/fcm/send";
-    final private String serverKey = "key=" + "your key";
+    final private String serverKey = CipherClient.serverKey();
     final private String contentType = "application/json";
+    private String TOPIC;
     String NOTIFICATION_TITLE;
     String NOTIFICATION_MESSAGE;
     private final EpisodeListener listener;
@@ -150,13 +153,13 @@ public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.EpisodeV
             FirebaseApp.initializeApp(mContext);
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference getReference = database.getReference();
-            new Handler().postDelayed(()-> getReference.child("Report").child(dateFormat.format(date).replace("/", "-")).push().setValue(new Report(title, episode1, season, resolution, reason)).addOnSuccessListener(aVoid -> sendNotification(title)), 1000);
+            new Handler().postDelayed(()-> getReference.child("Report").child(dateFormat.format(date).replace("/", "-")).push().setValue(new Report(title, episode1, season, resolution, reason)).addOnSuccessListener(aVoid -> sendNotification("Broken Link!", title)), 1000);
             showDialog();
         }
     }
-    private void sendNotification(String message){
-        String TOPIC = "/topics/superUSER";
-        NOTIFICATION_TITLE = "Broken Link!";
+    private void sendNotification(String title, String message){
+        TOPIC = "/topics/superUSER";
+        NOTIFICATION_TITLE = title;
         NOTIFICATION_MESSAGE = message;
         JSONObject notification = new JSONObject();
         JSONObject notificationBody = new JSONObject();

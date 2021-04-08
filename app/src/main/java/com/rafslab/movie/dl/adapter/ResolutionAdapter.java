@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.motion.widget.MotionLayout;
@@ -52,6 +53,7 @@ public class ResolutionAdapter extends RecyclerView.Adapter<ResolutionAdapter.Re
     public void onBindViewHolder(@NonNull ResolutionViewHolder holder, int position) {
         ResolutionValue data = resolutionValues.get(position);
         holder.resolution.setText(data.getName());
+//        holder.resolution.setChecked(position == lastCheckedPosition);
         holder.resolution.setChecked(data.getName().equals(getResolutionParent));
         holder.resolution.setOnClickListener(v->{
             callBack.getSelectedResolution(data, position);

@@ -31,6 +31,7 @@ public class ChipsAdapter extends RecyclerView.Adapter<ChipsAdapter.ChipViewHold
     private final Context mContext;
     ArrayList<String> selectedCategories;
     ArrayList<String> selectedTags;
+    ArrayList<String> selectedRegion;
     private List<Categories> chips;
     private List<Tag> tagsList;
     private final LayoutInflater inflater;
@@ -83,8 +84,7 @@ public class ChipsAdapter extends RecyclerView.Adapter<ChipsAdapter.ChipViewHold
                     List<String> categories = new ArrayList<>();
                     categories.add(chipsReceived.getCategories());
                     Intent intent = new Intent(mContext, ResultActivity.class);
-                    intent.putExtra("queryCategories", (Serializable) categories);
-                    intent.putExtra("size", categories.size());
+                    intent.putExtra("queryList", (Serializable) categories);
                     intent.putExtra("identity", "fromDetail");
                     mContext.startActivity(intent);
                 });

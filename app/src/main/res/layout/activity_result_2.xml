@@ -14,7 +14,6 @@
         app:liftOnScroll="true"
         >
         <androidx.appcompat.widget.Toolbar
-            app:layout_scrollFlags="scroll|enterAlways"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
@@ -22,50 +21,12 @@
             app:titleTextColor="@color/textActionBarColor" />
 
     </com.google.android.material.appbar.AppBarLayout>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <com.rafslab.movie.dl.sticky.StickyRecyclerView
-            android:id="@+id/result_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/no_result"
-        android:visibility="gone"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/result_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        >
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/no_result_animation"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            android:layout_gravity="center"
-            android:scaleType="fitXY"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true" />
-
-        <TextView
-            android:layout_marginTop="32dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="No results found!"
-            android:textAlignment="center"
-            android:textColor="@color/textColor"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/no_result_animation" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        />
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/sorting"
         android:layout_width="wrap_content"

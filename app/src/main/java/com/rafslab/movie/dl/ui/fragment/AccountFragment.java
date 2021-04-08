@@ -1,5 +1,6 @@
 package com.rafslab.movie.dl.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,11 +27,6 @@ import com.rafslab.movie.dl.utils.BaseUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Created by: Rais AlFani Lubis
- * Date: October 18, 2020
- */
 
 public class AccountFragment extends Fragment {
     private TextView sign;
@@ -72,5 +70,17 @@ public class AccountFragment extends Fragment {
         data = new Account(R.drawable.ic_download, "Downloaded");
         accounts.add(data);
         return accounts;
+    }
+    public void presentActivity(View view) {
+        ActivityOptionsCompat options = ActivityOptionsCompat.
+                makeSceneTransitionAnimation(requireActivity(), view, "transition");
+        int revealX = (int) (view.getX() + view.getWidth() / 2);
+        int revealY = (int) (view.getY() + view.getHeight() / 2);
+
+        Intent intent = new Intent(requireContext(), HomeActivity.class);
+        intent.putExtra(HomeActivity.EXTRA_CIRCULAR_REVEAL_X, revealX);
+        intent.putExtra(HomeActivity.EXTRA_CIRCULAR_REVEAL_Y, revealY);
+
+        ActivityCompat.startActivity(requireContext(), intent, options.toBundle());
     }
 }

@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.SortedList;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
@@ -26,6 +25,7 @@ import com.bumptech.glide.request.target.Target;
 import com.rafslab.movie.dl.R;
 import com.rafslab.movie.dl.model.child.Cast;
 import com.rafslab.movie.dl.ui.activity.CastActivity;
+import com.rafslab.movie.dl.utils.BaseUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -49,21 +49,21 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
         this.mContext = mContext;
         this.castList = castList;
         inflater = LayoutInflater.from(mContext);
-        options = new RequestOptions().centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher);
+        options = BaseUtils.requestOptionsImageCC();
     }
     public CastAdapter(Context mContext, List<Cast> castList, boolean isCastInHome) {
         this.mContext = mContext;
         this.castList = castList;
         this.isCastInHome = isCastInHome;
         inflater = LayoutInflater.from(mContext);
-        options = new RequestOptions().centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher);
+        options = BaseUtils.requestOptionsImageCC();
     }
     public CastAdapter(Context mContext, boolean isCastInHome, boolean isCastSorted) {
         this.mContext = mContext;
         this.isCastInHome = isCastInHome;
         this.isCastSorted = isCastSorted;
         inflater = LayoutInflater.from(mContext);
-        options = new RequestOptions().centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher);
+        options = BaseUtils.requestOptionsImageCC();
     }
     public void sort(final String properties){
         castSortedList = new SortedList<>(Cast.class, new SortedList.Callback<Cast>() {
@@ -160,6 +160,8 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
                 intent.putExtra("position", holder.getAdapterPosition());
                 intent.putExtra("actor_list", (Serializable) castList);
                 intent.putExtra("type", "fromHome");
+//                Pair<View, String> pair = Pair.create(holder.imageActor, mContext.getResources().getString(R.string.image_transition));
+//                ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, pair);
                 mContext.startActivity(intent);
             });
         } else {

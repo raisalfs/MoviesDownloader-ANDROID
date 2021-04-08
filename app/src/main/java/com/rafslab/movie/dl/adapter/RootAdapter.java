@@ -81,7 +81,7 @@ public class RootAdapter extends RecyclerView.Adapter<RootAdapter.RootViewHolder
         String URL = CipherClient.BASE_URL()
                 + CipherClient.API_DIR()
                 + path
-                + CipherClient.END();
+                + CipherClient.Extension();
         AndroidNetworking.get(URL)
                 .setPriority(Priority.MEDIUM)
                 .build()
@@ -130,7 +130,7 @@ public class RootAdapter extends RecyclerView.Adapter<RootAdapter.RootViewHolder
         String URL = CipherClient.BASE_URL()
                 + CipherClient.API_DIR()
                 + path
-                + CipherClient.END();
+                + CipherClient.Extension();
         AndroidNetworking.get(URL)
                 .setPriority(Priority.MEDIUM)
                 .build()
@@ -257,7 +257,8 @@ public class RootAdapter extends RecyclerView.Adapter<RootAdapter.RootViewHolder
     private void getChildCategoriesData(RecyclerView recyclerView, ProgressBar progressBar, String categories){
         String URL = CipherClient.BASE_URL()
                 + CipherClient.API_DIR()
-                + CipherClient.END();
+                + CipherClient.DEFAULT()
+                + CipherClient.Extension();
         AndroidNetworking.get(URL)
                 .setPriority(Priority.MEDIUM)
                 .build()

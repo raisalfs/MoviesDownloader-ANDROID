@@ -54,7 +54,7 @@
             android:layout_marginTop="32dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/no_results_found"
+            android:text="No results found!"
             android:textAlignment="center"
             android:textColor="@color/textColor"
             android:textSize="24sp"

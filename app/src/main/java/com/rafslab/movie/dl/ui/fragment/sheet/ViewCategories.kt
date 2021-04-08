@@ -129,7 +129,7 @@ class ViewCategories : SuperBottomSheetFragment(){
         })
     }
     private fun prepareCategoriesData() {
-        val url = CipherClient.BASE_URL() + CipherClient.API_DIR() + CipherClient.END()
+        val url = CipherClient.BASE_URL() + CipherClient.API_DIR() + "korean-categories" + CipherClient.Extension()
         AndroidNetworking.get(url).setPriority(Priority.MEDIUM)
             .build()
             .getAsJSONArray(object : JSONArrayRequestListener {
@@ -165,7 +165,7 @@ class ViewCategories : SuperBottomSheetFragment(){
             })
     }
     private fun prepareTags() {
-        val url = CipherClient.BASE_URL() + CipherClient.API_DIR() + CipherClient.END()
+        val url = CipherClient.BASE_URL() + CipherClient.API_DIR() + "korean-tags" + CipherClient.Extension()
         AndroidNetworking.get(url).setPriority(Priority.MEDIUM).build()
             .getAsJSONArray(object : JSONArrayRequestListener {
                 override fun onResponse(response: JSONArray?) {

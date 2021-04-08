@@ -24,7 +24,7 @@ import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.rafslab.movie.dl.R;
 import com.rafslab.movie.dl.adapter.ChildAdapter;
-import com.rafslab.movie.dl.adapter.ResultAdapter;
+import com.rafslab.movie.dl.adapter.ResultTestAdapter;
 import com.rafslab.movie.dl.model.child.Cast;
 import com.rafslab.movie.dl.model.child.Categories;
 import com.rafslab.movie.dl.model.child.ChildData;
@@ -107,7 +107,8 @@ public class SearchActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(v-> onBackPressed());
         String URL = CipherClient.BASE_URL()
                 + CipherClient.API_DIR()
-                + CipherClient.END();
+                + CipherClient.DEFAULT()
+                + CipherClient.Extension();
         getSearchData(URL);
     }
     private void getSearchData(String path){
@@ -266,7 +267,7 @@ public class SearchActivity extends AppCompatActivity {
     }
     private void setMultipleQuerySearchData(RecyclerView searchGrid){
         searchGrid.setLayoutManager(new LinearLayoutManager(this));
-        ResultAdapter adapterList = new ResultAdapter(this, categoriesList);
+        ResultTestAdapter adapterList = new ResultTestAdapter(this, categoriesList);
         searchGrid.setAdapter(adapterList);
         RecyclerItemDecoration decoration = new RecyclerItemDecoration(this, 2, true, getSectionCallback(categoriesList));
         searchGrid.addItemDecoration(decoration);

@@ -102,7 +102,7 @@ public class CastActivity extends AppCompatActivity {
                     getCastFilmography(path, filmography, cast.getReal_name().toLowerCase());
                 }
             } else {
-                String path = "latest-updated";
+                String path = CipherClient.DEFAULT();
                 getCastFilmography(path, filmography, cast.getReal_name().toLowerCase());
             }
         }
@@ -128,7 +128,7 @@ public class CastActivity extends AppCompatActivity {
         String URL = CipherClient.BASE_URL()
                 + CipherClient.API_DIR()
                 + path
-                + CipherClient.END();
+                + CipherClient.Extension();
         AndroidNetworking.get(URL)
                 .setPriority(Priority.MEDIUM)
                 .build()

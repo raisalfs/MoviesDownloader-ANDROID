@@ -20,11 +20,6 @@ import com.rafslab.movie.dl.model.child.Download;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by: Rais AlFani Lubis
- * Date: October 18, 2020
- */
-
 public class FavoritesDbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "favorite.db";
@@ -119,10 +114,17 @@ public class FavoritesDbHelper extends SQLiteOpenHelper {
         values.put(DatabaseContract.FavoritesEntry.COLUMN_DESCRIPTION, data.getDescription());
         values.put(DatabaseContract.FavoritesEntry.COLUMN_CATEGORIES, data.getCategories());
         values.put(DatabaseContract.FavoritesEntry.COLUMN_POSTER, data.getPoster());
+//        values.put(DatabaseContract.FavoritesEntry.COLUMN_COVER, data.getCover());
+//        values.put(FavoritesContract.FavoritesEntry.COLUMN_COVER_ARRAY_IMAGE, data.getCover()); /* Need POJO */
         values.put(DatabaseContract.FavoritesEntry.COLUMN_SUBTITLE, data.getSubtitle());
         values.put(DatabaseContract.FavoritesEntry.COLUMN_SUBTITLE_REGION, data.getSubtitleRegion());
 
         values.put(DatabaseContract.FavoritesEntry.COLUMN_EPISODE_COUNT, data.getEpsCount());
+//        String episodeValue = gson.toJson(episode.getDownloadEpisodeItems());
+//        String batchValue = gson.toJson(batch.getDownloadBatch());
+
+//        values.put(DatabaseContract.FavoritesEntry.COLUMN_DOWNLOAD_EPISODE, episodeValue);
+//        values.put(DatabaseContract.FavoritesEntry.COLUMN_DOWNLOAD_BATCH, batchValue);
 
         values.put(DatabaseContract.FavoritesEntry.COLUMN_TRAILER, data.getTrailer());
         values.put(DatabaseContract.FavoritesEntry.COLUMN_RATING, data.getRating());
@@ -273,6 +275,8 @@ public class FavoritesDbHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()){
             do {
                 ChildData data = new ChildData();
+//                Batch batch = new Batch();
+//                Episode episode = new Episode();
                 data.setId(cursor.getInt(cursor.getColumnIndex(DatabaseContract.FavoritesEntry.COLUMN_ID)));
                 data.setCastString(cursor.getString(cursor.getColumnIndex(DatabaseContract.FavoritesEntry.COLUMN_CAST_LIST)));
                 data.setTitle(cursor.getString(cursor.getColumnIndex(DatabaseContract.FavoritesEntry.COLUMN_TITLE)));
@@ -293,6 +297,7 @@ public class FavoritesDbHelper extends SQLiteOpenHelper {
                 data.setDescription(cursor.getString(cursor.getColumnIndex(DatabaseContract.FavoritesEntry.COLUMN_DESCRIPTION)));
                 data.setCategories(cursor.getString(cursor.getColumnIndex(DatabaseContract.FavoritesEntry.COLUMN_CATEGORIES)));
                 data.setPoster(cursor.getString(cursor.getColumnIndex(DatabaseContract.FavoritesEntry.COLUMN_POSTER)));
+//                data.setCover(cursor.getString(cursor.getColumnIndex(DatabaseContract.FavoritesEntry.COLUMN_COVER)));
                 data.setSubtitle(cursor.getString(cursor.getColumnIndex(DatabaseContract.FavoritesEntry.COLUMN_SUBTITLE)));
                 data.setSubtitleRegion(cursor.getString(cursor.getColumnIndex(DatabaseContract.FavoritesEntry.COLUMN_SUBTITLE_REGION)));
                 data.setTrailer(cursor.getString(cursor.getColumnIndex(DatabaseContract.FavoritesEntry.COLUMN_TRAILER)));

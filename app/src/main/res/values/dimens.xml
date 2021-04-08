@@ -8,4 +8,6 @@
     <dimen name="bottom_sheet_extra_padding">4dp</dimen>
     <dimen name="minimized_sheet_top_left_radius">20dp</dimen>
     <dimen name="thumb_size">20dp</dimen>
+    <dimen name="header_height">60dp</dimen>
+    <dimen name="design_navigation_icon_size">24dp</dimen>
 </resources>

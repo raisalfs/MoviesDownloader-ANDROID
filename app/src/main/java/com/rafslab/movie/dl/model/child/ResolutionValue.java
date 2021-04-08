@@ -3,11 +3,6 @@ package com.rafslab.movie.dl.model.child;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Created by: Rais AlFani Lubis
- * Date: October 18, 2020
- */
-
 public class ResolutionValue implements Serializable {
     private String name;
     private Value values;

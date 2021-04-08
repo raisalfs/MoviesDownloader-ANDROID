@@ -36,7 +36,15 @@ andResGuard {
 android {
     signingConfigs {
         release {
-
+            try {
+                storeFile file("../keystore/dl.movie-keystore.jks")
+                storePassword "Password Key Signer"
+                keyAlias "Movies Downloader"
+                keyPassword "Password Key Signer"
+                v2SigningEnabled true
+            } catch (ex) {
+                throw new InvalidUserDataException(ex.toString())
+            }
         }
         debug {
             storeFile file("../keystore/debug.keystore")
@@ -111,34 +119,34 @@ project.afterEvaluate {
 cipher.so {
     keys {
         BASE_URL {
-            value = "YOUR API URL"
+            value = "Your API URL"
         }
         MAINTENANCE {
-            value = "YOUR API URL"
+            value = "Your API Maintenance URL"
         }
         NOTIFICATION {
-            value = "YOUR API URL"
+            value = "Your API Notification URL"
         }
         API_DIR {
-            value = "YOUR API URL"
+            value = "Your API URL"
         }
         ROOT_DIR {
-            value = "YOUR API URL/"
-        }
-        END {
-            value = ".json"
-        }
-        DEV {
-            value = "YOUR API URL"
+            value = "Your API URL"
         }
         MD5 {
             value = ""
         }
-        DEFAULT {
-            value = ""
-        }
         SHA1 {
             value = ""
+        }
+        Extension {
+            value = ".json"
+        }
+        DEFAULT {
+            value = "latest-updated"
+        }
+        serverKey {
+            value = "Your Server Key"
         }
     }
 }
@@ -150,7 +158,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'com.google.firebase:firebase-database:19.7.0'
-    implementation 'com.google.firebase:firebase-messaging:21.0.1'
+    implementation 'com.google.firebase:firebase-messaging:21.1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -158,8 +166,6 @@ dependencies {
     implementation "com.google.guava:guava:30.1-android"
     implementation 'com.github.florent37:materialviewpager:1.2.3'
     implementation 'com.jpardogo.materialtabstrip:library:1.1.0'
-    implementation 'com.codewaves.stickyheadergrid:stickyheadergrid:0.9.7'
-    implementation 'com.github.florent37:fiftyshadesof:1.0.0'
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
     implementation 'com.intuit.ssp:ssp-android:1.0.6'
     implementation 'jp.wasabeef:blurry:4.0.0'
@@ -172,16 +178,14 @@ dependencies {
     implementation 'com.jsibbold:zoomage:1.3.1'
     implementation 'com.android.volley:volley:1.2.0'
     implementation 'com.github.f0ris.sweetalert:library:1.6.2'
-    implementation 'com.flaviofaria:kenburnsview:1.0.7'
     implementation 'com.github.smarteist:autoimageslider:1.4.0'
     implementation 'com.github.mmin18:realtimeblurview:1.2.1'
     implementation 'com.balysv.materialmenu:material-menu:2.0.0'
     implementation 'nl.joery.animatedbottombar:library:1.0.8'
     implementation 'com.google.android.material:material:1.3.0'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.0'
     implementation 'com.github.vickykdv:CircleRectImageView:1.0'
-    implementation 'com.github.florent37:shapeofview:1.4.7'
     implementation 'androidx.preference:preference-ktx:1.1.1'
     implementation 'androidx.legacy:legacy-support-v13:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'

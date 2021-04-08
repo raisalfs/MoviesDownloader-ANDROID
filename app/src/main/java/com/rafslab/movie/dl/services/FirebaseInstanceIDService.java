@@ -6,11 +6,6 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-/**
- * Created by: Rais AlFani Lubis
- * Date: October 18, 2020
- */
-
 public class FirebaseInstanceIDService extends FirebaseInstanceIdService {
     private static final String TAG = "mFirebaseIDService";
     private static final String SUBSCRIBE_TO = "users";

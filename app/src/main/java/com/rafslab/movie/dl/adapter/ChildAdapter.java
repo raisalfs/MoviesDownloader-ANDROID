@@ -23,6 +23,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.rafslab.movie.dl.R;
+import com.rafslab.movie.dl.model.child.Categories;
 import com.rafslab.movie.dl.model.child.ChildData;
 import com.rafslab.movie.dl.ui.activity.DetailsActivity;
 import com.rafslab.movie.dl.view.ThumbPreviewer;
@@ -39,6 +40,7 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ChildViewHol
     private final Context mContext;
     private List<ChildData> childDataList;
     private SortedList<ChildData> sortedList;
+    private List<Categories> categoriesList;
     private final LayoutInflater inflater;
     private boolean sorted, isOnRecommendation;
     public ChildAdapter(Context mContext, List<ChildData> childDataList) {
@@ -185,6 +187,10 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ChildViewHol
             intent.putExtra("position_db", data.getId());
             intent.putExtra("position", position);
             intent.putExtra("downloadable", identifyDownloadable);
+//            ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, holder.thumbnail, mContext.getResources().getString(R.string.image_transition));
+//            mContext.startActivity(intent, compat.toBundle());
+//            Pair<View, String> pair = Pair.create(holder.thumbnail, mContext.getResources().getString(R.string.image_transition));
+//            ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, pair);
             mContext.startActivity(intent);
         });
         holder.thumbnail.setOnClickListener(v -> {
@@ -193,6 +199,8 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ChildViewHol
             intent.putExtra("position_db", data.getId());
             intent.putExtra("position", position);
             intent.putExtra("downloadable", identifyDownloadable);
+//            ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, holder.thumbnail, mContext.getResources().getString(R.string.image_transition));
+//            mContext.startActivity(intent, compat.toBundle());
             mContext.startActivity(intent);
         });
         String information = data.getRelease() + " | " + data.getContentRating() + "+" + " | " + data.getSeasonCount() + " Season";
