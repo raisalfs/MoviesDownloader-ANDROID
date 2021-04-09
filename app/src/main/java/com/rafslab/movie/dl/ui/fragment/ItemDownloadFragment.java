@@ -67,7 +67,7 @@ public class ItemDownloadFragment extends Fragment implements EpisodeAdapter.Epi
 
     private String reasonDownload;
     final private String FCM_API = "https://fcm.googleapis.com/fcm/send";
-    final private String serverKey = "key=" + "AAAAUluU7WA:APA91bGbkNWr19S0eTCQrjppxNdV2iCWzhRCfRLz71A-9B8_olNLqlS4BCbwIr91VSLYxlif2fR2yvtGi3JPCrgwH58l1bqa2wxezCzXoncEs6yaNHGZq1ZrOldFsINcr5iQQhqbqld4";
+    final private String serverKey = CipherClient.serverKey();
     final private String contentType = "application/json";
     String TOPIC;
     String NOTIFICATION_TITLE;
