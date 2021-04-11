@@ -162,41 +162,6 @@ public class BaseUtils {
         }
         return filteredList;
     }
-//    public static List<ChildData> filterAllThings(List<ChildData> model, String categories, String tag, String status, double min, double max){
-//        categories = categories.toLowerCase();
-//        tag = tag.toLowerCase();
-//        status = status.toLowerCase();
-//        final List<ChildData> filteredList = new ArrayList<>();
-//        for (ChildData data : model){
-//            double rating = data.getRating();
-//            String queryStatus = data.getStatus();
-//            String queryTag = data.getTags();
-//            String[] tagArray = tag.split(",");
-//            String queryCategories = data.getCategories();
-//            String[] categoriesArray = categories.split(",");
-//            if (categories != null) {
-//                for (String category : categoriesArray){
-//                    if (queryCategories.contains(category)) {
-//                        filteredList.add(data);
-//                    }
-//                }
-//            }
-//            if (tag != null) {
-//                for (String tags : tagArray){
-//                    if (queryTag.contains(tags)) {
-//                        filteredList.add(data);
-//                    }
-//                }
-//            }
-//            if (status.contains(queryStatus)) {
-//                filteredList.add(data);
-//            }
-//            if (min >= rating && max <= rating) {
-//                filteredList.add(data);
-//            }
-//        }
-//        return filteredList;
-//    }
     public static double division(float value){
         return (double) value / 10;
     }
