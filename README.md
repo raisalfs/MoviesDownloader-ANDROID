@@ -2,7 +2,10 @@
 
 [![License](http://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)](http://www.apache.org/licenses/LICENSE-2.0)
 
-## Under Development.
+## Communication
+* If you found a bug, please open [Issue](https://github.com/raisalfs/MoviesDownloader-ANDROID/labels/bug).
+* If you have a feature request, please open [Issue](https://github.com/raisalfs/MoviesDownloader-ANDROID/labels/feature%20request).
+* If you want to contribute, please submit [Pull request](https://github.com/raisalfs/MoviesDownloader-ANDROID/pulls).
 
 License
 ---------
