@@ -273,10 +273,10 @@ public class HomeActivity extends AppCompatActivity {
             dialogUpdate.show();
         }
     }
-    private void showDialogMaintenance(){
+    private void showDialogMaintenance(String title, String body){
         SweetAlertDialog dialogMaintenance = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
-        dialogMaintenance.setTitle("Maintenance");
-        dialogMaintenance.setContentText("Aplikasi sedang dalam perbaikan.");
+        dialogMaintenance.setTitle(title);
+        dialogMaintenance.setContentText(body);
         dialogMaintenance.setCancelable(false);
         dialogMaintenance.setConfirmText("Exit");
         dialogMaintenance.showCancelButton(false);
@@ -468,7 +468,7 @@ public class HomeActivity extends AppCompatActivity {
                             if (status == 1) {
                                 showDialogUpdate();
                             } else if (status == 2) {
-                                showDialogMaintenance();
+                                showDialogMaintenance(title, description);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
